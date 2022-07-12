@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+
 
 class CategorieSeeder extends Seeder
 {
@@ -15,17 +17,17 @@ class CategorieSeeder extends Seeder
     public function run()
     {
         //
-        $recode = [
-            ['name'=>'Food','status'=>''],
-            ['name'=>'Toys','status'=>''],
-            ['name'=>'Clothes','status'=>''],
-            ['name'=>'Books','status'=>''],
-            ['name'=>'Others','status'=>''],
+        $record = [
+            ['name'=>'Food','status'=>'1'],
+            ['name'=>'Toys','status'=>'1'],
+            ['name'=>'Clothes','status'=>'1'],
+            ['name'=>'Books','status'=>'1'],
+            ['name'=>'Others','status'=>'1'],
             
             
         ];
          
-        categories::insert($recode);
+        Category::insert($record);
 
     }
 }
