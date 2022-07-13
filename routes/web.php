@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\loginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,4 +19,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::view("/register",'fronted.Register');
+Route::get("/register", [RegisterController::class, 'show'])->name('register');
+Route::post("/insert", [RegisterController::class, 'store'])->name('insert');
+
+Route::get("/login",[loginController::class,'loginshow'])->name('login');
+Route::post("/logindata",[UserloginController::class,'checklogin'])->name('logindata');
+// Route::view("/login",'fronted.Login');
