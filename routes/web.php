@@ -23,5 +23,7 @@ Route::get("/register", [RegisterController::class, 'show'])->name('register');
 Route::post("/insert", [RegisterController::class, 'store'])->name('insert');
 
 Route::get("/login",[loginController::class,'loginshow'])->name('login');
-Route::post("/logindata",[UserloginController::class,'checklogin'])->name('logindata');
+Route::post("/logindata",[loginController::class,'checklogin'])->name('logindata');
+
+Route::get("/logout",[loginController::class,'logout'])->name('logout');
 // Route::view("/login",'fronted.Login');

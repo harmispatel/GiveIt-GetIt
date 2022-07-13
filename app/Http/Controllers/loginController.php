@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\loginValidation;
+use Auth;
+
 
 
 class loginController extends Controller
@@ -17,14 +19,20 @@ class loginController extends Controller
       }
       public function checklogin(loginValidation $request)
       {
+        // dd($request);
         $credentials = $request->only('email','password');
-
+          //  dd($credentials);
         if (Auth::attempt($credentials)) {
-               dd('hello');
-                // return view('welcome'); 
-            } else {
-                dd('hii');
-                // return view('login');
+              //  echo "hii";
+                return view('fronted.requirements'); 
+            } else{
+                // echo'hello';
+                return view('fronted.login');
       }
 }
+     public function logout(Request $request)
+     {
+
+     }
+
 }

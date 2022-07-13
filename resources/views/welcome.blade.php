@@ -6,6 +6,8 @@
 
     <div class="container-fluid">
         {{-- TODO: Design --}}
+
+        {{-- <button type="button" class="btn btn-danger">Logout</button> --}}
     </div>
 
 @endsection

@@ -26,7 +26,7 @@
                     </div>
                     <div class="card-body">
                         {{-- {{route('login')}} --}}
-                        <form action="#" method="POST" >
+                        <form action="{{route('logindata')}}" method="POST" >
                             @csrf
                             
                               <div class="form-group">
@@ -43,7 +43,7 @@
                                 @endif
                               </div>
                              
-                              <button type="submit" class="btn btn-primary">Submit</button>
+                              <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                             </form>
                             <hr>                            
                             {{-- <div>

@@ -78,7 +78,7 @@ font-family: 'Numans', sans-serif;
           
           <select class="custom-select" name="user_type">
 		    <option value="1">Trust</option>
-		    <option value="2">User</option>
+		    <option value="2">Donor</option>
 		    
 		</select>
   
