@@ -22,3 +22,4 @@ Route::get('/', function () {
 Route::get('userlogin',[LoginController::class,'index'])->name('loginform');
 Route::post('userlogin',[LoginController::class,'check'])->name('login');
 
+Route::view("/register",'fronted.Register');
