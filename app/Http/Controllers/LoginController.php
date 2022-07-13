@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Http\Requests\LoginValidationRequest;
+use App\Http\Requests\UserValidationRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -18,15 +21,23 @@ class LoginController extends Controller
         
     }
 
-   public function check(Request $request){
+    //LoginValidationRequest
+    
+   public function check(LoginValidationRequest $request){
+       $credentials = $request->only('email', 'password');
+    //    dd(Auth::attempt($credentials));
 
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-
-            return redirect('common.layout'); 
+       if (Auth::attempt($credentials)) {
+        //    dd('hello');
+            return view('welcome'); 
         } else {
-          
-            return redirect('loginform');
+            // dd('hii');
+            return view('login');
         }
+    }
+
+    public function logout(Request $request){
+        auth()->logout();
+        return redirect()->route('loginform');
     }
 }
