@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\loginController;
@@ -27,3 +28,8 @@ Route::post("/logindata",[loginController::class,'checklogin'])->name('logindata
 
 Route::get("/logout",[loginController::class,'logout'])->name('logout');
 // Route::view("/login",'fronted.Login');
+
+Route::get('userlogin',[LoginController::class,'index'])->name('loginform');
+Route::post('userlogin',[LoginController::class,'check'])->name('login');
+
+Route::view("/register",'fronted.Register');
