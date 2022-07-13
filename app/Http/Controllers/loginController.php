@@ -1,38 +1,32 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Http\Requests\loginValidation;
-use Auth;
 
-
-
-class loginController extends Controller
+class LoginController extends Controller
 {
-    //
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+        return view('login');
+        
+    }
 
-      public function loginshow()
-      {
-        return view('fronted.login');
-      }
-      public function checklogin(loginValidation $request)
-      {
-        // dd($request);
-        $credentials = $request->only('email','password');
-          //  dd($credentials);
+   public function check(Request $request){
+
+        $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-              //  echo "hii";
-                return view('fronted.requirements'); 
-            } else{
-                // echo'hello';
-                return view('fronted.login');
-      }
-}
-     public function logout(Request $request)
-     {
 
-     }
-
+            return redirect('common.layout'); 
+        } else {
+          
+            return redirect('loginform');
+        }
+    }
 }
