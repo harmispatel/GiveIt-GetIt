@@ -3,6 +3,8 @@
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\loginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +22,14 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => ['auth']], function () {
+Route::get("/register", [RegisterController::class, 'show'])->name('register');
+Route::post("/insert", [RegisterController::class, 'store'])->name('insert');
+
+Route::get("/login",[loginController::class,'loginshow'])->name('login');
+Route::post("/logindata",[loginController::class,'checklogin'])->name('logindata');
+
+Route::get("/logout",[loginController::class,'logout'])->name('logout');
+// Route::view("/login",'fronted.Login');
 
     Route::view('/welcome','welcome');
     Route::get('/logout',[LoginController::class,'logout'])->name('logout');
