@@ -3,7 +3,10 @@
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\loginController;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RequirementController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,10 +29,19 @@ Route::post("/insert", [RegisterController::class, 'store'])->name('insert');
 Route::get("/login",[loginController::class,'loginshow'])->name('login');
 Route::post("/logindata",[loginController::class,'checklogin'])->name('logindata');
 
-Route::get("/logout",[loginController::class,'logout'])->name('logout');
-// Route::view("/login",'fronted.Login');
 
-Route::get('userlogin',[LoginController::class,'index'])->name('loginform');
-Route::post('userlogin',[LoginController::class,'check'])->name('login');
+Route::get("/userlogin",[UserController::class,'index'])->name('userlogin')->middleware('guest');
+Route::post("/userget",[UserController::class,'check'])->name('useget');
 
-Route::view("/register",'fronted.Register');
+Route::group(['middleware' => ['auth']], function () {
+    
+    Route::get("/logout",[loginController::class,'logout'])->name('logout');
+    
+    // Route::post("/userlogout",[UserController::class,'userLogout'])->name('userlogout');
+    Route::get("/userlogout",[UserController::class,'userLogout'])->name('userlogout'); 
+    Route::view("/require",'fronted.requirements');
+    
+    
+    Route::get("/insertform",[RequirementController::class,'showinsert'])->name('insertform');
+    Route::post("/insertdata",[RequirementController::class,'storeRequirement'])->name('insertdata'); 
+});

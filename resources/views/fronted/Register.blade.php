@@ -109,7 +109,7 @@ font-family: 'Numans', sans-serif;
     <div class="form-group">
         <button name="submit" type="submit" class="btn btn-primary btn-block"> Create Account  </button>
     </div> 
-    <p class="text-center text-dark">Have an account? <a href="{{route('login')}}" >Log In</a> </p>     
+    <p class="text-center text-dark">Have an account? <a href="{{route('userlogin')}}" >Log In</a> </p>     
     </form>
 </article>
 </div> <!-- card.// -->

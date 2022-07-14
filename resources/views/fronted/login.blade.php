@@ -22,11 +22,12 @@
             <div class="col">
                 <div class="card align-center mt-5">
                     <div class="card-header">
-                      Login
+                      Login fronted
                     </div>
                     <div class="card-body">
                         {{-- {{route('login')}} --}}
-                        <form action="{{route('logindata')}}" method="POST" >
+                        {{-- {{route('useget')}} --}}
+                        <form action="{{route('useget')}}" method="POST" >
                             @csrf
                             
                               <div class="form-group">
@@ -44,12 +45,13 @@
                               </div>
                              
                               <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                              <hr>                            
+                              <div>
+                                <p>You Don't Have An Account ? <a href="{{route('register')}}">Register Now</a></p>
+                              </div>
+                      </div>
                             </form>
-                            <hr>                            
-                            {{-- <div>
-                              <p>You Don't Have An Account ? <a href="registration">Register Now</a></p>
-                            </div>
-                    </div> --}}
+                    </div>
                   </div>
             </div>
         </div>

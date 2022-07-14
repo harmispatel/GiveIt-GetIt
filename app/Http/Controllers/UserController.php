@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
-
-class LoginController extends Controller
+class UserController extends Controller
 {
+    //
+   
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -15,23 +19,29 @@ class LoginController extends Controller
     public function index()
     {
         //
-        return view('login');
+        return view('fronted.login');
         
     }
 
-   public function checklogin(Request $request){
+   public function check(Request $request){
 
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-
-            return redirect('welcome'); 
+            
+            return redirect('require'); 
         } else {
-          
-            return redirect('loginform');
+            
+            return redirect('userlogin');
         }
     }
-    public function logout(Request $request) {
-    Auth::logout();
-    return redirect('/login');
+    public function userLogout(Request $request) 
+    {
+        
+        auth()->logout();
+        return view('fronted.login');
+        // dd($request);
+  
+    }
 }
-}
+
+

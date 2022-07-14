@@ -22,7 +22,7 @@
             <div class="col">
                 <div class="card align-center mt-5">
                     <div class="card-header">
-                      Login
+                      Login backed
                     </div>
                     <div class="card-body">
                         <form action="{{route('login')}}" method="POST" >
@@ -45,10 +45,10 @@
                               <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
                             <hr>                            
-                            {{-- <div>
+                            <div>
                               <p>You Don't Have An Account ? <a href="registration">Register Now</a></p>
                             </div>
-                    </div> --}}
+                    </div>
                   </div>
             </div>
         </div>
