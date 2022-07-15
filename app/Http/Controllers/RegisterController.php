@@ -24,16 +24,17 @@ class RegisterController extends Controller
             $insertdata->name =  $request->username;
             $insertdata->email =  $request->email;
             $insertdata->mobile =  $request->number;
-            $insertdata->address =  $request->address; 
+            $insertdata->address =  $request->address;
+             $insertdata->status = 1;
             $insertdata->user_type = $request->user_type;
-            $insertdata->status = $request->status;
+        
             $insertdata->password = $pass;
             //   dd( $insertdata->password )
         
             $insertdata->save();
              
 
-            return view('fronted.Register');
+            return redirect('userlogin')->with('msg','Register successfully');
         }
             
  }

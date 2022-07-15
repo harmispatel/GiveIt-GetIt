@@ -179,6 +179,16 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+    @if(session()->has('message'))
+    <div class="alert alert-success">
+        {{ session()->get('message') }}
+    </div>
+@endif
+@if(session()->has('messagedelete'))
+<div class="alert alert-danger">
+    {{ session()->get('messagedelete') }}
+</div>
+@endif
 <div class="container-xl">
   
     <div class="table-responsive">
@@ -197,70 +207,37 @@ $(document).ready(function(){
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>Category&nbspName</th>
+                        <th>Category</th>
+                        <th>Requirement</th>
                         <th>Type</th>						
                         <th>Quantity</th>
                         <th>status</th>
-                        <th>Is_active</th>
+                        <th>Is Active?</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($data as $items)
+                   
                     <tr>
-                        <td>food</td>
-                        <td>Getit</td>
-                        <td>10</td>                        
-                        <td>process</td>
-                        <td><span class="status text-success">&bull;</span> Active</td>
+                       
+                        <td>{{$items->categories->name}}</td>
+                        <td>{{$items->requirements}}</td>
+                        <td>{{$items->type == '2' ? 'Give IT' : 'Get IT' }}</td>
+                        <td>{{$items->quantity}}</td>                        
+                        <td>{{$items->status  == '1' ? 'Pending' : 'Approved' }}</td>
                         <td>
-                            <a href="#" class="Edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                            <span class="{{ $items->is_active == '1' ? 'text-success' : 'text-danger' }}">
+                                &bull;
+                            </span>
+                            {{$items->is_active  == '1' ? 'Active' : 'Inactive' }}
+                        </td>
+                        <td>
+                            <a href="{{route('edit', $items['id'])}}" class="Edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                            <a href="{{ route('delete', $items['id']) }}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                         </td>
                     </tr>
-                    {{-- <tr>
-                        <td>2</td>
-                        <td><a href="#"><img src="/examples/images/avatar/2.jpg" class="avatar" alt="Avatar"> Paula Wilson</a></td>
-                        <td>05/08/2014</td>                       
-                        <td>Publisher</td>
-                        <td><span class="status text-success">&bull;</span> Active</td>
-                        <td>
-                            <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                            <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                        </td>
-                    </tr> --}}
-                    <tr>
-                        <td>cloth</td>
-                        <td>Giveit</td>
-                        <td>20</td>
-                        <td>done</td>
-                        <td><span class="status text-danger">&bull;</span>Inactive</td>                        
-                        <td>
-                            <a href="#" class="Edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                        </td>                        
-                    </tr>
-                    {{-- <tr>
-                        <td>4</td>
-                        <td><a href="#"><img src="/examples/images/avatar/4.jpg" class="avatar" alt="Avatar"> Mary Saveley</a></td>
-                        <td>06/09/2016</td>
-                        <td>Reviewer</td>
-                        <td><span class="status text-success">&bull;</span> Active</td>
-                        <td>
-                            <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                            <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td><a href="#"><img src="/examples/images/avatar/5.jpg" class="avatar" alt="Avatar"> Martin Sommer</a></td>
-                        <td>12/08/2017</td>                        
-                        <td>Moderator</td>
-                        <td><span class="status text-warning">&bull;</span> Inactive</td>
-                        <td>
-                            <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                            <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                        </td>
-                    </tr> --}}
+                    @endforeach
                 </tbody>
             </table>
            

@@ -37,11 +37,16 @@ Route::group(['middleware' => ['auth']], function () {
     
     Route::get("/logout",[loginController::class,'logout'])->name('logout');
     
-    // Route::post("/userlogout",[UserController::class,'userLogout'])->name('userlogout');
     Route::get("/userlogout",[UserController::class,'userLogout'])->name('userlogout'); 
-    Route::view("/require",'fronted.requirements');
+
     
     
     Route::get("/insertform",[RequirementController::class,'showinsert'])->name('insertform');
     Route::post("/insertdata",[RequirementController::class,'storeRequirement'])->name('insertdata'); 
+    Route::get("/require",[RequirementController::class,'display'])->name('require');
+    Route::post("/update/{id}",[RequirementController::class,'update'])->name('update');
+    Route::get("/edit/{id}",[RequirementController::class,'edit'])->name('edit');
+
+    Route::get("/delete/{id}",[RequirementController::class,'delete'])->name('delete');
+
 });

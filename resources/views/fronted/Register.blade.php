@@ -29,7 +29,7 @@ font-family: 'Numans', sans-serif;
 		<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
 		 </div> 
-         <input name="username" class="form-control" placeholder="Full name" type="text">
+         <input name="username" class="form-control" placeholder="Full name" type="text" value="{{old('username')}}">
          @if($errors->has('username'))
          <p style="color:red">{{$errors->first('username')}}</p>
      @endif
@@ -39,7 +39,7 @@ font-family: 'Numans', sans-serif;
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
 		 </div>
-         <input name="email" class="form-control" placeholder="Email address" type="email">
+         <input name="email" class="form-control" placeholder="Email address" type="email" value="{{old('email')}}">
          @if($errors->has('email'))
         <p style="color:red">{{$errors->first('email')}}</p>
     @endif
@@ -56,7 +56,7 @@ font-family: 'Numans', sans-serif;
 		    <option value="2">+71</option>
 		    <option value="3">+82</option>
 		</select>
-    	<input name="number" class="form-control" placeholder="Phone number" type="text">
+    	<input name="number" class="form-control" placeholder="Phone number" type="text" value="{{old('number')}}">
         @if($errors->has('number'))
         <p style="color:red">{{$errors->first('number')}}</p>
     @endif
@@ -65,7 +65,7 @@ font-family: 'Numans', sans-serif;
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-address-card"></i> </span>
 		 </div>
-         <input name="address" class="form-control" placeholder="address" type="adress">
+         <input name="address" class="form-control" placeholder="address" type="adress" value="{{old('address')}}">
          @if($errors->has('address'))
         <p style="color:red">{{$errors->first('address')}}</p>
     @endif
@@ -76,32 +76,20 @@ font-family: 'Numans', sans-serif;
 		</div>
            <!-- form-group// -->
           
-          <select class="custom-select" name="user_type">
+          <select class="custom-select" name="user_type" value="{{old('user_type')}}">
 		    <option value="1">Trust</option>
 		    <option value="2">Donor</option>
 		    
 		</select>
   
     </div>
-    <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-		</div>
-
-           <!-- form-group// -->
-          
-          <select class="custom-select" name="status">
-		    <option value="1">Active</option>
-		    <option value="2">InActive</option>
-		</select>
-      
-    </div>
+   
    
     <div class="form-group input-group">
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
 		</div>
-        <input class="form-control" placeholder="Create password" type="password" name="password">
+        <input class="form-control" placeholder="Create password" type="password" name="password" value="{{old('password')}}">
         @if($errors->has('password'))
         <p style="color:red">{{$errors->first('password')}}</p>
     @endif

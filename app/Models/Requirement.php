@@ -12,4 +12,9 @@ class Requirement extends Model
     protected $table ='requirements';
     protected $guarded = [];
 
+    public function categories()
+    {
+        return $this->hasOne(Category::class, 'id', 'category_id')->select('name');
+    }
+
 }

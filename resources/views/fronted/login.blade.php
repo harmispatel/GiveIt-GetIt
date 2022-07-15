@@ -16,6 +16,11 @@
     </style>
 </head>
 <body>
+  @if(session()->has('msg'))
+    <div class="alert alert-success">
+        {{ session()->get('msg') }}
+    </div>
+@endif
     
     <div class="container">
         <div class="row">
@@ -28,6 +33,7 @@
                         {{-- {{route('login')}} --}}
                         {{-- {{route('useget')}} --}}
                         <form action="{{route('useget')}}" method="POST" >
+                          
                             @csrf
                             
                               <div class="form-group">
