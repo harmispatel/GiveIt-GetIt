@@ -25,20 +25,21 @@
                             </div>
                             <form action="{{route('update', $RequiredData['id'])}}" id="quickForm" method="POST">
                                 @csrf
+                             
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="exampleInputStatus">Category</label>
+                                        <label for="Category">Category</label>
                                         <select class="form-control" name="category">
                                             @foreach ($categoryId as $item)
-                                            <option value="{{$item->id}}" {{ ($item->id == $RequiredData->category_id) ? 'selected' : '' }}>{{$item->name}}</option>
+                                            <option value="{{$item->id}} " {{ ($item->id == $RequiredData->category_id) ? 'selected' : '' }}>{{$item->name}}</option>
                                         @endforeach 
                                         </select>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail">Person</label>
-                                    <input type="number" name="quantity" class="form-control {{ $errors->has('quantity') ? 'is-invalid' : '' }}" placeholder="Enter Quantity" value="{{$RequiredData->quantity}}">
+                                    <label for="Person">Person</label>
+                                    <input type="number" name="quantity" class="form-control {{ $errors->has('quantity') ? 'is-invalid' : '' }}" placeholder="Enter Person" value="{{$RequiredData->quantity}}">
                                     @if ($errors->has('quantity'))
                                         <span class="text-danger">{{ $errors->first('quantity') }}</span>
                                     @endif
@@ -46,9 +47,9 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail">Requirement</label>
+                                    <label for="Requirement">Requirement</label>
                                     <div class="mb-3">
-                                    <textarea name="requirement" class="form-control {{ $errors->has('requirement') ? 'is-invalid' : '' }}" rows="3" placeholder="Enter requirement"  value="{{$RequiredData->requirements}}"></textarea>
+                                    <textarea name="requirement" class="form-control {{ $errors->has('requirement') ? 'is-invalid' : '' }}" rows="3" placeholder="Enter requirement">{{$RequiredData->requirements}}</textarea>
                                     </div>
                                     @if ($errors->has('requirement'))
                                         <span class="text-danger">{{ $errors->first('requirement') }}</span>
@@ -59,7 +60,7 @@
                                 
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="exampleInputStatus">Status</label>
+                                        <label for="Status">Status</label>
                                         <select class="form-control" name="status">
                                             {{-- @if({{($RequiredData->status) ? 'selected' : ''}}) --}}
                                             
@@ -72,12 +73,12 @@
                                 <div class="form-group">
                                      
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1" checked>
-                                        <label class="form-check-label" for="inlineRadio1">Active</label>
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1" {{$RequiredData->is_active== 1 ? 'checked' : ''}} >
+                                        <label class="form-check-label" for="Active">Active</label>
                                       </div>
                                       <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2" {{$RequiredData->inlineRadioOptions== 1 ? 'selected' : ''}} chech>
-                                        <label class="form-check-label" for="inlineRadio2">InActive</label>
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2" {{$RequiredData->is_active== 2 ? 'checked' : ''}}>
+                                        <label class="form-check-label" for="InActive">InActive</label>
                                       </div>
                                 
                                 </div>

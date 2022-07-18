@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Requirement extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table ='requirements';
     protected $guarded = [];
 

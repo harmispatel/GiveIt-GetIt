@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Insertrequirement extends FormRequest
+class EditValidation extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,11 @@ class Insertrequirement extends FormRequest
     public function rules()
     {
         return [
-            //
-            'category' =>'required',
-            'Addcategory' =>'required_if:type_id,==,0|nullable|unique:category',
-            'quantity'  => 'required',
+            'category' => 'required',
+            'quantity' => 'required',
             'requirement' => 'required',
             'status' => 'required'
+            //
         ];
     }
 }

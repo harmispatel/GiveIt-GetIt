@@ -25,7 +25,7 @@ class loginValidation extends FormRequest
     {
         return [
             //
-            'email'     => 'required',
+            'email'     => 'required|email',
             'password'  => 'required'
         ];
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Http\Requests\loginValidation;
 
 class UserController extends Controller
 {
@@ -23,22 +24,22 @@ class UserController extends Controller
         
     }
 
-   public function check(Request $request){
+   public function check(loginValidation $request){
 
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             
-            return redirect('require'); 
+            return redirect('require')->with('userlogin','login successfully'); 
         } else {
             
-            return redirect('userlogin');
+            return redirect('userlogin')->with('loginwrong','login unsuccessfully');
         }
     }
     public function userLogout(Request $request) 
     {
         
         auth()->logout();
-        return view('fronted.login');
+        return redirect('userlogin')->with('logout','You are logout');
         // dd($request);
   
     }

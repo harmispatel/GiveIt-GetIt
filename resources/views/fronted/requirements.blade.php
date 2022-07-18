@@ -178,12 +178,23 @@ $(document).ready(function(){
 });
 </script>
 </head>
+@if(session()->has('userlogin'))
+<div class="alert alert-success">
+    {{ session()->get('userlogin') }}
+</div>
+@endif
 <body>
     @if(session()->has('message'))
     <div class="alert alert-success">
         {{ session()->get('message') }}
     </div>
 @endif
+@if(session()->has('updatedata'))
+<div class="alert alert-success">
+    {{ session()->get('updatedata') }}
+</div>
+@endif
+
 @if(session()->has('messagedelete'))
 <div class="alert alert-danger">
     {{ session()->get('messagedelete') }}
@@ -192,14 +203,14 @@ $(document).ready(function(){
 <div class="container-xl">
   
     <div class="table-responsive">
-        <div class="table-wrapper">
+        <div class="table-wrapper text-center">
             <div class="table-title">
                 <div class="row">
-                    <div class="col-sm-5">
+                    <div class="col-sm-5 text-left">
                         <h2>Requirement <b>list</b></h2>
                     </div>
                     <div class="col-sm-7">
-                        <a href="{{route('userlogout')}}" class="btn btn-danger"><span>LogOut</span></a>						
+                        <a href="{{route('userlogout')}}" class="btn btn-danger"><span>Log Out</span></a>						
                         <a href="{{route('insertform')}}" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New Requirement</span></a>
                     </div>
                 </div>
@@ -225,7 +236,7 @@ $(document).ready(function(){
                         <td>{{$items->requirements}}</td>
                         <td>{{$items->type == '2' ? 'Give IT' : 'Get IT' }}</td>
                         <td>{{$items->quantity}}</td>                        
-                        <td>{{$items->status  == '1' ? 'Pending' : 'Approved' }}</td>
+                        <td>{{$items->status  == '1' ? 'Pending' : 'Completed' }}</td>
                         <td>
                             <span class="{{ $items->is_active == '1' ? 'text-success' : 'text-danger' }}">
                                 &bull;
