@@ -26,10 +26,9 @@ class Insertrequirement extends FormRequest
         return [
             //
             'category' =>'required',
-            'Addcategory' =>'required_if:type_id,==,0|nullable|unique:category',
-            'quantity'  => 'required',
-            'requirement' => 'required',
-            'status' => 'required'
+           'quantity'  => 'required|integer|min:1',
+            'requirement' => 'required'
+            
         ];
     }
 }

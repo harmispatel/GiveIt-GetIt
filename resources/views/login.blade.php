@@ -37,7 +37,8 @@
                               </div>
               
                               <div class="form-group">
-                                <input type="password" name="password" class="form-control" placeholder="Password">
+                                <input type="password" name="password" class="form-control"  placeholder="Password">
+
                                 @if ($errors->has('password'))
                                   <p class="alert alert-danger">{{$errors->first('password')}}</p>                                    
                                 @endif

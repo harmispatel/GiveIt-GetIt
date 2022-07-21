@@ -8,9 +8,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
 <style>
 body {
     color: #566787;
@@ -205,48 +203,87 @@ $(document).ready(function(){
     <div class="table-responsive">
         <div class="table-wrapper text-center">
             <div class="table-title">
+                <h2>Requirement <b>list</b></h2>
                 <div class="row">
-                    <div class="col-sm-5 text-left">
-                        <h2>Requirement <b>list</b></h2>
+                    <div class="col-sm-4">
+                        <form class="form-inline">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            
+                            <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
+                              aria-label="Search">
+                          </form>
                     </div>
-                    <div class="col-sm-7">
-                        <a href="{{route('userlogout')}}" class="btn btn-danger"><span>Log Out</span></a>						
+                    <div class="col-sm-2">
+                       
+                        <select id='checkstatus' class="form-control" style="width: 150px"  name="checkstatus">
+                            <option value=" ">--Select Status--</option>
+                            <option value="1">Pending</option>
+                            <option value="0">Completed</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                       
+                       
+                    </div>
+                    <div class="col-sm-4">
+
+                        <form method="POST" action="{{route('userlogout') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-primary" name="submit">Logout</button>
+                        </form>
+                       					
                         <a href="{{route('insertform')}}" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New Requirement</span></a>
                     </div>
                 </div>
+                    </div>
+                    <div class="col-sm-7">
+                        
+
+                       
+                       
             </div>
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
                         <th>Category</th>
-                        <th>Requirement</th>
+                        
                         <th>Type</th>						
                         <th>Quantity</th>
                         <th>status</th>
-                        <th>Is Active?</th>
-                        <th>Action</th>
+                        
+                        <th style="width: 30%">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($data as $items)
                    
                     <tr>
-                       
-                        <td>{{$items->categories->name}}</td>
-                        <td>{{$items->requirements}}</td>
+                       <input type="hidden" class="serdelete_val_id" value="{{$items['id']}}">
+                        <td>{{$items->categories['name']}}</td>
+                        
                         <td>{{$items->type == '2' ? 'Give IT' : 'Get IT' }}</td>
                         <td>{{$items->quantity}}</td>                        
                         <td>{{$items->status  == '1' ? 'Pending' : 'Completed' }}</td>
-                        <td>
-                            <span class="{{ $items->is_active == '1' ? 'text-success' : 'text-danger' }}">
+                        {{-- <td>
+                            <span class="status {{ $items->is_active == '1' ? 'text-success' : 'text-danger' }}">
                                 &bull;
                             </span>
                             {{$items->is_active  == '1' ? 'Active' : 'Inactive' }}
                         </td>
-                        <td>
-                            <a href="{{route('edit', $items['id'])}}" class="Edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a href="{{ route('delete', $items['id']) }}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                        </td>
+                        <td> --}}
+  
+                            
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    <a href="{{route('edit', $items['id'])}}" class="btn btn-sm btn-warning" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i><span></span></a>
+                            
+                                    <form method="POST" action="{{ route('delete', $items['id']) }}">
+                                        @csrf
+                                        <input name="_method" type="hidden" value="DELETE">
+                                        <button type="submit" class="btn btn-sm btn-danger btn-flat show_confirm ml-2" data-toggle="tooltip" title='Delete'><i class="material-icons">&#xE872;</i></button>
+                                    </form>
+                                </div>
+                            </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -254,6 +291,61 @@ $(document).ready(function(){
            
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  {{-- Delete warning message --}}
+  <script type="text/javascript">
+ 
+    $('.show_confirm').click(function(event) {
+         var form =  $(this).closest("form");
+         var name = $(this).data("name");
+         event.preventDefault();
+         swal({
+             title: `Are you sure you want to delete this record?`,
+             text: "If you delete this, it will be gone forever.",
+             icon: "warning",
+             buttons: true,
+             dangerMode: true,
+         })
+         .then((willDelete) => {
+           if (willDelete) {
+             form.submit();
+           }
+         });
+     });
+     function Status() {
+            var selectVal = $('#checkstatus :selected').val();
+            alert(selectVal)
+                   
+            if (selectVal == 0) {
+        //         .show();
+            } else {
+        //         $("#addcatgory").hide();
+            }
+        }
+       
+</script>
+{{-- <script>
+$(document).ready(function(){
+    $("#checkstatus").on('change',function(){
+         var checkstatus = $(this).val();
+         $.ajax({
+            url: "{{ route('filter')}}",
+            type:"GET",
+            data: {'checkstatus' :checkstatus}
+            success:function(data){
+                console.log(data);
+            }
+         });
+    });
+});
+
+</script> --}}
+ 
+
 </div>     
 </body>
 </html>

@@ -25,9 +25,9 @@ class EditValidation extends FormRequest
     {
         return [
             'category' => 'required',
-            'quantity' => 'required',
-            'requirement' => 'required',
-            'status' => 'required'
+            'quantity' => 'required|integer|min:1',
+            'requirement' => 'required'
+            // 'status' => 'required'
             //
         ];
     }

@@ -17,7 +17,7 @@ class RegisterController extends Controller
    
         public function store(RegisterValidation $request)
         {
-            // $input = $request->all(); 
+            
         
             $pass = bcrypt($request->password);
             $insertdata = new User();
@@ -29,7 +29,7 @@ class RegisterController extends Controller
             $insertdata->user_type = $request->user_type;
         
             $insertdata->password = $pass;
-            //   dd( $insertdata->password )
+            
         
             $insertdata->save();
              

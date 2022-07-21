@@ -3,6 +3,7 @@
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://unpkg.com/bootstrap-show-password@1.2.1/dist/bootstrap-show-password.min.js"></script>
         <!------ Include the above in your HEAD tag ---------->
         
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
@@ -72,7 +73,8 @@ font-family: 'Numans', sans-serif;
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-address-card"></i> </span>
 		 </div>
-         <input name="address" class="form-control" placeholder="address" type="adress" value="{{old('address')}}">
+         {{-- <input name="address" class="form-control" placeholder="address" type="adress" value="{{old('address')}}"> --}}
+         <textarea name="address" class="form-control"  rows="3" placeholder="Enter address">{{old('address')}}</textarea>
         </div>
          @if($errors->has('address'))
         <p style="color:red">{{$errors->first('address')}}</p>
@@ -86,8 +88,8 @@ font-family: 'Numans', sans-serif;
            <!-- form-group// -->
           
           <select class="custom-select" name="user_type" value="{{old('user_type')}}">
-		    <option value="1">Trust</option>
-		    <option value="2">Donor</option>
+		    <option value="1">Give IT</option>
+		    <option value="2">Get IT</option>
 		    
 		</select>
         </div>
@@ -99,10 +101,21 @@ font-family: 'Numans', sans-serif;
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
 		</div>
-        <input class="form-control" placeholder="Create password" type="password" name="password" value="{{old('password')}}">
+        <input class="form-control" placeholder="Create password" type="password" data-toggle="password" name="password" value="{{old('password')}}">
         </div>
         @if($errors->has('password'))
         <p style="color:red">{{$errors->first('password')}}</p>
+    @endif
+    </div>
+    <div class="form-group">
+        <div class="d-flex">
+    	<div class="input-group-prepend">
+		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+		</div>
+        <input class="form-control" placeholder="confirmation password" data-toggle="password" type="password" name="password_confirmation" value="{{old('password_confirmation')}}">
+        </div>
+        @if($errors->has('password_confirmation'))
+        <p style="color:red">{{$errors->first('password_confirmation')}}</p>
     @endif
     </div>
     <div class="form-group">
@@ -111,7 +124,10 @@ font-family: 'Numans', sans-serif;
     <p class="text-center text-dark">Have an account? <a href="{{route('userlogin')}}" >Log In</a> </p>     
     </form>
 </article>
-</div> <!-- card.// -->
+</div> 
+<script type="text/javascript">
+	$("#password").password('toggle');
+</script>
 
 </div> 
 </body>

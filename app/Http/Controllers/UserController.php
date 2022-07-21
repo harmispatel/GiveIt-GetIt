@@ -19,7 +19,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
         return view('fronted.login');
         
     }
@@ -29,18 +28,18 @@ class UserController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             
-            return redirect('require')->with('userlogin','login successfully'); 
+            return redirect('required')->with('userlogin','login successfully'); 
         } else {
             
-            return redirect('userlogin')->with('loginwrong','login unsuccessfully');
+            return redirect('userlogin')->with('loginwrong','Please check EmailId and Password');
         }
     }
     public function userLogout(Request $request) 
     {
-        
+                
         auth()->logout();
         return redirect('userlogin')->with('logout','You are logout');
-        // dd($request);
+        
   
     }
 }
