@@ -27,7 +27,6 @@ class RegisterController extends Controller
             $insertdata->address =  $request->address;
              $insertdata->status = 1;
             $insertdata->user_type = $request->user_type;
-        
             $insertdata->password = $pass;
             
         

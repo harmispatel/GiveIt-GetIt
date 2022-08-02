@@ -46,7 +46,7 @@
                                </form> 
                                {{-- </div> --}}
                             </div>
-                            <form action="{{ route('insertdata') }}" id="quickForm" method="POST">
+                            <form action="{{ route('insertdata') }}" id="quickForm" method="POST" enctype="multipart/form-data">
                                 @csrf
 
                                 <div class="card-body">
@@ -80,7 +80,13 @@
                                             <span class="text-danger">{{ $errors->first('quantity') }}</span>
                                         @endif
                                     </div>
-                               
+                                    <div class="form-group">
+                                        <label for="media">Media</label>
+                                        <input type="file" name="media" class="form-control">
+                                    </div>
+                                    @if ($errors->has('media'))
+                                    <span class="text-danger">{{ $errors->first('media') }}</span>
+                                @endif
                               
                                     <div class="form-group">
                                         <label for="Requirement">Requirement</label>

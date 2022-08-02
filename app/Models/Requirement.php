@@ -12,9 +12,23 @@ class Requirement extends Model
     protected $table ='requirements';
     protected $guarded = [];
 
+    const FILE_PATH = '/img/requirement/';
+
+
     public function categories()
     {
-        return $this->hasOne(Category::class, 'id', 'category_id')->select('name');
+        return $this->hasOne(Category::class, 'id', 'category_id');
     }
+    public function user()
+    {
+    return $this->hasOne(User::class, 'id', 'user_id');
+    }
+    public function media()
+    {
+        return $this->hasOne(Media::class, 'id','media_id');
+    }
+
+
+    
 
 }

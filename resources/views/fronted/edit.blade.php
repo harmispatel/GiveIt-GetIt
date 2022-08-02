@@ -1,33 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <!------ Include the above in your HEAD tag ---------->
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-        
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
-    <title>EditRequirement</title>
+@extends('fronted.layout')
 
-    <style>
-        select.form-control{
-            height:34px !important;
-        }
-    </style>
+@section('title', 'Give It & Get It -EditRequirement')
+
+@section('content')
+
+
     <script type="text/javascript">
+
         function OtherData() {
             var selectVal = $('#category').val();
-                   
+
             if (selectVal == 0) {
                 $("#addcatgory").show();
             } else {
@@ -35,67 +17,86 @@
             }
         }
     </script>
-</head>
+
 <body>
-    <div class="content-wrapper">
-        <section class="content py-5">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-10">
+    <div class="donation-info">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="donate-form">
+                        <div class="form-title text-center">
+                            <h3>Edit Requirement</h3>
+                        </div>
                        
-                        <div class="card card-primary my-4">
-                            <div class="card-header d-flex justify-content-between ">
-                                <h3 class="card-title">Update Requirement</h3>
-                                <div class="text-right">
-                                     <form method="POST" action="{{route('userlogout') }}">
-                                        @csrf
-                                    <button type="submit" class="btn btn-dark" name="submit">Logout</button>
-                                </form> 
-                                </div>
-                            </div>
-                            <form action="{{route('update', $RequiredData['id'])}}" id="quickForm" method="POST">
+                        <hr>
+
+                          
+                            <form action="{{route('update', $RequiredData['id'])}}" id="quickForm" method="POST" enctype="multipart/form-data">
                                 @csrf
-                             
+
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="Category">Category</label>
-                                        <select class="form-control" name="category" id="category" onchange="OtherData()">
+                                        <label for="Catgory" class="form-label">Category</label>
+                                        <select class="form-control" name="category" id="category"
+                                            onchange="OtherData()">
                                             @foreach ($categoryId as $item)
-                                            <option value="{{$item->id}} " {{ ($item->id == $RequiredData->category_id) ? 'selected' : '' }}>{{$item->name}}</option>
-                                        @endforeach 
-                                        <option value="0">Others</option>
+                                                <option value="{{$item->id}}"{{ ($item->id == $RequiredData->category_id) ? 'selected' : '' }}>
+                                                    {{ $item->name }}
+                                                </option> 
+                                             @endforeach
+                                            <option value="0">Others</option>
                                         </select>
-                                       <div id ="addcatgory" style="display: none;margin-top:10px;">
-                                            <input type="text" class="form-control" name="Addcategory" placeholder="Enter Category Name"> 
-                                        </div> 
+
+                                        <br>
+                                        <div id="addcatgory" style="display: none">
+                                            <input type="text" class="form-control" name="Addcategory"
+                                                placeholder="Enter Category Name">
+                                        </div>
                                         @if ($errors->has('Addcategory'))
-                                        <span class="text-danger">{{ $errors->first('Addcategory') }}</span>
-                                    @endif
-                                   
+                                            <span class="text-danger">{{ $errors->first('Addcategory') }}</span>
+                                        @endif
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="Person" class="form-label">Person</label>
+                                        <input type="number" name="quantity"
+                                            class="form-control {{ $errors->has('quantity') ? 'is-invalid' : '' }}"
+                                            placeholder="Enter Person" value="{{$RequiredData->quantity}}">
+                                        @if ($errors->has('quantity'))
+                                            <span class="text-danger">{{ $errors->first('quantity') }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Price" class="form-label">Price</label>
+                                        <input type="text" name="price"
+                                            class="form-control {{ $errors->has('price') ? 'is-invalid' : '' }}"
+                                            placeholder="Enter Price" value="{{$RequiredData->price}}">
+                                        @if ($errors->has('price'))
+                                            <span class="text-danger">{{ $errors->first('price') }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="media" class="form-label">Media</label>
+                                        <input type="file" name="media" class="form-control" value="{{$RequiredData->media_id}}">
+                                        <img src="{{ $RequiredData->media == null ? asset('/img/requirement/Noimage.jpg') : asset($RequiredData->media['path']) }}" alt="Image" width="150">
+                                    </div>
+                                    @if ($errors->has('media'))
+                                            <span class="text-danger">{{ $errors->first('media') }}</span>
+                                        @endif
+                                    <div class="form-group">
+                                        <label for="Requirement" class="form-label">Requirement</label>
+                                        <div class="mb-3">
+
+                                            <textarea name="requirement" id="summernote"
+                                                class="ckeditor form-control  {{ $errors->has('requirement') ? 'is-invalid' : '' }}" rows="3"
+                                                placeholder="Enter requirement">{{$RequiredData->requirements}}</textarea>
+                                        </div>
+
+                                        @if ($errors->has('requirement'))
+                                            <span class="text-danger">{{ $errors->first('requirement') }}</span>
+                                        @endif
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                <div class="form-group">
-                                    <label for="Person">Person</label>
-                                    <input type="number" name="quantity" class="form-control {{ $errors->has('quantity') ? 'is-invalid' : '' }}" placeholder="Enter Person" value="{{$RequiredData->quantity}}">
-                                    @if ($errors->has('quantity'))
-                                        <span class="text-danger">{{ $errors->first('quantity') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="Requirement">Requirement</label>
-                                    <div class="mb-3">
-                                    <textarea name="requirement" class="ckeditor form-control {{ $errors->has('requirement') ? 'is-invalid' : '' }}" rows="3" placeholder="Enter requirement">{{$RequiredData->requirements}}</textarea>
-                                    </div>
-                                    @if ($errors->has('requirement'))
-                                        <span class="text-danger">{{ $errors->first('requirement') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                          
-                                
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="Status">Status</label>
@@ -107,40 +108,44 @@
                                         </select>
                                     </div>
                                 </div>
-                                {{-- <div class="card-body">
-                                <div class="form-group">
-                                     
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1" {{$RequiredData->is_active== 1 ? 'checked' : ''}} >
-                                        <label class="form-check-label" for="Active">Active</label>
-                                      </div>
-                                      <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2" {{$RequiredData->is_active== 2 ? 'checked' : ''}}>
-                                        <label class="form-check-label" for="Inactive">Inactive</label>
-                                      </div>
-                                
-                                </div>
-                            </div> --}}
-                                </div>
                                 <div class="text-right">
-                                    <a href="{{route('required')}}" class="btn btn-secondary">Back</a>
-                                    <button type="submit" class="btn btn-primary">Update</button>
+                                    <a href="{{route('editprofile')}}" class="btn donate-bt">Back</a>
+                                    <button type="submit" name="submit" class="btn donate-bt">UPDATE</button>
                                 </div>
-                                </div>
-                              
-                            </form>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </section>
-        <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-       $('.ckeditor').ckeditor();
-    });
-</script>
     </div>
-    
+    </section>
+    <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.ckeditor').ckeditor();
+        });
+    </script>
+    </div>
+
+
 </body>
+
 </html>
+@endsection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

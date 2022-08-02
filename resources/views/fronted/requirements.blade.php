@@ -242,11 +242,16 @@ $(document).ready(function(){
                        
                        
             </div>
+            {{-- <div>
+                <img src="{{ asset('/img/requirement/1658993514_p8.jpg') }}" alt="TEST">
+            </div> --}}
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
+                        <th>Image</th>
+
                         <th>Category</th>
-                        
+                        <th>Requirement</th>
                         <th>Type</th>						
                         <th>Quantity</th>
                         <th>status</th>
@@ -255,13 +260,16 @@ $(document).ready(function(){
                     </tr>
                 </thead>
                 <tbody>
+                       
                     @foreach($data as $items)
-                   
                     <tr>
                        <input type="hidden" class="serdelete_val_id" value="{{$items['id']}}">
+                       <td>
+                        <img src="{{ $items->media == null ? asset('/img/requirement/Noimage.jpg') : asset($items->media['path']) }}" alt="Image" width="150">
+                       </td>
                         <td>{{$items->categories['name']}}</td>
-                        
-                        <td>{{$items->type == '2' ? 'Give IT' : 'Get IT' }}</td>
+                        <td>{!!html_entity_decode($items->requirements)!!}</td>
+                        <td>{{$items->type == '1' ? 'Give IT' : 'Get IT' }}</td>
                         <td>{{$items->quantity}}</td>                        
                         <td>{{$items->status  == '1' ? 'Pending' : 'Completed' }}</td>
                         {{-- <td>

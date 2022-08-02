@@ -1,12 +1,11 @@
 <?php
 
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\{LoginController, RegisterController, UserController, RequirementController, ForgotPasswordController, GiveitController, GetitController, AddRequirementController, UserProfileController};
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\RequirementController;
-use App\Http\Controllers\ForgotPasswordController;
+
+
+
 
 
 /*
@@ -20,16 +19,13 @@ use App\Http\Controllers\ForgotPasswordController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/home', function () {
+    return view('fronted.index');
 });
 
-Route::get("/register", [RegisterController::class, 'show'])->name('register');
+
+Route::get("/register",[RegisterController::class, 'show'])->name('register');
 Route::post("/insert", [RegisterController::class, 'store'])->name('insert');
-
-Route::get("/login",[loginController::class,'loginshow'])->name('login');
-Route::post("/logindata",[loginController::class,'checklogin'])->name('logindata');
-
 
 Route::get("/userlogin",[UserController::class,'index'])->name('userlogin')->middleware('guest');
 Route::post("/userget",[UserController::class,'check'])->name('useget');
@@ -39,26 +35,33 @@ Route::post('/forget-password', [ForgotPasswordController::class, 'submitForgetP
 Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
 Route::post('/reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
+Route::get('/giveit',[GiveitController::class,'index'])->name('giveit');
+Route::get('/getit',[GetitController::class,'index'])->name('getit');
+Route::view('/donate','fronted.donate');
+
+
 
 Route::group(['middleware' => ['auth']], function () {
     
-    Route::get("/logout",[loginController::class,'logout'])->name('logout');
-    
     Route::post("/userlogout",[UserController::class,'userLogout'])->name('userlogout'); 
-
-    
     
     Route::get("/insertform",[RequirementController::class,'showinsert'])->name('insertform');
-    Route::post("/insertdata",[RequirementController::class,'storeRequirement'])->name('insertdata'); 
+    // Route::post("/insertdata",[RequirementController::class,'storeRequirement'])->name('insertdata'); 
     Route::get("/required",[RequirementController::class,'display'])->name('required');
-    Route::post("/update/{id}",[RequirementController::class,'update'])->name('update');
-    Route::get("/edit/{id}",[RequirementController::class,'edit'])->name('edit');
+    
+    
+    
+    Route::get("/insertrequired",[AddRequirementController::class,'index'])->name('addform');
+    Route::post("/insertdata",[AddRequirementController::class,'storeRequirement'])->name('insertdata');
+    Route::get("/edit/{id}",[AddRequirementController::class,'edit'])->name('edit');
+    // Route::get("/view/{id}",[AddRequirementController::class,'show'])->name('view');
+    Route::delete("/delete/{id}",[AddRequirementController::class,'destroy'])->name('delete');
+    Route::post("/update/{id}",[AddRequirementController::class,'update'])->name('update');
+    Route::get("/editprofile",[UserProfileController::class,'edit'])->name('editprofile');
+    Route::get("/userupdateprofile",[UserProfileController::class,'update'])->name('userupdateprofile');
+    // Route::get("/userrequireddata",[UserProfileController::class,'display'])->name('userrequireddata');
 
-    Route::delete("/delete/{id}",[RequirementController::class,'delete'])->name('delete');
-    // Route::get("/filter",[RegisterController::class,'filterRequired'])->name('filter'); 
+       
 
-    // forgot password
-
-   
 
 });

@@ -22,13 +22,14 @@ class UserController extends Controller
         return view('fronted.login');
         
     }
+  
 
    public function check(loginValidation $request){
 
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             
-            return redirect('required')->with('userlogin','login successfully'); 
+            return redirect('home')->with('userlogin','login successfully'); 
         } else {
             
             return redirect('userlogin')->with('loginwrong','Please check EmailId and Password');

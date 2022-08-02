@@ -27,7 +27,9 @@ class Insertrequirement extends FormRequest
             //
             'category' =>'required',
            'quantity'  => 'required|integer|min:1',
-            'requirement' => 'required'
+           'media'  => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',  
+            
+         'requirement' => 'required'
             
         ];
     }
