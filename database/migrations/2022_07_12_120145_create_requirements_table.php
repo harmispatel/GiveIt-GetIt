@@ -28,12 +28,12 @@ class CreateRequirementsTable extends Migration
 
             $table->boolean('type');
             $table->integer('status');
-            $table->boolean('is_active');
-            $table->integer('created_by');
-            $table->integer('updated_by');
-            $table->integer('deleted_by');
-            $table->timestamps();
+            // $table->boolean('is_active');
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
+            $table->integer('deleted_by')->nullable();
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 

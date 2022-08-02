@@ -1,119 +1,149 @@
-<html>
-    <head>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <!------ Include the above in your HEAD tag ---------->
-        
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
-        <title>REGISTER</title>
-</head>
-<style>
-html,body{
-background-image: url('background.jpg');
-background-size: cover;
-background-repeat: no-repeat;
-height: 100%;
-font-family: 'Numans', sans-serif;
-}
-    </style>
+@extends('fronted.layout')
+
+@section('title', 'Give It & Get It - Register')
+
+@section('content')
 <body>
-<div class="card  bg-transparent text-dark">
-    <article class="card-body mx-auto" style="max-width: 900px;">
-        
-    <h4 class="card-title mt-3 text-center text-dark">Create Account</h4>
- 
-    <form action="{{route('insert')}}" method="post">
-        @csrf
-    <div class="form-group input-group">
-		<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-		 </div> 
-         <input name="username" class="form-control" placeholder="Full name" type="text">
-         @if($errors->has('username'))
-         <p style="color:red">{{$errors->first('username')}}</p>
-     @endif
-         
-    </div> 
-    <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
-		 </div>
-         <input name="email" class="form-control" placeholder="Email address" type="email">
-         @if($errors->has('email'))
-        <p style="color:red">{{$errors->first('email')}}</p>
-    @endif
-    </div>
-    <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
-		</div>
-           <!-- form-group// -->
-          
-          <select class="custom-select" style="max-width: 75px;">
-		    <option selected="">+91</option>
-		    <option value="1">+92</option>
-		    <option value="2">+71</option>
-		    <option value="3">+82</option>
-		</select>
-    	<input name="number" class="form-control" placeholder="Phone number" type="text">
-        @if($errors->has('number'))
-        <p style="color:red">{{$errors->first('number')}}</p>
-    @endif
-    </div> 
-    <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-address-card"></i> </span>
-		 </div>
-         <input name="address" class="form-control" placeholder="address" type="adress">
-         @if($errors->has('address'))
-        <p style="color:red">{{$errors->first('address')}}</p>
-    @endif
-    </div>
-    <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-		</div>
-           <!-- form-group// -->
-          
-          <select class="custom-select" name="user_type">
-		    <option value="1">Trust</option>
-		    <option value="2">Donor</option>
-		    
-		</select>
-  
-    </div>
-    <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-		</div>
+    <div class="donation-info">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="donate-form">
+                        <div class="form-title text-center">
+                            <h3>Register</h3>
+                        </div>
+                        <hr>
+                        <form action="{{ route('insert') }}" method="post">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Your Username</label>
+                                        <input type="text" name="username" class="form-control" id="name"
+                                            value="{{ old('username') }}">
+                                    </div>
+                                    @if ($errors->has('username'))
+                                        <p style="color:red">{{ $errors->first('username') }}</p>
+                                    @endif
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Your Email Address</label>
+                                        <input type="email" class="form-control" id="email" name="email"
+                                            value="{{ old('email') }}">
+                                    </div>
+                                    @if ($errors->has('email'))
+                                        <p style="color:red">{{ $errors->first('email') }}</p>
+                                    @endif
+                                </div>
 
-           <!-- form-group// -->
-          
-          <select class="custom-select" name="status">
-		    <option value="1">Active</option>
-		    <option value="2">InActive</option>
-		</select>
-      
-    </div>
-   
-    <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-		</div>
-        <input class="form-control" placeholder="Create password" type="password" name="password">
-        @if($errors->has('password'))
-        <p style="color:red">{{$errors->first('password')}}</p>
-    @endif
-    </div>
-    <div class="form-group">
-        <button name="submit" type="submit" class="btn btn-primary btn-block"> Create Account  </button>
-    </div> 
-    <p class="text-center text-dark">Have an account? <a href="{{route('login')}}" >Log In</a> </p>     
-    </form>
-</article>
-</div> <!-- card.// -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="phone-number" class="form-label">Your Phone Number</label>
+                                        <input type="number" class="form-control" id="phone-number" name="number"
+                                            value="{{ old('number') }}">
+                                    </div>
+                                    @if ($errors->has('number'))
+                                        <p style="color:red">{{ $errors->first('number') }}</p>
+                                    @endif
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="amount" class="form-label">Select Type</label>
+                                        <select class="form-control" name="user_type" value="{{ old('user_type') }}">
+                                            <option value="1">GIVE IT</option>
+                                            <option value="2">GET IT</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="note" class="form-label">Address</label>
+                                        <textarea class="form-control" name="address" placeholder="Your Address" id="note" rows="5">{{ old('address') }}</textarea>
+                                    </div>
+                                    @if ($errors->has('address'))
+                                        <p style="color:red">{{ $errors->first('address') }}</p>
+                                    @endif
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3 position-reletive">
+                                        <label for="name" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="password"
+                                            data-toggle="password" name="password" value="{{ old('password') }}">
+                                        <i class="bi bi-eye-slash eye_ic" id="togglePassword"></i>
+                                    </div>
+                                    @if ($errors->has('password'))
+                                        <p style="color:red">{{ $errors->first('password') }}</p>
+                                    @endif
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3 position-reletive">
+                                        <label for="email" class="form-label">Conform Password</label>
+                                        <input type="password" class="form-control" id="comform_password"
+                                            data-toggle="password" name="password_confirmation"
+                                            value="{{ old('password_confirmation') }}">
+                                        <i class="bi bi-eye-slash eye_ic" id="toggleCPassword"></i>
+                                    </div>
+                                    @if ($errors->has('password_confirmation'))
+                                        <p style="color:red">{{ $errors->first('password_confirmation') }}</p>
+                                    @endif
 
-</div> 
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="text-center">
+                                        <button type="submit" class="btn donate-bt">Submit</button>
+                                        <hr>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 text-center" style="text-align-last: end">
+                                    <p>Have an account? <a href="{{ route('userlogin') }}">Log In</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </form>
+
+                        @include('fronted.js')
+                        <script>
+                            const togglePassword = document.querySelector("#togglePassword");
+                            const password = document.querySelector("#password");
+
+                            togglePassword.addEventListener("click", function() {
+                                // toggle the type attribute
+                                const type = password.getAttribute("type") === "password" ? "text" : "password";
+                                password.setAttribute("type", type);
+
+                                // toggle the icon
+                                this.classList.toggle("bi-eye");
+                            });
+                        </script>
+                        <script>
+                            const toggleCPassword = document.querySelector("#toggleCPassword");
+                            const comform_password = document.querySelector("#comform_password");
+
+                            toggleCPassword.addEventListener("click", function() {
+                                // toggle the type attribute
+                                const type = comform_password.getAttribute("type") === "password" ? "text" : "password";
+                                comform_password.setAttribute("type", type);
+
+                                // toggle the icon
+                                this.classList.toggle("bi-eye");
+                            });
+                        </script>
+                         <div id="loader" style="display: block; background: rgb(255, 254, 254);">
+                            <div id="square">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <div id="laoding_text">
+                                <span>Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 </body>
-</html>
+
+
+@endsection

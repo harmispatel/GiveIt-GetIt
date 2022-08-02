@@ -8,9 +8,16 @@ use Illuminate\Http\Request;
 
 // Models
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\loginValidation;
 
 class UserController extends Controller
 {
+    //
+   
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -130,5 +137,31 @@ class UserController extends Controller
         return redirect()->route('user.index');
 
         // return view('userList');
+
+        return view('fronted.login');
+        
+    }
+  
+
+   public function check(loginValidation $request){
+
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            
+            return redirect('home')->with('userlogin','login successfully'); 
+        } else {
+            
+            return redirect('userlogin')->with('loginwrong','Please check EmailId and Password');
+        }
+    }
+    public function userLogout(Request $request) 
+    {
+                
+        auth()->logout();
+        return redirect('userlogin')->with('logout','You are logout');
+        
+  
     }
 }
+
+

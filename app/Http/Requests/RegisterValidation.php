@@ -27,10 +27,11 @@ class RegisterValidation extends FormRequest
             //
             'username' => 'required|max:8',
             'email' => 'required|email|unique:users',
-            'number'  =>'required|min:10',
+            'number'  =>'required|digits:10 ',
             'address' =>'required',
            
-            'password'=>'required|min:8'
+            'password'=>'required|min:6',
+            'password_confirmation' =>'required_with:password|same:password|min:6'
 
         ];
     }

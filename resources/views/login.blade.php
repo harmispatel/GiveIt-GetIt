@@ -17,6 +17,7 @@
       }
     </style>
 </head>
+
 <body>
     
     <div class="container">
@@ -24,7 +25,7 @@
             <div class="col">
                 <div class="card mt-5">
                     <div class="card-header">
-                      Login
+                      Login backed
                     </div>
                     <div class="card-body">
                         <form action="{{route('login')}}" method="POST" >
@@ -38,6 +39,7 @@
               
                               <div class="form-group">
                                 <input type="password" name="password" class="form-control" placeholder="password" data-toggle="password">
+
                                 @if ($errors->has('password'))
                                   <p class="alert alert-danger">{{$errors->first('password')}}</p>                                    
                                 @endif
@@ -66,4 +68,5 @@
       $("#password").password('toggle');
     </script>
 </body>
+
 </html>

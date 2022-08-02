@@ -16,7 +16,7 @@ class LoginController extends Controller
      */
     public function index()
     {
-        return view('login');       
+        return view('login');
     }
 
    public function check(LoginValidationRequest $request){
@@ -25,18 +25,9 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
         
         if (Auth::attempt($credentials)) {
-             
-            if (Auth::user()->user_type == '3') 
-            {
-                $value = $request->session()->put('admin',Auth::user()->name);
-                return redirect('home');
-                 
-            }else{
-                
-                return redirect('login');
-            }
-        }else{
-            return redirect('login');
+            return redirect('common.layout'); 
+        } else {
+            return redirect('loginform');
         }
 
 
