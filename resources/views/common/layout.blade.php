@@ -11,15 +11,18 @@
 
   @include('common.sidebar')
   
-  <div class="content-wrapper">
+
+  <div class="wrapper">
     <div class="content-header">
       @yield('content')
     </div>
   </div>
-    
-  @include('common.footer')
 
+
+  <div> 
+    @include('common.footer')
   </div>
+  
   @include('common.js')
 </body>
 </html>

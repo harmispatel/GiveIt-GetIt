@@ -24,12 +24,17 @@
           </div>
         </a>
         <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+        <a href="" class="dropdown-item dropdown-footer">See All Messages</a>
         <li class="nav-item">
-            <a href="#" class="nav-link">
-              <p>Logout</p>
-            </a>
-          </li>
+          <form action="{{route('logout')}}" method="POST">
+            @csrf
+            Hello, {{session('admin')}} |
+              <a href="" class="nav-link">
+                
+                <button class="btn btn-primary" type="submit" name="submit">Logout</button>
+              </a>
+          </form>
+        </li>
       </div>
     </li>
   </ul>
