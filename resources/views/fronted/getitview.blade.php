@@ -5,17 +5,7 @@
 @section('content')
 
 <div class="main">
-    <section class="page-title">
-        <div class="container">
-            <h2>GET IT</h2>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page"><a href="#">Details Page</a></li>
-                </ol>
-            </nav>
-        </div>
-    </section>
+   
     <section class="detail_main">
         <div class="container">
             <div class="row">
@@ -24,7 +14,7 @@
                         <div class="swiper">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
-                                    <img class="img-fluid" style="background-image:"src="{{ $RequiredData->media == null ? asset('/img/requirement/Noimage.jpg') : asset($RequiredData->media['path']) }}"/>
+                                    <img class="img-fluid" style="background-image: url('{{ $RequiredData->media == null ? asset('/img/requirement/Noimage.jpg') : asset($RequiredData->media['path']) }}')"/>
                                 </div>
                                 {{-- <div class="swiper-slide">
                                     <img class="img-fluid" style="background-image:  url('./assets/image/book_img.jpg')"/>

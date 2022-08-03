@@ -20,14 +20,17 @@ class GiveitController extends Controller
      */
     public function index(Request $request)
     {
+        // Show Giveit Requirement Data
+
         $data = Requirement:: with(['user','categories'])->where('type', 1 )->paginate(3);
         
-        if ($request->ajax()) {
+        if ($request->ajax())
+         {
     		$view = view('fronted.giveitdata',compact('data'))->render();
             return response()->json(['html'=>$view]);
-        }
-            return view('fronted.giveit', compact('data'));
-        
+         }
+
+        return view('fronted.giveit', compact('data'));
 
     }
 
@@ -60,14 +63,12 @@ class GiveitController extends Controller
      */
     public function show($id)
     {
-       //
+       // Reuirement Id View Details
+
        $categoryId = Category::get();
         $mediaData = Media::get();
         $RequiredData = Requirement::find($id);
         return view('fronted.giveitview',compact('RequiredData','categoryId','mediaData'));
-      
-
-    
     }
 
     /**

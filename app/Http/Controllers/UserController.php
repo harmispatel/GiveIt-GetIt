@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
-// Request Class
-use App\Http\Requests\{UserRequest,EditUserRequest};
 use Illuminate\Http\Request;
+
+// Request Class
+use App\Http\Requests\{UserRequest,EditUserRequest,loginValidation};
 
 // Models
 use App\Models\User;
+
+// Facades
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\loginValidation;
 
 class UserController extends Controller
 {
-    //
    
-
-
 
     /**
      * Display a listing of the resource.
@@ -25,11 +24,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
-        
         $users = User::all();
         return view('userList')->with('users',$users);
-        // dd($user);
+       
     }
 
     /**
@@ -88,7 +85,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $editUser = User::find($id);
-        // dd($editUser);
+      
         return view('edit')->with('edituser',$editUser);
     }
 
@@ -112,7 +109,7 @@ class UserController extends Controller
         
         $editUser->save();
         return redirect()->route('user.index')->with('message','User updated successfully!');
-        // ->route('user.index');
+       
 
         return view('edit');
     }
@@ -132,31 +129,47 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        // dd($id);
+        
         $delete = User::find($id)->delete();
         return redirect()->route('user.index');
 
         // return view('userList');
+
+        
+        
+    }
+  
+
+   //frontend side login
+     
+    public function home()
+    { 
+        //open fronted side login page
 
         return view('fronted.login');
         
     }
   
 
-   public function check(loginValidation $request){
-
+   public function check(loginValidation $request)
+   {
+        
+        // User Authentication 
         $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-            
-            return redirect('home')->with('userlogin','login successfully'); 
+        if (Auth::attempt($credentials))
+         {             
+            return redirect('welcome')->with('userlogin','login successfully'); 
         } else {
             
             return redirect('userlogin')->with('loginwrong','Please check EmailId and Password');
         }
     }
+
+    
     public function userLogout(Request $request) 
     {
-                
+        //logout user fronted side
+        
         auth()->logout();
         return redirect('userlogin')->with('logout','You are logout');
         

@@ -3,8 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+//Requests
 use App\Http\Requests\{StoreRequirement, Insertrequirement, EditValidation};
+
+//Models
 use App\Models\{Requirement, User, Category, Media};
+
+//Facades
 use Illuminate\Support\Facades\File;
 
 class AddRequirementController extends Controller
@@ -16,7 +22,7 @@ class AddRequirementController extends Controller
      */
     public function index()
     {
-        //
+        // Show Insert Requirement Form
         $categoryId = Category::get();
 
         return view('fronted.addrequiment',compact ('categoryId'));
@@ -35,23 +41,22 @@ class AddRequirementController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Insertrequirement  $request
      * @return \Illuminate\Http\Response
      */
     public function storeRequirement(Insertrequirement $request)
     {
-        
-     dd($request);
+        //Insert Requirement Data
+
         $cat_name = $request->Addcategory;
         $categoryname =Category::where('name',$cat_name)->exists();
         $user = auth()->User();
         $user_id = $user['id'];
         $user_type = $user['user_type'];
         
-      
-        
+      //Image Insert Media Models 
+
         $mediaAdd = new Media();
-        
         if($request->hasfile('media')){
             $file= $request->file('media');
             $original_file_name =$request->media->getClientOriginalName();
@@ -97,7 +102,7 @@ class AddRequirementController extends Controller
          $requirement->status	= 1;
          $requirement->save();
           
-        return redirect('home')->with('message','Inserted RequiredData Successfully');
+        return redirect('welcome')->with('message','Inserted RequiredData Successfully');
     }
 
     /**
@@ -122,7 +127,8 @@ class AddRequirementController extends Controller
      */
     public function edit($id)
     {
-        //
+        //Show EditRequirement Form
+
         $categoryId = Category::get();
         $mediaData = Media::get();
         $RequiredData = Requirement::find($id);
@@ -132,13 +138,14 @@ class AddRequirementController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\EditValidation  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(EditValidation $request, $id)
     {
-        //
+        //Update Requirement Data
+
         $cat_name = $request->Addcategory;
         $categoryname =Category::where('name',$cat_name)->exists();
         $user = auth()->User();
@@ -205,7 +212,8 @@ class AddRequirementController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //Delete Requirement  
+
         $data = Requirement::find($id)->delete();  
         
         return redirect('editprofile')->with('messagedelete','Deleted RequiredData Successfully');

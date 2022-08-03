@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreRequirement;
-use App\Http\Requests\Insertrequirement;
-use App\Http\Requests\EditValidation;
-use App\Models\Requirement;
-use App\Models\User;
-use App\Models\Category;
+
+//Requests
+use App\Http\Requests\{StoreRequirement, Insertrequirement, EditValidation};
+
+//Models
+use App\Models\{Requirement, User, Category, Media};
+
 
 class GetitController extends Controller
 {
@@ -19,7 +20,7 @@ class GetitController extends Controller
      */
     public function index(Request $request)
     {
-        //
+        //Show Gitite Requirement Data
         $data = Requirement:: with(['user','categories'])->where('type', 2 )->paginate(3);
            if ($request->ajax()) 
            {
@@ -64,6 +65,10 @@ class GetitController extends Controller
     public function show($id)
     {
         //
+        $categoryId = Category::get();
+        $mediaData = Media::get();
+        $RequiredData = Requirement::find($id);
+        return view('fronted.getitview',compact('RequiredData','categoryId','mediaData'));
     }
 
     /**

@@ -66,7 +66,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="mb-3" position-reletive>
+                                    <div class="mb-3  position-relative">
                                         <label for="password" class="form-label">Your Password</label>
                                         <input type="password" class="form-control " id="password"
                                             value="{{ old('password') }}" name="password">
