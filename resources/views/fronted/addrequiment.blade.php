@@ -111,7 +111,7 @@
                                     </div>
                                 </div>
                                 <div class="text-right">
-                                    <a href="home" class="btn donate-bt">Back</a>
+                                    <a href="welcome" class="btn donate-bt">Back</a>
                                     <button type="submit" name="submit" class="btn donate-bt">Add</button>
                                 </div>
                         </div>

@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <div class="work-info">
-                        <div class="row align-items-center mb-4">
+                        <div class="row align-items-center mb-4 give">
                             <div class="col-md-3">
                                 <div class="categories-swiper">
                                     <div class="swiper">
@@ -89,7 +89,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row align-items-center">
+                        <div class="row align-items-center get">
                             <div class="col-md-9">
                                 <div class="card">
                                     <div class="work-info-inr">

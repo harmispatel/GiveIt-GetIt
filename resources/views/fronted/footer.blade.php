@@ -12,7 +12,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="quick_links">
                     <h3>Quick Links</h3>
                     <ul class="footer-link">
@@ -24,7 +24,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <div class="social-links">
                     <h3>Social Links</h3>
                     <ul>

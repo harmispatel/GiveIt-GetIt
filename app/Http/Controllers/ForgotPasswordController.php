@@ -7,17 +7,14 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\models\User;
-
 use Hash;
-
-
 use DB;
 
 class ForgotPasswordController extends Controller
 {
     //
      /**
-       * Write code on Method
+       * Write code on show Forgetpassword Form
        *
        * @return response()
        */
@@ -28,7 +25,7 @@ class ForgotPasswordController extends Controller
       }
   
       /**
-       * Write code on Method
+       * Write code on check User Email Authenticated 
        *
        * @return response()
        */
@@ -45,12 +42,13 @@ class ForgotPasswordController extends Controller
               'token' => $token, 
               'created_at' => Carbon::now()
             ]);
-  
+
+
+          
           Mail::send('fronted.email', ['token' => $token], 
           
           function($message) use($request)
           {
-          // dd($request->email);
             $message->from('harmistest4@gmail.com');
               $message->to($request['email']);
               $message->subject('Reset Password');
@@ -59,7 +57,7 @@ class ForgotPasswordController extends Controller
           return back()->with('message', 'We have e-mailed your password reset link!');
       }
       /**
-       * Write code on Method
+       * Write code on Send User Email Forget Password Link 
        *
        * @return response()
        */
@@ -68,13 +66,13 @@ class ForgotPasswordController extends Controller
       }
   
       /**
-       * Write code on Method
+       * Write code on User Reset Password 
        *
        * @return response()
        */
       public function submitResetPasswordForm(Request $request)
       {
-            // echo "<pre>"; print_r(1); exit();
+            
           $request->validate([
               'email' => 'required|email|exists:users',
               'password' => 'required|string|min:6|confirmed',
@@ -88,10 +86,12 @@ class ForgotPasswordController extends Controller
                               ])
                               ->first();
   
-          if(!$updatePassword){
+          if(!$updatePassword)
+          {
               return back()->withInput()->with('error', 'Invalid token!');
           }
-  
+
+               // User Update Password
           $user = User::where('email', $request->email)
                       ->update(['password' => Hash::make($request->password)]);
  

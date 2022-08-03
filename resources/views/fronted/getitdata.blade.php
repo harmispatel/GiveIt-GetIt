@@ -2,7 +2,10 @@
     <div class="col-md-4">
         <div class="get_detalis_inr">
             <div class="get_detalis_img text-center">
-                <div class="get_img"> <img src="{{ $items->media == null ? asset('/img/requirement/Noimage.jpg') : asset($items->media['path']) }}" alt="Image" ></div>
+                <div class="get_img">
+                    <a href="{{ route('getitview', $items['id']) }}">
+                         <img src="{{ $items->media == null ? asset('/img/requirement/Noimage.jpg') : asset($items->media['path']) }}" alt="Image" ></div>
+                         </a>
             </div>
             <div class="get_detalis_info">
                 <label> {{ $items->user['name'] }}</label>

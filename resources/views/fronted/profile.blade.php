@@ -96,18 +96,22 @@
                                             <tr>
 
 
-                                                <input type="hidden" class="serdelete_val_id" value="{{$item['id']}}">
+                                                <input type="hidden" class="serdelete_val_id" value="{{ $item['id'] }}">
                                                 <td>{{ $item->categories['name'] }}</td>
                                                 <td>{{ $item->quantity }}</td>
-                                                <td>{{ $item->created_at->format('d/m/Y')}}</td>
+                                                <td>{{ $item->created_at->format('d/m/Y') }}</td>
                                                 <td><a href="{{ route('edit', $item['id']) }}"><i
                                                             class="fa-solid fa-pen"></i></a>
-                                                            <form method="POST" action="{{ route('delete', $item['id']) }}">
-                                                                @csrf
-                                                                <input name="_method" type="hidden" value="DELETE">
-                                                                <button type="submit" class="btn  btn-flat show_confirm ml-2" data-toggle="tooltip" title='Delete' style="background-color: #ff0000;
-                                                                color: #fff "><i class="fa-solid fa-trash-can"></i></button>
-                                                            </form></td>
+                                                    <form method="POST" action="{{ route('delete', $item['id']) }}">
+                                                        @csrf
+                                                        <input name="_method" type="hidden" value="DELETE">
+                                                        <button type="submit" class="btn  btn-flat show_confirm ml-2"
+                                                            data-toggle="tooltip" title='Delete'
+                                                            style="background-color: #ff0000;
+                                                                color: #fff "><i
+                                                                class="fa-solid fa-trash-can"></i></button>
+                                                    </form>
+                                                </td>
 
                                             </tr>
                                         @endforeach
@@ -116,29 +120,28 @@
                                 </table>
                                 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
                                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-                               <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-                               <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-                               <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+                                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+                                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                                 <script type="text/javascript">
- 
                                     $('.show_confirm').click(function(event) {
-                                         var form =  $(this).closest("form");
-                                         var name = $(this).data("name");
-                                         event.preventDefault();
-                                         swal({
-                                             title: `Are you sure you want to delete this record?`,
-                                             text: "If you delete this, it will be gone forever.",
-                                             icon: "warning",
-                                             buttons: true,
-                                             dangerMode: true,
-                                         })
-                                         .then((willDelete) => {
-                                           if (willDelete) {
-                                             form.submit();
-                                           }
-                                         });
-                                     });
-                                     </script>
+                                        var form = $(this).closest("form");
+                                        var name = $(this).data("name");
+                                        event.preventDefault();
+                                        swal({
+                                                title: `Are you sure you want to delete this record?`,
+                                                text: "If you delete this, it will be gone forever.",
+                                                icon: "warning",
+                                                buttons: true,
+                                                dangerMode: true,
+                                            })
+                                            .then((willDelete) => {
+                                                if (willDelete) {
+                                                    form.submit();
+                                                }
+                                            });
+                                    });
+                                </script>
                             </section>
                             @include('fronted.js')
 

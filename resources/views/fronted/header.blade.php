@@ -12,7 +12,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::is('index*') ? 'active' : '' }}" href="home">Home</a>
+                        <a class="nav-link {{ Request::is('index*') ? 'active' : '' }}" href="welcome">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('giveit*') ? 'active' : '' }}" href="{{route('giveit')}}">Give It</a>
