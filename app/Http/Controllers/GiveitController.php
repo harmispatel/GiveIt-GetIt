@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreRequirement;
-use App\Http\Requests\Insertrequirement;
-use App\Http\Requests\EditValidation;
-use App\Models\Requirement;
-use App\Models\User;
-use App\Models\Category;
+
+//Requests
+use App\Http\Requests\{StoreRequirement, Insertrequirement, EditValidation};
+
+//Models
+use App\Models\{Requirement, User, Category, Media};
+
 
 class GiveitController extends Controller
 {
@@ -57,9 +58,16 @@ class GiveitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
        //
+       $categoryId = Category::get();
+        $mediaData = Media::get();
+        $RequiredData = Requirement::find($id);
+        return view('fronted.giveitview',compact('RequiredData','categoryId','mediaData'));
+      
+
+    
     }
 
     /**

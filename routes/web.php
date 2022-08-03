@@ -37,7 +37,7 @@ Route::post('/reset-password', [ForgotPasswordController::class, 'submitResetPas
 
 Route::get('/giveit',[GiveitController::class,'index'])->name('giveit');
 Route::get('/getit',[GetitController::class,'index'])->name('getit');
-Route::view('/donate','fronted.donate');
+Route::get("/viewdetail/{id}",[GiveitController::class,'show'])->name('viewdetail');
 
 
 

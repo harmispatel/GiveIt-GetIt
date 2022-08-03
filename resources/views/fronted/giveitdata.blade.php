@@ -11,7 +11,7 @@
                 <p>MO : {{ $datas->user['mobile'] }}</p>
                 <p>Email : <a href="mailto:{{ $datas->user['email'] }}"> {{ $datas->user['email'] }}</a></p>
             </div>
-            
+            <button type="button" class="btn btn-dark" ><a href="{{ route('viewdetail', $datas['id']) }}">View Detial</a></button>
         </div>
     </div>
 @endforeach
