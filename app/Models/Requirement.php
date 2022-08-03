@@ -27,8 +27,8 @@ class Requirement extends Model
     {
         return $this->hasOne(Media::class, 'id','media_id');
     }
-
-
-    
-
+    public function category()
+    {
+        return $this->hasOne(Category::class, 'id', 'category_id');    
+    }
 }

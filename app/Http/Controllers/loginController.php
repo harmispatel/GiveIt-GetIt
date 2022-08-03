@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Http\Requests\LoginValidationRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -18,8 +21,9 @@ class LoginController extends Controller
         
     }
 
-   public function check(Request $request){
+   public function check(LoginValidationRequest $request){
 
+        // Only Admin Login
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
 
@@ -28,5 +32,25 @@ class LoginController extends Controller
           
             return redirect('loginform');
         }
+
+
+        // if (Auth::attempt($credentials)) {
+            
+        //     return view('welcome'); 
+        // } else {
+          
+        //     return view('login');
+        // }
     }
+
+    public function logout(Request $request){
+        Auth::logout();
+        return redirect()->route('loginform');
+    }
+
+    public function log(){
+        return redirect('home');
+    }
+
+    
 }
