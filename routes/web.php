@@ -1,29 +1,23 @@
 <?php
-<<<<<<< HEAD
 
 
 use Illuminate\Support\Facades\Route;
-=======
   //fronted controller
->>>>>>> c2ea4ea21a7d2cc3d3e322117abeecfd5460670f
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\RequirementController;
-<<<<<<< HEAD
 
-use App\Http\Controllers\{ForgotPasswordController, GiveitController, GetitController, AddRequirementController, UserProfileController};
+// use App\Http\Controllers\{ForgotPasswordController, GiveitController, GetitController, AddRequirementController, UserProfileController};
 // use Illuminate\Support\Facades\Route;
 
-=======
 use App\Http\Controllers\AddRequirementController;
 use App\Http\Controllers\GiveitController;
 use App\Http\Controllers\GetitController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\UserProfileController;
->>>>>>> c2ea4ea21a7d2cc3d3e322117abeecfd5460670f
 // use App\Http\Controllers\{LoginController, RegisterController, UserController, RequirementController, ForgotPasswordController, GiveitController, GetitController, AddRequirementController, UserProfileController};
 // use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -95,11 +89,9 @@ Route::group(['middleware' => ['auth']], function () {
 
 // Front-end Route
 
-<<<<<<< HEAD
 Route::get('/home', function () {
     return view('fronted.index');
 });
-=======
 // Route::get('/userlist',[UserController::class,'index']);
 
 //front-end
@@ -109,7 +101,6 @@ Route::get('/home', function () {
 //     return view('fronted.index');
 // });
 Route::view("/welcome",'fronted.index');
->>>>>>> c2ea4ea21a7d2cc3d3e322117abeecfd5460670f
 
 Route::get("/register",[RegisterController::class, 'show'])->name('register');
 Route::post("/insert", [RegisterController::class, 'store'])->name('insert');
