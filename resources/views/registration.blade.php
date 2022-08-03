@@ -21,7 +21,7 @@
     <section class="content">   
     
         <div class="container-fluid">
-            <div class="row">
+            <div class="row justify-content-center">
                     <!-- Success Message -->
                     {{-- @if (session('success'))
                         <div class="d-flex justify-content-end">
@@ -39,7 +39,7 @@
                             </div>
                         </div>
                     @endif --}}
-                <div class="col">
+                <div class="col-lg-10">
                     <div class="card align-center mt-5">
                         <div class="card-header">
                         Registration
@@ -140,7 +140,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     {{-- <script async src="https://docs.opencv.org/master/opencv.js" type="text/javascript"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
-    <script>
+     <script>
         $(document).readty(function(){
             setTimeout(() => {
                 $('.alert').hide()
@@ -208,6 +208,6 @@
                 }
             }
         })
-    </script>
+    </script> 
 </body>
 </html>

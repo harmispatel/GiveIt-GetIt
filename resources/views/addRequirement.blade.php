@@ -119,7 +119,7 @@
                                   
 
                                  
-                                  <button type="submit" name="submit" class="btn btn-primary">  Add </button>
+                                  <button type="submit" class="btn btn-primary">  Add </button>
                                   <a class="btn btn-dark" href="{{route('requirement.index')}}"> Back </a>
 
                                 </form>

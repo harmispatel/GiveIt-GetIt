@@ -68,7 +68,7 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                {{-- <th>Media</th> --}}
+                                                <th>Media</th>
                                                 <th>Category</th>
                                                 <th>Person</th>
                                                 <th>Type</th>
@@ -79,8 +79,11 @@
                                         </thead>
                                         <tbody id="tableBody">
                                             {{-- Forelse --}}
-                                            @forelse ($requirementsData as $requirement)   
+                                            @forelse ($requirementsData as $requirement) 
                                                 <tr>
+                                                    <td>
+                                                        <img src="{{ $requirement->media == null ? asset('/img/requirement/Noimage.jpg') : asset($requirement->media['path']) }}" alt="Image" width="100">
+                                                    </td>
                                                     <td>{{ $requirement->category->name}}</td>
                                                     {{-- <td>{!!html_entity_decode($requirement->requirements)!!}</td> --}}
                                                     <td>{{ $requirement['quantity'] }}</td>

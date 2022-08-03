@@ -19,35 +19,31 @@ class LoginController extends Controller
         return view('login');
     }
 
-   public function check(LoginValidationRequest $request){
-
+   public function check(LoginValidationRequest $request)
+   {
         // Only Admin Login
         $credentials = $request->only('email', 'password');
         
         if (Auth::attempt($credentials)) {
-            return redirect('common.layout'); 
+            return view('welcome'); 
         } else {
             return redirect('loginform');
         }
 
-
-        // if (Auth::attempt($credentials)) {
-            
-        //     return view('welcome'); 
-        // } else {
-          
-        //     return view('login');
-        // }
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
+        // Admin Logout
         Auth::logout();
         return redirect()->route('loginform');
     }
 
-    public function log(){
+    public function log()
+    {
+        // Does not open Login Form 
+        
         return redirect('home');
     }
-
-    
+   
 }

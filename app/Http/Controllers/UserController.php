@@ -11,13 +11,11 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\loginValidation;
 
+
+// Admin Side
 class UserController extends Controller
 {
-    //
-   
-
-
-
+    
     /**
      * Display a listing of the resource.
      *
@@ -25,11 +23,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
-        
+        // Open user list
         $users = User::all();
         return view('userList')->with('users',$users);
-        // dd($user);
+        
     }
 
     /**
@@ -39,20 +36,21 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        // Open Create User Form
+
         return view('createUser');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\UserRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)
     {
-        //
-        
+        // Insert Create User Data
+
         $createUser = new User();
         $createUser->name = $request->name;
         $createUser->email = $request->email;
@@ -86,22 +84,24 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {   
+        // Open User Edit Form 
+
         $editUser = User::find($id);
-        // dd($editUser);
         return view('edit')->with('edituser',$editUser);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\EditUserRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(EditUserRequest $request, $id)
     {
-        
+        // Update User
+
         $editUser = User::find($id);
         $editUser->name = $request->name;
         $editUser->email = $request->email;
@@ -112,9 +112,7 @@ class UserController extends Controller
         
         $editUser->save();
         return redirect()->route('user.index')->with('message','User updated successfully!');
-        // ->route('user.index');
-
-        return view('edit');
+        
     }
 
     /**
@@ -123,26 +121,21 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
-    public function createAdmin(){
-        return view('careateAdmin');
-    }
-
-    
-
+ 
     public function destroy($id)
     {
-        // dd($id);
+        // Delete User
+        
         $delete = User::find($id)->delete();
         return redirect()->route('user.index');
 
-        // return view('userList');
-
-        return view('fronted.login');
+        // return view('fronted.login');
         
     }
   
 
+
+    // Front_end Side
    public function check(loginValidation $request){
 
         $credentials = $request->only('email', 'password');
