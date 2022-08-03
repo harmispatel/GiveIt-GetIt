@@ -50,7 +50,6 @@ class RequirementController extends Controller
     {   
         
         $user = auth()->User();
-        // echo"<pre>";print_r($user);exit;
         $user_id = $user['id'];
         $userData = User::get();
 
