@@ -54,19 +54,16 @@ class RequirementController extends Controller
      */
     public function store(RequirementRequest $request)
     {   
-<<<<<<< HEAD
         // dd($request->media);
         // Save new Requirement
 
             $user = auth()->User();
             $user_id = $user['id'];
             $userData = User::get();
-=======
         
         $user = auth()->User();
         $user_id = $user['id'];
         $userData = User::get();
->>>>>>> c2ea4ea21a7d2cc3d3e322117abeecfd5460670f
 
         // media
         $mediaObj = new Media();
