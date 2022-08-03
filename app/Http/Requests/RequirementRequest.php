@@ -17,13 +17,14 @@ class RequirementRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Get the validation rules that apply to the request for Admin side.
      *
      * @return array
      */
     public function rules()
     {
         return [
+            'media' => 'required',
             'category_id' => 'required',
             'requirement' => 'required',
             'quantity' => 'required | numeric | min:1',

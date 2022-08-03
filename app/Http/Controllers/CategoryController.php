@@ -18,8 +18,9 @@ class CategoryController extends Controller
      */
     public function index()
     {   
+        // Show Category List
+
         $categoryData = Category::all();
-        // dd($categoryData->toArray());
         return view('categories')->with('categories',$categoryData);
         
     }
@@ -31,6 +32,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        // Open new Category Form
         return view('addCategory');
     }
 
@@ -42,6 +44,8 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
+        // Add new Category
+
         $categoryObj = new Category();
         $categoryObj->name = $request->categoryName;
         $categoryObj->status = $request->status;
@@ -69,7 +73,9 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {   
+        // Open Edit Category Form
+
         $editCategoryData = Category::find($id);
         $category = Category::all();
         return view('editCategory',compact('editCategoryData','category'));
@@ -85,6 +91,8 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, $id)
     {   
+        // Update Category
+
         $editCategory = Category::find($id);
         $editCategory->name = $request->categoryName;
         $editCategory->status = $request->status;
@@ -101,6 +109,8 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        // Delete Category
+
         $delete = Category::find($id)->delete();
         return redirect('category');
 

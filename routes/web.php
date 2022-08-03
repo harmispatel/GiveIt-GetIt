@@ -1,17 +1,29 @@
 <?php
+<<<<<<< HEAD
+
+
+use Illuminate\Support\Facades\Route;
+=======
   //fronted controller
+>>>>>>> c2ea4ea21a7d2cc3d3e322117abeecfd5460670f
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\RequirementController;
+<<<<<<< HEAD
+
+use App\Http\Controllers\{ForgotPasswordController, GiveitController, GetitController, AddRequirementController, UserProfileController};
+// use Illuminate\Support\Facades\Route;
+
+=======
 use App\Http\Controllers\AddRequirementController;
 use App\Http\Controllers\GiveitController;
 use App\Http\Controllers\GetitController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\UserProfileController;
+>>>>>>> c2ea4ea21a7d2cc3d3e322117abeecfd5460670f
 // use App\Http\Controllers\{LoginController, RegisterController, UserController, RequirementController, ForgotPasswordController, GiveitController, GetitController, AddRequirementController, UserProfileController};
 // use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +45,37 @@ use Illuminate\Support\Facades\Auth;
 
 
 
+// Admin Route
+
+Route::group(['middleware' => ['guest']], function () {
+
+    Route::get('/login',[LoginController::class,'index'])->name('loginform');
+    Route::post('/login',[LoginController::class,'check'])->name('login');
+    Route::get('/registration',[RegistrationController::class,'index'])->name('registrationForm');
+    Route::post('/registration',[RegistrationController::class,'store'])->name('registration');
+
+
+});
+
+Route::group(['middleware' => ['auth']], function () {
+
+    Route::view('/home','welcome');
+    Route::post("/logout",[loginController::class,'logout'])->name('logout')->middleware('auth');
+    Route::get('/logout',[LoginController::class,'log']);
+    Route::resource('/user',UserController::class);
+    Route::resource('/category',CategoryController::class);
+    Route::resource('/requirement',RequirementController::class);
+    // Route::get('/filterStatus',[RequirementController::class,'filterStatus'])->name('filterStatus');
+    Route::post('/filterStatus',[RequirementController::class,'changeStatus']);
+    Route::post('/filterIsActive',[RequirementController::class,'changeIsActive']);
+    Route::post('/search',[RequirementController::class,'searching']);
+    // Route::get('/search',[RequirementController::class,'searchCategory']);
+    
+});
+
+
+
+
 
 
 // Route::get("/register", [RegisterController::class, 'show'])->name('register');
@@ -50,7 +93,13 @@ use Illuminate\Support\Facades\Auth;
 
 
 
+// Front-end Route
 
+<<<<<<< HEAD
+Route::get('/home', function () {
+    return view('fronted.index');
+});
+=======
 // Route::get('/userlist',[UserController::class,'index']);
 
 //front-end
@@ -60,6 +109,7 @@ use Illuminate\Support\Facades\Auth;
 //     return view('fronted.index');
 // });
 Route::view("/welcome",'fronted.index');
+>>>>>>> c2ea4ea21a7d2cc3d3e322117abeecfd5460670f
 
 Route::get("/register",[RegisterController::class, 'show'])->name('register');
 Route::post("/insert", [RegisterController::class, 'store'])->name('insert');
@@ -98,9 +148,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/editprofile",[UserProfileController::class,'edit'])->name('editprofile');
     Route::get("/userupdateprofile",[UserProfileController::class,'update'])->name('userupdateprofile');
     // Route::get("/userrequireddata",[UserProfileController::class,'display'])->name('userrequireddata');
-
-       
-
 
 });
 

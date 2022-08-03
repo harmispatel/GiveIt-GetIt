@@ -9,6 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Media extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $table ='media';
+    protected $table ='medias';
     protected $guarded = [];
 }

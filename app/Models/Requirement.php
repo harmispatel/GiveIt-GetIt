@@ -19,10 +19,12 @@ class Requirement extends Model
     {
         return $this->hasOne(Category::class, 'id', 'category_id');
     }
+
     public function user()
     {
-    return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
+
     public function media()
     {
         return $this->hasOne(Media::class, 'id','media_id');

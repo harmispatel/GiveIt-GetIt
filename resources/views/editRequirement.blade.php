@@ -27,7 +27,15 @@
                               <form action="{{route('requirement.update',$editRequirementData->id)}}" method="POST" >
                                   @csrf
                                   @method('PUT')
-                            
+
+                                  <div class="form-group">
+                                    <label for="quantity">Media</label>
+                                      <input type="file" name="media" class="form-control"  value="{{$editRequirementData->media}}">
+                                      <img src="{{ $editRequirementData->media == null ? asset('/img/requirement/Noimage.jpg') : asset($editRequirementData->media['path']) }}" alt="Image" width="100">
+                                      @if ($errors->has('media'))
+                                        <p class="alert alert-danger">{{$errors->first('media')}}</p>                                    
+                                      @endif
+                                    </div>
                                     <div class="form-group">
                                     <label for="requirementCategory">RequirementCategory</label>
                                       <select class="form-control form-control-md" name="requirementCategory" >

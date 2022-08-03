@@ -7,17 +7,25 @@ use Illuminate\Http\Request;
 
 // Models
 use App\Models\User;
+
 use Illuminate\Support\Facades\Hash;
+
+
+// Admin Side
 
 class RegistrationController extends Controller
 {
-    public function index(){
+    public function index()
+    {   
+        //  Open Registration Form
+
         return view('registration');
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
+        // Save User Registration 
         
-        // $pass = bcrypt($request->password);
             $insertData = new User();
             $insertData->name =  $request->name;
             $insertData->email =  $request->email;
@@ -26,10 +34,10 @@ class RegistrationController extends Controller
             $insertData->user_type =  $request->user_type; 
             $insertData->password = Hash::make($request->password);
             $insertData->status = $request->status;
-            // dd($insertData->status);
+            
             $insertData->save();
 
             return redirect('/login');
-            //   dd( $insertData->password )
+            
     }
 }
