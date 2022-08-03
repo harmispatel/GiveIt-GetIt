@@ -13,16 +13,19 @@ class LoginController extends Controller
      */
     public function index()
     {
+        //
         return view('login');
+        
     }
 
    public function check(Request $request){
 
         $credentials = $request->only('email', 'password');
-        
         if (Auth::attempt($credentials)) {
+
             return redirect('common.layout'); 
         } else {
+          
             return redirect('loginform');
         }
     }
