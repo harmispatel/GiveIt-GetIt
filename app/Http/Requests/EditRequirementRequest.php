@@ -24,6 +24,7 @@ class EditRequirementRequest extends FormRequest
     public function rules()
     {
         return [
+            'media' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'requirementCategory' => 'required',
             'requirement' => 'required',
             'quantity' => 'required | numeric | min:1',

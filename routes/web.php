@@ -4,7 +4,7 @@
 use Illuminate\Support\Facades\Route;
   //fronted controller
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\loginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RegistrationController;
@@ -43,8 +43,8 @@ use Illuminate\Support\Facades\Auth;
 
 Route::group(['middleware' => ['guest']], function () {
 
-    Route::get('/login',[LoginController::class,'index'])->name('loginform');
-    Route::post('/login',[LoginController::class,'check'])->name('login');
+    Route::get('/login',[loginController::class,'index'])->name('loginform');
+    Route::post('/login',[loginController::class,'check'])->name('login');
     Route::get('/registration',[RegistrationController::class,'index'])->name('registrationForm');
     Route::post('/registration',[RegistrationController::class,'store'])->name('registration');
 
@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::view('/home','welcome');
     Route::post("/logout",[loginController::class,'logout'])->name('logout')->middleware('auth');
-    Route::get('/logout',[LoginController::class,'log']);
+    Route::get('/logout',[loginController::class,'log']);
     Route::resource('/user',UserController::class);
     Route::resource('/category',CategoryController::class);
     Route::resource('/requirement',RequirementController::class);
