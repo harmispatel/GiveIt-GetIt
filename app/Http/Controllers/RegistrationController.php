@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Registration;
+// Request
 use Illuminate\Http\Request;
 
 // Models
-use App\Models\User;
+use App\Models\{User, Registration};
 
+// Facades
 use Illuminate\Support\Facades\Hash;
 
 
@@ -21,7 +22,6 @@ class RegistrationController extends Controller
 
         return view('registration');
     }
-
     public function store(Request $request)
     {
         // Save User Registration 
@@ -36,8 +36,6 @@ class RegistrationController extends Controller
             $insertData->status = $request->status;
             
             $insertData->save();
-
-            return redirect('/login');
-            
+            return redirect('/login');     
     }
 }

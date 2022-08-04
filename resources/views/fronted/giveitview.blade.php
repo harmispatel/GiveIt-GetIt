@@ -14,18 +14,18 @@
                         <div class="swiper">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
-                                    <img class="img-fluid" style="background-image:"src="{{ $RequiredData->media == null ? asset('/img/requirement/Noimage.jpg') : asset($RequiredData->media['path']) }}"/>
+                                    <img class="img-fluid" style="background-image:url('{{ $RequiredData->media == null ? asset('/img/requirement/Noimage.jpg') : asset($RequiredData->media['path']) }}')"/>
                                 </div>
                                 {{-- <div class="swiper-slide">
                                     <img class="img-fluid" style="background-image:  url('./assets/image/book_img.jpg')"/>
                                 </div> --}}
                             </div>
-                            <div class="swiper-button-next">
+                            {{-- <div class="swiper-button-next">
                                 <i class="fa-solid fa-angle-right csb"></i>
                             </div>
                             <div class="swiper-button-prev">
                                 <i class="fa-solid fa-angle-left csb"></i>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div class="product-des">

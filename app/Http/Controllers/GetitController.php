@@ -64,10 +64,12 @@ class GetitController extends Controller
      */
     public function show($id)
     {
-        //
+        // Get It Requiment data Only View
+
         $categoryId = Category::get();
         $mediaData = Media::get();
         $RequiredData = Requirement::find($id);
+        
         return view('fronted.getitview',compact('RequiredData','categoryId','mediaData'));
     }
 

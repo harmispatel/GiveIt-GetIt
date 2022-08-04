@@ -125,7 +125,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post("/userlogout",[UserController::class,'userLogout'])->name('userlogout'); 
     
     Route::get("/insertform",[RequirementController::class,'showinsert'])->name('insertform');
-    // Route::post("/insertdata",[RequirementController::class,'storeRequirement'])->name('insertdata'); 
     Route::get("/required",[RequirementController::class,'display'])->name('required');
     
     
@@ -133,18 +132,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/insertrequired",[AddRequirementController::class,'index'])->name('addform');
     Route::post("/insertdata",[AddRequirementController::class,'storeRequirement'])->name('insertdata');
     Route::get("/edit/{id}",[AddRequirementController::class,'edit'])->name('edit');
-    // Route::get("/view/{id}",[AddRequirementController::class,'show'])->name('view');
     Route::delete("/delete/{id}",[AddRequirementController::class,'destroy'])->name('delete');
     Route::post("/update/{id}",[AddRequirementController::class,'update'])->name('update');
     Route::get("/editprofile",[UserProfileController::class,'edit'])->name('editprofile');
     Route::get("/userupdateprofile",[UserProfileController::class,'update'])->name('userupdateprofile');
-    // Route::get("/userrequireddata",[UserProfileController::class,'display'])->name('userrequireddata');
-
 });
-
-
-Route::group(['middleware' => ['guest']], function () {
-    
+    Route::group(['middleware' => ['guest']], function () {
     Route::get('/login',[LoginController::class,'index'])->name('loginform');
     Route::post('/login',[LoginController::class,'check'])->name('login');
     Route::get('/registration',[RegistrationController::class,'index'])->name('registrationForm');

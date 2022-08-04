@@ -21,7 +21,7 @@ class RegisterController extends Controller
    
         public function store(RegisterValidation $request)
         {
-            //Insert Data user Fronted side
+            // Insert Data user Fronted side
         
             $pass = bcrypt($request->password);
             $insertdata = new User();
@@ -33,11 +33,7 @@ class RegisterController extends Controller
             $insertdata->user_type = $request->user_type;
             $insertdata->password = $pass;
             
-        
             $insertdata->save();
-             
-
             return redirect('userlogin')->with('msg','Register successfully');
         }
-            
  }

@@ -3,8 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+// Models
 use App\Models\{Requirement, User, Category, Media};
+
+// Facades
 use Illuminate\Support\Facades\Auth;
+
+// Requests
 use App\Http\Requests\ProfileValidation;
 
 class ProfileController extends Controller
@@ -53,13 +59,7 @@ class ProfileController extends Controller
      */
     public function show()
     {
-        //
-        // $user = auth()->User();
-      
-  
-        // return view('fronted.profile',compact ('user'));
-
-     
+       //
     }
 
     /**
@@ -78,27 +78,23 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\ProfileValidation  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(ProfileValidation $request)
     {
-        //
+        // Update User Data Profile
         $updateuser = Auth::user(); 
         
         $updateuser->name = $request->username;
         $updateuser->email = $request->email;
         $updateuser->mobile = $request->number;
         $updateuser->address = $request->address;
-        // echo "<pre>";
-        // print_r($updateuser->id);
-        // exit;
+       
         $updateuser->save();
 
         return view('fronted.profile');
- 
-
     }
 
     /**
