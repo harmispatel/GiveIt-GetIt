@@ -47,15 +47,15 @@
                                         <p style="color:red">{{ $errors->first('number') }}</p>
                                     @endif
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="amount" class="form-label">Select Type</label>
-                                        <select class="form-control" name="user_type" value="{{ old('user_type') }}">
-                                            <option value="1">GIVE IT</option>
-                                            <option value="2">GET IT</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                        {{-- <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="amount" class="form-label">Select Type</label>
+                                                <select class="form-control" name="user_type" value="{{ old('user_type') }}">
+                                                    <option value="1">GIVE IT</option>
+                                                    <option value="2">GET IT</option>
+                                                </select>
+                                            </div>
+                                        </div> --}}
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="note" class="form-label">Address</label>

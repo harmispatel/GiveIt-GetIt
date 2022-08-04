@@ -15,13 +15,61 @@
                 $("#addcatgory").hide();
             }
         }
-        function Otherprice() {
-            var selectVal = $('#checkbox').val();
 
-            if (selectVal) {
-                $("#addprice").toggle();
+        function OtherType() {
+            var selectVal = $('#type').val();
+
+            if (selectVal == 1) {
+              
+                $("#GiveType").show();
+            } else {
+                $("#GiveType").hide();
+            }
+            if (selectVal == 2) {
+           
+                $("#GetType").show();
+            } else {
+                $("#GetType").hide();
             }
         }
+
+        function OtherGivetype() {
+            var selectVal = $('#givetype').val();
+                  
+            if (selectVal == 2) {
+                // alert('hello');
+                $("#price").show();
+            }else{
+                $("#price").hide();
+            }
+            if (selectVal == 3) {
+                $("#addprice").show();
+                $("#date").show();
+                
+            } else {
+                $("#addprice").hide();
+                $("#date").hide();
+            }
+            
+        } 
+
+        function OtherGettype() {
+            var selectVal = $('#gettype').val();
+                  
+            if (selectVal == 5) {
+            
+                $("#getaddprice").show();
+            }else{
+                $("#getaddprice").hide();
+            }
+            
+            
+        } 
+        
+        
+
+
+    
     </script>
 
 <body>
@@ -41,6 +89,16 @@
                                 @csrf
 
                                 <div class="card-body">
+                                    <div class="form-group">
+                                      
+                                        <select class="form-control" name="Type" id="type" onchange="OtherType()">
+                                            <option >Select Type</option>
+                                            <option value="1">Giveit</option>                                           
+                                            <option value="2">Getit</option>                                           
+
+                                        </select>
+                                    </div>
+                                        
                                     <div class="form-group">
                                         <label for="Catgory" class="form-label">Category</label>
                                         <select class="form-control" name="category" id="category"
@@ -72,9 +130,55 @@
                                             <span class="text-danger">{{ $errors->first('quantity') }}</span>
                                         @endif
                                     </div>
-                                   
-                                      
+                               
                                     <div class="form-group">
+                                        <div id="GiveType" style="display: none">
+                                        <label for="GiveType" class="form-label">SubType</label>
+                                        <select class="form-control" name="givetype" id="givetype" onchange="OtherGivetype()">
+
+                                            <option value="1">Donation</option>                                           
+                                            <option value="2">Sell</option>                                           
+                                            <option value="3">Rent</option>                                           
+
+                                        </select>
+                                        <br>
+                                        </div>
+                                        <div id="price" style="display: none">
+                                            <label for="price" class="form-label">Add Price</label>
+                                            <input type="text" class="form-control" name="price"
+                                            placeholder="Enter Price">
+                                        </div>
+
+                                        <div id="addprice" style="display: none">
+                                            <label for="addprice" class="form-label">Add Price</label>
+                                            <input type="text" class="form-control" name="price"
+                                            placeholder="Enter Price">
+                                        </div>
+                                        <div id="date" style="display: none">
+                                            <label for="addprice" class="form-label">Month/Year</label>
+                                            <input type="month" class="form-control" name="datepicker" placeholder="Enter Month/Year"/>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <div id="GetType" style="display: none">
+                                        <label for="GetType" class="form-label">SubType</label>
+                                        <select class="form-control" name="gettype" id="gettype" onchange="OtherGettype()">
+                                            <option value="4">Need</option>                                           
+                                            <option value="5">Buy</option>                                           
+                                        </select>
+                                        <br>
+                                        </div>
+                                        <div id="getaddprice" style="display: none">
+                                            <label for="addprice" class="form-label">Add Price</label>
+                                            <input type="text" class="form-control" name="price"
+                                            placeholder="Enter Price">
+                                        </div>
+                                    </div>
+
+                                    
+                                    {{-- <div class="form-group">
                                         <input class="form-check-input ms-0" type="checkbox" value=" " data-toggle="toggle" id="checkbox" onchange="Otherprice()"/>
                                         <label class="form-label ms-4" for="checkbox" id="checkbox" data-toggle="toggle">Add Price</label>
                                       </div>
@@ -88,7 +192,7 @@
                                             <span class="text-danger">{{ $errors->first('price') }}</span>
                                         @endif
                                     </div>
-                                </div>
+                                </div> --}}
                                     <div class="form-group">
                                         <label for="media" class="form-label">Media</label>
                                         <input type="file" name="media" class="form-control">
@@ -126,6 +230,7 @@
         $(document).ready(function() {
             $('.ckeditor').ckeditor();
         });
+        
     </script>
     </div>
 

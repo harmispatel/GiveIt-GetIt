@@ -27,12 +27,7 @@ class GetitController extends Controller
     		 $view = view('fronted.getitdata',compact('data'))->render();
             return response()->json(['html'=>$view]);
            }
-         
         return view('fronted.getit',compact('data'));
-
-        
-
-
     }
 
     /**

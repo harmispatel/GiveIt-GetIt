@@ -47,12 +47,12 @@ class AddRequirementController extends Controller
     public function storeRequirement(Insertrequirement $request)
     {
         //Insert Requirement Data
-
+      dd($request);
         $cat_name = $request->Addcategory;
         $categoryname =Category::where('name',$cat_name)->exists();
         $user = auth()->User();
         $user_id = $user['id'];
-        $user_type = $user['user_type'];
+        // $user_type = $user['user_type'];
         
       //Image Insert Media Models 
 
@@ -91,14 +91,15 @@ class AddRequirementController extends Controller
          } else {
              $requirement->category_id = $request->category;
          }
- 
          $requirement->requirements = $request->requirement;
          $requirement->quantity = $request->quantity;
          $requirement->user_id = $user_id;
-           
+         
          $requirement->price = $request->price;
          $requirement->media_id = $mediaAdd->id;
-         $requirement->type = $user_type == 1 ? 1 : 2;
+         $requirement->type = $request->Type;
+         
+        //  $requirement->type = $user_type == 1 ? 1 : 2;
          $requirement->status	= 1;
          $requirement->save();
           

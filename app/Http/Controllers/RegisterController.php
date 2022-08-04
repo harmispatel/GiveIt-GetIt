@@ -30,7 +30,7 @@ class RegisterController extends Controller
             $insertdata->mobile =  $request->number;
             $insertdata->address =  $request->address;
              $insertdata->status = 1;
-            $insertdata->user_type = $request->user_type;
+            $insertdata->user_type = 0;
             $insertdata->password = $pass;
             
             $insertdata->save();

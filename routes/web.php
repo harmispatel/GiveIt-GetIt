@@ -4,7 +4,7 @@
 use Illuminate\Support\Facades\Route;
   //fronted controller
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\loginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RegistrationController;

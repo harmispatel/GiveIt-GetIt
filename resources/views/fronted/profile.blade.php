@@ -48,13 +48,13 @@
                                             <p style="color:red">{{ $errors->first('number') }}</p>
                                         @endif
                                     </div>
-                                    <div class="col-md-6">
+                                    {{-- <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="amount" class="form-label">Select Type</label>
                                             <input class="form-control" name="user_type"
                                                 value="{{ $user->user_type == '1' ? 'Give IT' : 'Get IT' }}">
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="note" class="form-label">Address</label>
@@ -69,7 +69,7 @@
                                     <div class="col-md-12">
                                         <div class="text-center">
                                             <button type="submit" class="btn donate-bt">Update</button>
-                                            <hr>
+                                            <hr>    
                                         </div>
                                     </div>
                                     <div class="col-md-8 text-center" style="text-align-last: end">
@@ -79,6 +79,9 @@
                             </form>
                             <div class="form-title text-center">
                                 <h3>My Requiement</h3>
+                                <br>
+                                <a href="{{route('addform')}}" class="give_bt">Give IT</a>
+                                <a href="{{route('addform')}}" class="give_bt">Get IT</a>
                             </div>
                             <hr>
                             <section class="user-info-main">
