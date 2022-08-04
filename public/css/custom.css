@@ -409,6 +409,7 @@ p{
   justify-content: center;
   position: relative;
   z-index:1;
+  background: fixed;
 }
 .page-title .breadcrumb a{
   font-size: 18px;
@@ -416,7 +417,7 @@ p{
   font-weight: 700;
 }
 .page-title .breadcrumb .breadcrumb-item.active a{
-  color: #48267c;
+  color: darkorange;
 }
 .page-title.breadcrumb-item+.breadcrumb-item::before{
   color: #48267c;

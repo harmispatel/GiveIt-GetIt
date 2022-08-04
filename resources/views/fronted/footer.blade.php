@@ -16,7 +16,7 @@
                 <div class="quick_links">
                     <h3>Quick Links</h3>
                     <ul class="footer-link">
-                        <li><a class="nav-link" href="index">Home</a></li>
+                        <li><a class="nav-link" href="welcome">Home</a></li>
                         <li><a class="nav-link" href="{{route('giveit')}}">Give IT</a></li>
                         <li><a class="nav-link" href="{{route('getit')}}">Get IT</a></li>
                         <li><a class="nav-link" href="">Privacy Policy</a></li>
