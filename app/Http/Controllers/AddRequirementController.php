@@ -95,7 +95,7 @@ class AddRequirementController extends Controller
          $requirement->requirements = $request->requirement;
          $requirement->quantity = $request->quantity;
          $requirement->user_id = $user_id;
-           
+
          $requirement->price = $request->price;
          $requirement->media_id = $mediaAdd->id;
          $requirement->type = $user_type == 1 ? 1 : 2;
