@@ -150,10 +150,7 @@ class AddRequirementController extends Controller
         $categoryId = Category::get();
         $mediaData = Media::get();
         $RequiredData = Requirement::find($id);
-        // dd($RequiredData);
-        // echo "<per>";
-        // print_r($RequiredData->toArray());
-        // exit;
+        
         return view('fronted.edit',compact('RequiredData','categoryId','mediaData'));
     }
 
@@ -172,7 +169,7 @@ class AddRequirementController extends Controller
         $categoryname =Category::where('name',$cat_name)->exists();
         $user = auth()->User();
         $user_id = $user['id'];
-        // $user_type = $user['user_type'];
+        
         if($request->category == 0)
         {
             $request->validate([
@@ -194,9 +191,7 @@ class AddRequirementController extends Controller
         else
         {
             $updateRequired = Requirement::find($id);    
-            echo "<pre>";
-            print_r($updateRequired->toArray());
-            exit;
+           
             $updateRequired->category_id  = $request->category;
             $updateRequired->requirements = $request->requirement;
             $updateRequired->quantity = $request->quantity;
