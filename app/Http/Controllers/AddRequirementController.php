@@ -47,15 +47,14 @@ class AddRequirementController extends Controller
     public function storeRequirement(Insertrequirement $request)
     {
         //Insert Requirement Data
-      dd($request);
+        
         $cat_name = $request->Addcategory;
         $categoryname =Category::where('name',$cat_name)->exists();
         $user = auth()->User();
         $user_id = $user['id'];
         // $user_type = $user['user_type'];
         
-      //Image Insert Media Models 
-
+        //Image Insert Media Models 
         $mediaAdd = new Media();
         if($request->hasfile('media')){
             $file= $request->file('media');
@@ -71,39 +70,55 @@ class AddRequirementController extends Controller
             $mediaAdd->mime_type = $image_mimetype;
             
             $mediaAdd->save();
-         }
+        }
         
         
         
-         $requirement = new Requirement();
-         if($request->category == 0)
-         {
-             $request->validate([
-                 'Addcategory' => 'required|unique:categories,name'
-             ]);
-             
-             $categoryAdd = new  Category();
-             $categoryAdd->name = isset($cat_name) ?  $cat_name : '';
-             $categoryAdd->status = 1;
-             $categoryAdd->save();
-             
-             $requirement->category_id  = $categoryAdd->id;    
-         } else {
-             $requirement->category_id = $request->category;
+        $requirement = new Requirement();
+        if($request->category == 0)
+        {
+            $request->validate([
+                'Addcategory' => 'required|unique:categories,name'
+            ]);
+            
+            $categoryAdd = new  Category();
+            $categoryAdd->name = isset($cat_name) ?  $cat_name : '';
+            $categoryAdd->status = 1;
+            $categoryAdd->save();
+            
+            $requirement->category_id  = $categoryAdd->id;    
+        } else {
+            $requirement->category_id = $request->category;
          }
          $requirement->requirements = $request->requirement;
          $requirement->quantity = $request->quantity;
          $requirement->user_id = $user_id;
          
-         $requirement->price = $request->price;
          $requirement->media_id = $mediaAdd->id;
+         $requirement->rent_date = $request->rentdate;
          $requirement->type = $request->Type;
-         
-        //  $requirement->type = $user_type == 1 ? 1 : 2;
-         $requirement->status	= 1;
-         $requirement->save();
-          
-        return redirect('welcome')->with('message','Inserted RequiredData Successfully');
+         if($request->Type == 1)
+         {
+             $requirement->subtype = $request->givetype;
+             
+            }else{
+                $requirement->subtype = $request->gettype;
+            }
+            if($request->givetype == 2){
+                $requirement->price = $request->sellprice;
+            }elseif($request->givetype == 3){
+                $requirement->price = $request->rentprice;
+            }else{
+
+                $requirement->price = $request->price;
+            }
+            
+            $requirement->status	= 1;
+            
+               
+            $requirement->save();
+            
+        return redirect('editprofile')->with('message','Inserted RequiredData Successfully');
     }
 
     /**
@@ -133,6 +148,10 @@ class AddRequirementController extends Controller
         $categoryId = Category::get();
         $mediaData = Media::get();
         $RequiredData = Requirement::find($id);
+        // dd($RequiredData);
+        // echo "<per>";
+        // print_r($RequiredData->toArray());
+        // exit;
         return view('fronted.edit',compact('RequiredData','categoryId','mediaData'));
     }
 
@@ -146,12 +165,12 @@ class AddRequirementController extends Controller
     public function update(EditValidation $request, $id)
     {
         //Update Requirement Data
-
+          
         $cat_name = $request->Addcategory;
         $categoryname =Category::where('name',$cat_name)->exists();
         $user = auth()->User();
         $user_id = $user['id'];
-        $user_type = $user['user_type'];
+        // $user_type = $user['user_type'];
         if($request->category == 0)
         {
             $request->validate([
@@ -173,9 +192,12 @@ class AddRequirementController extends Controller
         else
         {
             $updateRequired = Requirement::find($id);    
-                $updateRequired->category_id  = $request->category;
-                $updateRequired->requirements = $request->requirement;
-                $updateRequired->quantity = $request->quantity;
+            echo "<pre>";
+            print_r($updateRequired->toArray());
+            exit;
+            $updateRequired->category_id  = $request->category;
+            $updateRequired->requirements = $request->requirement;
+            $updateRequired->quantity = $request->quantity;
                 $mediaAdd = new Media();
         
                 if($request->hasfile('media')){
@@ -194,6 +216,11 @@ class AddRequirementController extends Controller
                     $mediaAdd->save();
                     $updateRequired->media_id = $mediaAdd->id;
                 }
+                // $requirement->type = $request->Type;
+                   
+                $updateRequired->type = $request->Type;
+                  
+
                 $updateRequired->status	= $request->status;
                 $updateRequired->save();
             }

@@ -7,7 +7,7 @@
 
     <script type="text/javascript">
 
-        function OtherData() {
+function OtherData() {
             var selectVal = $('#category').val();
 
             if (selectVal == 0) {
@@ -15,6 +15,56 @@
             } else {
                 $("#addcatgory").hide();
             }
+        }
+
+        function OtherType() {
+            var selectVal = $('#type').val();
+
+            if (selectVal == 1) {
+              
+                $("#GiveType").show();
+            } else {
+                $("#GiveType").hide();
+            }
+            if (selectVal == 2) {
+           
+                $("#GetType").show();
+            } else {
+                $("#GetType").hide();
+            }
+        }
+
+        function OtherGivetype() {
+            var selectVal = $('#givetype').val();
+                  
+            if (selectVal == 2) {
+                // alert('hello');
+                $("#price").show();
+            }else{
+                $("#price").hide();
+            }
+            if (selectVal == 3) {
+                $("#addprice").show();
+                $("#date").show();
+                
+            } else {
+                $("#addprice").hide();
+                $("#date").hide();
+            }
+            
+        } 
+
+        function OtherGettype() {
+            var selectVal = $('#gettype').val();
+                  
+            if (selectVal == 5) {
+            
+                $("#getaddprice").show();
+            }else{
+                $("#getaddprice").hide();
+            }
+            
+            
         }
     </script>
 
@@ -33,8 +83,15 @@
                           
                             <form action="{{route('update', $RequiredData['id'])}}" id="quickForm" method="POST" enctype="multipart/form-data">
                                 @csrf
-
                                 <div class="card-body">
+                                    <div class="form-group">
+                                      
+                                        <select class="form-control" name="Type" id="type" onchange="OtherType()">
+                                            <option value="1"{{$RequiredData->type == 1 ? 'selected' : ''}}>Giveit</option>                                           
+                                            <option value="2"{{$RequiredData->type == 2 ? 'selected' : ''}}>Getit</option>                                           
+
+                                        </select>
+                                    </div>
                                     <div class="form-group">
                                         <label for="Catgory" class="form-label">Category</label>
                                         <select class="form-control" name="category" id="category"
@@ -66,7 +123,68 @@
                                             <span class="text-danger">{{ $errors->first('quantity') }}</span>
                                         @endif
                                     </div>
+
+
                                     <div class="form-group">
+                                        <div id="GiveType" style="display: none">
+                                        <label for="GiveType" class="form-label">SubType</label>
+                                        <select class="form-control" name="givetype" id="givetype" onchange="OtherGivetype()">
+
+                                            <option value="1" {{$RequiredData->subtype == 1 ? 'selected' : ''}}>Donation</option>                                           
+                                            <option value="2" {{$RequiredData->subtype == 2 ? 'selected' : ''}}>Sell</option>                                           
+                                            <option value="3" {{$RequiredData->subtype == 3 ? 'selected' : ''}}>Rent</option>                                           
+
+                                        </select>
+                                        <br>
+                                        </div>
+                                        <div id="price" style="display: none">
+                                            <label for="price" class="form-label">Add Price</label>
+                                            <input type="text" class="form-control" name="sellprice"
+                                            placeholder="Enter Price" value="{{$RequiredData->price}}">
+                                        </div>
+
+                                        <div id="addprice" style="display: none">
+                                            <label for="addprice" class="form-label">Add Price</label>
+                                            <input type="text" class="form-control" name="rentprice"
+                                            placeholder="Enter Price" value="{{$RequiredData->price}}">
+                                        </div>
+                                        <div id="date" style="display: none">
+                                            <label for="addprice" class="form-label">Month/Year</label>
+                                            <input type="month" class="form-control" name="rentdate" placeholder="Enter Month/Year" value="{{$RequiredData->rent_date}}"/>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <div id="GetType" style="display: none">
+                                        <label for="GetType" class="form-label">SubType</label>
+                                        <select class="form-control" name="gettype" id="gettype" onchange="OtherGettype()">
+                                            <option value="4" {{$RequiredData->subtype == 4 ? 'selected' : ''}}>Need</option>                                           
+                                            <option value="5" {{$RequiredData->subtype == 5 ? 'selected' : ''}}>Buy</option>                                           
+                                        </select>
+                                        <br>
+                                        </div>
+                                        <div id="getaddprice" style="display: none">
+                                            <label for="addprice" class="form-label">Add Price</label>
+                                            <input type="text" class="form-control" name="price"
+                                            placeholder="Enter Price" value="{{$RequiredData->price}}">
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    {{-- <div class="form-group">
                                         <label for="Price" class="form-label">Price</label>
                                         <input type="text" name="price"
                                             class="form-control {{ $errors->has('price') ? 'is-invalid' : '' }}"
@@ -74,7 +192,7 @@
                                         @if ($errors->has('price'))
                                             <span class="text-danger">{{ $errors->first('price') }}</span>
                                         @endif
-                                    </div>
+                                    </div> --}}
                                     <div class="form-group">
                                         <label for="media" class="form-label">Media</label>
                                         <input type="file" name="media" class="form-control" value="{{$RequiredData->media_id}}">

@@ -38,7 +38,7 @@
                         </form></li>
                       <li class="nav-item d-flex align-items-center">
                         
-                        <a href="{{ route('editprofile') }}"><i class="fa fa-user"></i></a></li>
+                        <a href="{{ route('editprofile') }}"><i class="fa fa-user nav-link {{ Request::is('editprofile*') ? 'active' : '' }}"></i></a></li>
                           </div>
                     @endguest
 

@@ -59,11 +59,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/user',UserController::class);
     Route::resource('/category',CategoryController::class);
     Route::resource('/requirement',RequirementController::class);
-    // Route::get('/filterStatus',[RequirementController::class,'filterStatus'])->name('filterStatus');
     Route::post('/filterStatus',[RequirementController::class,'changeStatus']);
     Route::post('/filterIsActive',[RequirementController::class,'changeIsActive']);
     Route::post('/search',[RequirementController::class,'searching']);
-    // Route::get('/search',[RequirementController::class,'searchCategory']);
+
     
 });
 
@@ -72,18 +71,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 
-// Route::get("/register", [RegisterController::class, 'show'])->name('register');
-// Route::post("/insert", [RegisterController::class, 'store'])->name('insert');
 
-// Route::get("/login",[loginController::class,'loginshow'])->name('login');
-// Route::post("/logindata",[loginController::class,'checklogin'])->name('logindata');
-// Route::get('/addUer',[UserController::class,'createAdmin'])->name('createAdmin');
-// Route::post('/addUer',[UserController::class,'store'])->name('storeAdmin');
-
-
-// Route::view("/login",'fronted.Login');
-
-// Route::get('/logout',[LoginController::class,'logout'])->name('logout');
 
 
 
@@ -92,14 +80,7 @@ Route::group(['middleware' => ['auth']], function () {
 Route::get('/home', function () {
     return view('fronted.index');
 });
-// Route::get('/userlist',[UserController::class,'index']);
 
-//front-end
-// Route::view("/register",'fronted.Register');
-
-// Route::get('/welcome', function () {
-//     return view('fronted.index');
-// });
 Route::view("/welcome",'fronted.index');
 
 Route::get("/register",[RegisterController::class, 'show'])->name('register');

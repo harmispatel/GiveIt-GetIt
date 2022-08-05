@@ -145,18 +145,18 @@
                                         </div>
                                         <div id="price" style="display: none">
                                             <label for="price" class="form-label">Add Price</label>
-                                            <input type="text" class="form-control" name="price"
+                                            <input type="text" class="form-control" name="sellprice"
                                             placeholder="Enter Price">
                                         </div>
 
                                         <div id="addprice" style="display: none">
                                             <label for="addprice" class="form-label">Add Price</label>
-                                            <input type="text" class="form-control" name="price"
+                                            <input type="text" class="form-control" name="rentprice"
                                             placeholder="Enter Price">
                                         </div>
                                         <div id="date" style="display: none">
                                             <label for="addprice" class="form-label">Month/Year</label>
-                                            <input type="month" class="form-control" name="datepicker" placeholder="Enter Month/Year"/>
+                                            <input type="month" class="form-control" name="rentdate" placeholder="Enter Month/Year"/>
                                         </div>
                                     </div>
 

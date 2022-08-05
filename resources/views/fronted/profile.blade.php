@@ -80,8 +80,8 @@
                             <div class="form-title text-center">
                                 <h3>My Requiement</h3>
                                 <br>
-                                <a href="{{route('addform')}}" class="give_bt">Give IT</a>
-                                <a href="{{route('addform')}}" class="give_bt">Get IT</a>
+                                <a href="{{route('addform')}}" class="give_bt">Add Requirement</a>
+                                
                             </div>
                             <hr>
                             <section class="user-info-main">

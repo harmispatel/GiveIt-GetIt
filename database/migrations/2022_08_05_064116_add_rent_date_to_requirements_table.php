@@ -15,7 +15,7 @@ class AddRentDateToRequirementsTable extends Migration
     {
         Schema::table('requirements', function (Blueprint $table) {
             //
-            $table->date('rent_date')->format('m.Y')->after('subtype')->nullable();
+        $table->string('rent_date')->format('Y-m')->after('subtype')->nullable();
         });
     }
 
