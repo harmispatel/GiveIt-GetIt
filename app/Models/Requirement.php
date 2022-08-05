@@ -10,6 +10,9 @@ class Requirement extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table ='requirements';
+    
+    public $timestamps = true;
+
     protected $guarded = [];
 
     const FILE_PATH = '/img/requirement/';

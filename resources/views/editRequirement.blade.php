@@ -24,18 +24,26 @@
                             Edit Requirement
                           </div>
                           <div class="card-body">
-                              <form action="{{route('requirement.update',$editRequirementData->id)}}" method="POST" >
+                              <form action="{{route('requirement.update',$editRequirementData->id)}}" method="POST" enctype="multipart/form-data">
                                   @csrf
                                   @method('PUT')
 
                                   <div class="form-group">
-                                    <label for="quantity">Media</label>
-                                      <input type="file" name="media" class="form-control"  value="{{$editRequirementData->media}}">
+                                    <label for="media">Media</label>
+                                      <input type="file" name="media" class="form-control" value="{{$editRequirementData->media_id}}">
                                       <img src="{{ $editRequirementData->media == null ? asset('/img/requirement/Noimage.jpg') : asset($editRequirementData->media['path']) }}" alt="Image" width="100">
                                       @if ($errors->has('media'))
                                         <p class="alert alert-danger">{{$errors->first('media')}}</p>                                    
                                       @endif
-                                    </div>
+                                  </div> 
+
+                                    {{-- <div class="form-group">
+                                      <label for="quantity">Media</label>
+                                        <input type="file" name="media" class="form-control"  value="{{$editRequirementData->media_id}}">
+                                        @if ($errors->has('media'))
+                                          <p class="alert alert-danger">{{$errors->first('media')}}</p>                                    
+                                        @endif
+                                    </div> --}}
                                     <div class="form-group">
                                     <label for="requirementCategory">RequirementCategory</label>
                                       <select class="form-control form-control-md" name="requirementCategory" >
@@ -48,7 +56,7 @@
   
                                     <div class="form-group purple-border">
                                       <label for="address">Requirement</label>
-                                          <textarea class="ckeditor form-control" name="requirement" id="exampleFormControlTextarea4" rows="3" placeholder="Enter Requirement" value="{{old('requirement')}}"></textarea>
+                                          <textarea class="ckeditor form-control" name="requirement" id="exampleFormControlTextarea4" rows="3" placeholder="Enter Requirement" value="{{old('requirement')}}">{{$editRequirementData->requirements}}</textarea>
                                       </div>
                                     
                                     <div class="form-group">

@@ -24,10 +24,8 @@ class RequirementController extends Controller
     public function index()
     {
         // Show Requirement List
-
         $requirementsData = Requirement::all();
         $categoryName = Category::with(['category']);
-        // dd($requirementsData);
         return view('requirements',compact('requirementsData','categoryName'));
         // return view('requirements')->with('requirements',$requirementsData);
     }
@@ -104,7 +102,7 @@ class RequirementController extends Controller
         $requirementObj->save();
         
         return redirect()->route('requirement.index')->with('message','Requirement added successfully!');
-        // return view('requirements');
+        
     }
 
     /**
@@ -130,6 +128,7 @@ class RequirementController extends Controller
 
             $categoryId = Category::get();
             $editRequirementData = Requirement::find($id);
+        // dd($editRequirementData);
             return view('editRequirement',compact('editRequirementData','categoryId'));
     }
 
@@ -143,13 +142,14 @@ class RequirementController extends Controller
     public function update(EditRequirementRequest $request, $id)
     {
         // Save Update Requirement
-
+     
             $user = auth()->User();
             $user_id = $user['id'];
             $category = $request->requirementCategory;  
             $user_type = $user['user_type'];
             
             $editRequirement = Requirement::find($id);
+            // $editRequirement->media_id = $request->media;
             $editRequirement->category_id = $category;
             $editRequirement->requirements = $request->requirement;
             $editRequirement->quantity = $request->quantity;
@@ -157,7 +157,32 @@ class RequirementController extends Controller
             $editRequirement->type = $request->type;
             $editRequirement->status = $request->status;
             $editRequirement->is_active = $request->is_active;
-        
+            
+            
+            // Update media
+            $mediaObj = new Media();        
+            if ($request->has('media')) {
+                
+                // Save Image If exist 
+                $file = $request->media;
+                $originalName = $file->getClientOriginalName();
+                $image_mimetype = $file->getClientMimeType();
+                $image_name = time().'_'.$originalName;
+                $image_path = public_path(). Requirement::FILE_PATH;
+                $request->media->move($image_path,$image_name);
+                
+                $mediaObj->name = $image_name;
+                $mediaObj->path = Requirement::FILE_PATH . $image_name;
+                $mediaObj->original_name = $originalName;
+                $mediaObj->mime_type = $image_mimetype;
+                
+                $mediaObj->save();
+                $editRequirement->media_id = $mediaObj->id;
+                
+            } 
+            
+            $editRequirement->save();
+
             return redirect()->route('requirement.index')->with('message','Requirement updated successfully!');
     }
 
@@ -170,9 +195,13 @@ class RequirementController extends Controller
     public function destroy($id)
     {
         // Delete Requirement
-
-            $delete = Requirement::find($id)->delete();
-            return redirect()->route('requirement.index');     
+        
+        $requirementData = Requirement::find($id);
+        $deletemediaId = $requirementData->media_id;
+        
+        $delete = Requirement::find($id)->delete();
+        $deleteId = Media::find($deletemediaId)->delete();
+        return redirect()->route('requirement.index');     
     }
     
 
@@ -237,7 +266,8 @@ class RequirementController extends Controller
         }
     
     // AJAX call for IsActive
-        public function changeIsActive(Request $request){
+        public function changeIsActive(Request $request)
+        {
 
             $isActiveQuery = Requirement::query();
 
