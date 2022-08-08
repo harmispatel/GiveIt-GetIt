@@ -78,8 +78,8 @@
                         <div class="form-group">
                           <label for="type">Type</label>
                           <select class="form-control form-control-md" name="type" value="{{old('type')}}" >
-                            <option value="#">Select Type</option>
-                            <option value="0" {{ $editRequirementData->is_active == 0 ? 'selected' : '' }}>Getit</option>
+                        
+                            <option value="2" {{ $editRequirementData->is_active == 0 ? 'selected' : '' }}>Getit</option>
                             <option value="1" {{ $editRequirementData->is_active == 1 ? 'selected' : '' }}>Giveit</option>    
                           </select>
                         </div>

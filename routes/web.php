@@ -53,7 +53,7 @@ Route::group(['middleware' => ['guest']], function () {
 
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::view('/home','welcome');
+    Route::view('home','welcome');
     Route::post("/logout",[loginController::class,'logout'])->name('logout')->middleware('auth');
     Route::get('/logout',[loginController::class,'log']);
     Route::resource('/user',UserController::class);
@@ -65,11 +65,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     
 });
-
-
-
-
-
 
 
 
@@ -118,7 +113,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/editprofile",[UserProfileController::class,'edit'])->name('editprofile');
     Route::get("/userupdateprofile",[UserProfileController::class,'update'])->name('userupdateprofile');
 });
-    Route::group(['middleware' => ['guest']], function () {
+
+
+Route::group(['middleware' => ['guest']], function () {
     Route::get('/login',[LoginController::class,'index'])->name('loginform');
     Route::post('/login',[LoginController::class,'check'])->name('login');
     Route::get('/registration',[RegistrationController::class,'index'])->name('registrationForm');
@@ -140,5 +137,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/filterIsActive',[RequirementController::class,'changeIsActive']);
     Route::post('/search',[RequirementController::class,'searching']);
     // Route::get('/search',[RequirementController::class,'searchCategory']);
+    Route::get('/adminProfile')->name('profile');
     
 });

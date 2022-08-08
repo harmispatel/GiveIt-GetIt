@@ -88,19 +88,19 @@
                                                     {{-- <td>{!!html_entity_decode($requirement->requirements)!!}</td> --}}
                                                     <td>{{ $requirement['quantity'] }}</td>
                                                     <td>
-                                                        <span class="{{ $requirement['type'] == 0 ? 'badge badge-danger' : 'badge badge-success' }}">
-                                                            {{ $requirement['type'] == 0 ? 'Getit' : 'Giveit' }}
+                                                        <span class="{{ $requirement['type'] == 2 ? 'badge badge-danger' : 'badge badge-success' }}">
+                                                            {{ $requirement['type'] == 2 ? 'Getit' : 'Giveit' }}
                                                         </span>
                                                     
                                                     </td>
                                                     <td>
-                                                        <span class="{{ $requirement['status'] == 0 ? 'badge badge-danger' : 'badge badge-success' }}">
-                                                                    {{ $requirement['status'] == 0 ? 'Pending' : 'Completed' }}
+                                                        <span class="{{ $requirement['status'] == 1 ? 'badge badge-danger' : 'badge badge-success' }}">
+                                                                    {{ $requirement['status'] == 1 ? 'Pending' : 'Completed' }}
                                                         </span>
                                                     </td>
                                                     <td>
-                                                        <span class="{{ $requirement['is_active'] == 0 ? 'badge badge-danger' : 'badge badge-success' }}">       
-                                                                    {{ $requirement['is_active'] == 0 ? 'In Active' : 'Active' }}
+                                                        <span class="{{ $requirement['is_active'] == 1 ? 'badge badge-danger' : 'badge badge-success' }}">       
+                                                                    {{ $requirement['is_active'] == 1 ? 'In Active' : 'Active' }}
                                                         </span>
                                                     <td>
                                                         <a href="{{ route('requirement.edit', $requirement->id) }}" class="mr-2" title="Edit"><i class="fas fa-edit"></i></a>

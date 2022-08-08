@@ -23,7 +23,6 @@ class CategorySeeder extends Seeder
             ['name'=>'Toys','status'=>'1','created_at' => Carbon::now(),'updated_at' => Carbon::now()],
             ['name'=>'Clothes','status'=>'1','created_at' => Carbon::now(),'updated_at' => Carbon::now()],
             ['name'=>'Books','status'=>'1','created_at' => Carbon::now(),'updated_at' => Carbon::now()],
-            ['name'=>'Others','status'=>'1','created_at' => Carbon::now(),'updated_at' => Carbon::now()],
             
             
         ];

@@ -83,19 +83,19 @@
                         <label for="type">Type</label>
                         <select class="form-control form-control-md" name="type" value="{{old('type')}}">
                           <option value="#">Select Type</option>
-                          <option value="0">Getit</option>
-                          <option value="1">Giveit</option>    
+                          <option value="1">Giveit</option>
+                          <option value="2">Getit</option>    
                         </select>
                       </div>
 
                       {{-- Status --}}
                         <div class="form-group"><b> Status : </b>
                           <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="status" id="inlineRadio1" value="1">
+                            <input class="form-check-input" type="radio" name="status" id="inlineRadio1" value="2">
                               <label class="form-check-label" for="inlineRadio1">Completed</label>
                           </div>
                           <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="status" id="inlineRadio2" value="0">
+                            <input class="form-check-input" type="radio" name="status" id="inlineRadio2" value="1">
                               <label class="form-check-label" for="inlineRadio2">Pending</label>
                           </div>
                         </div>
@@ -104,8 +104,8 @@
                       <div class="form-group">
                         <label for="is_active">Is Active</label>
                           <select name="is_active" id="status" class="form-control">
-                            <option value="1">Active</option>
-                            <option value="0">Inactive</option>
+                            <option value="2">Active</option>
+                            <option value="1">Inactive</option>
                           </select>
                       </div>
                               

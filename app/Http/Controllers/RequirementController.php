@@ -51,11 +51,11 @@ class RequirementController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RequirementRequest $request)
+    public function store(Request $request)
     {   
         
-        
         // Insert new Requirement 
+        $cat_name = $request->Addcategory;
         $user = auth()->User();
         $user_id = $user['id'];
         $user_type = $user['user_type'];
@@ -64,7 +64,7 @@ class RequirementController extends Controller
         // Insert Image
         $mediaObj = new Media();
         if ($request->has('media')) {
-            // dd('hello');
+            
             $file = $request->media;
             $originalName = $file->getClientOriginalName();
             $image_mimetype = $file->getClientMimeType();
@@ -81,33 +81,36 @@ class RequirementController extends Controller
                 
         } 
        
-        // Stored Id with Relationship
         $requirementObj = new Requirement();
-        if ($request->category == 0) {
+
+        // Add new Category and Stored in Categories table
+        if ($request->category_id == 0) {
 
             $request->validate([
                 'Addcategory' => 'required|unique:categories,name'
             ]);
 
+            //Add new category in categories table
             $categoryAdd = new  Category();
             $categoryAdd->name = isset($cat_name) ?  $cat_name : '';
             $categoryAdd->status = 1;
             $categoryAdd->save();
+            
+            // Add category_id if new category
+            $requirementObj->category_id  = $categoryAdd->id;  
 
-            $requirementObj->category_id  = $categoryAdd->id;   
         }else {
-            $requirementObj->category_id = $request->category;
+            // Add category_id if already exist category
+            $requirementObj->category_id = $request->category_id;
         }
         
-        // 
-        // $requirementObj->category_id = $request->category_id;
+
         $requirementObj->requirements = $request->requirement;
         $requirementObj->quantity = $request->quantity;
         $requirementObj->user_id = $user_id;
-
-        $requirementObj->media_id = $categoryAdd->id;
-        $requirementObj->type = $user_type == 1 ? 1 : 2;
-        $requirementObj->status = 1 ;
+        $requirementObj->media_id = $mediaObj->id;
+        $requirementObj->type = $request->type;
+        $requirementObj->status = $request->status;
         $requirementObj->is_active = $request->is_active;
         
         $requirementObj->save();
@@ -152,7 +155,7 @@ class RequirementController extends Controller
      */
     public function update(EditRequirementRequest $request, $id)
     {
-            
+           
             $cat_name = $request->Addcategory;
             $categoryname =Category::where('name',$cat_name)->exists();
             $requirementObj = new Requirement();
@@ -163,7 +166,7 @@ class RequirementController extends Controller
             $user_type = $user['user_type'];
             $category = $request->requirementCategory;  
             
-            if ($request->category == 0) 
+            if ($request->requirementCategory == 0) 
             {
                 
                 $request->validate([
@@ -172,15 +175,15 @@ class RequirementController extends Controller
     
                 $categoryAdd = new Category();
                 $categoryAdd->name = isset($cat_name) ?  $cat_name : '';
+                
                 $categoryAdd->status = 1;
                 $categoryAdd->save();
-                
                 
                 $editRequirement = Requirement::find($id);
                 $editRequirement->category_id = $categoryAdd->id;
                 $editRequirement->requirements = $request->requirement;
                 $editRequirement->quantity = $request->quantity;
-                // echo"<pre>";print_r($editRequirement->quantity);exit;
+                $editRequirement->type = $request->quantity;
                 $editRequirement->status = $request->status;
                 $editRequirement->is_active = $request->is_active;
                 $editRequirement->save();
@@ -192,13 +195,16 @@ class RequirementController extends Controller
 
                 // $requirementObj->category_id  = $categoryAdd->id;   
             }else {
-                // $requirementObj->category_id = $request->category;
-
+                    // $requirementObj->category_id = $request->category;
+                    
                     $editRequirement = Requirement::find($id);
                     $editRequirement->category_id  = $category;
                     $editRequirement->requirements = $request->requirement;
                     $editRequirement->quantity = $request->quantity;
+                    
 
+                 
+                    
                     // Update media
                     $mediaObj = new Media();        
                     if ($request->has('media')) {
@@ -218,8 +224,11 @@ class RequirementController extends Controller
                         
                         $mediaObj->save();
                         $editRequirement->media_id = $mediaObj->id;  
-                    } 
+                    }
+                    $editRequirement->type = $request->type;
                     $editRequirement->status = $request->status;
+                    $editRequirement->is_active = $request->is_active;
+                    
                     $editRequirement->save();
                 }
 

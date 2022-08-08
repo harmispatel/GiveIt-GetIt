@@ -28,8 +28,8 @@ class UserController extends Controller
         $users = User::all();
         return view('userList')->with('users',$users);
         
-        $users = User::all();
-        return view('userList')->with('users',$users);
+        // $users = User::all();
+        // return view('userList')->with('users',$users);
        
     }
 
