@@ -13,7 +13,7 @@ class ProfileValidation extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return TRUE;
     }
 
     /**
@@ -26,7 +26,7 @@ class ProfileValidation extends FormRequest
         return [
             //
             'username' => 'required|max:8',
-            'email' => 'required|email|unique:users',
+            // 'email' => 'required|email|unique:users,email,'.$user->id,
             'number'  =>'required|digits:10 ',
             'address' =>'required'
         ];

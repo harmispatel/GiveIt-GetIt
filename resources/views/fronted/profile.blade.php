@@ -5,6 +5,17 @@
 @section('content')
 
     <body>
+        <div id="loader" style="display: block; background: rgb(255, 254, 254);">
+            <div id="square">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div id="laoding_text">
+                <span>Loading...</span>
+            </div>
+        </div>
         <div class="donation-info">
             <div class="container">
                 <div class="row justify-content-center">
@@ -148,18 +159,8 @@
                             </section>
                             @include('fronted.js')
 
-                            <div id="loader" style="display: block; background: rgb(255, 254, 254);">
-                                <div id="square">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </div>
-                                <div id="laoding_text">
-                                    <span>Loading...</span>
-                                </div>
-                            </div>
                         </div>
+                       
                     </div>
                 </div>
     </body>

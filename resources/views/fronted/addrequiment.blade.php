@@ -89,19 +89,66 @@
                                 @csrf
 
                                 <div class="card-body">
+                                    {{-- Select Type --}}
                                     <div class="form-group">
-                                      
-                                        <select class="form-control" name="Type" id="type" onchange="OtherType()">
+                                        <select class="form-control form-select" name="Type" id="type" onchange="OtherType()">
                                             <option >Select Type</option>
                                             <option value="1">Giveit</option>                                           
                                             <option value="2">Getit</option>                                           
-
                                         </select>
                                     </div>
-                                        
+
+                                {{-- Give Type --}}
+                                    <div class="form-group">
+                                        <div id="GiveType" style="display: none">
+                                        <label for="GiveType" class="form-label">SubType</label>
+                                        <select class="form-control form-select" name="givetype" id="givetype" onchange="OtherGivetype()">
+                                            <option value="1">Donation</option>                                           
+                                            <option value="2">Sell</option>                                           
+                                            <option value="3">Rent</option>                                           
+                                        </select>
+                                        <br>
+                                        </div>
+                                        {{-- Sell Price --}}
+                                        <div id="price" style="display: none">
+                                            <label for="price" class="form-label">Add Price</label>
+                                            <input type="text" class="form-control" name="sellprice"
+                                            placeholder="Enter Price">
+                                        </div>
+                                    {{-- Rent Price --}}
+                                        <div id="addprice" style="display: none">
+                                            <label for="addprice" class="form-label">Add Price</label>
+                                            <input type="text" class="form-control" name="rentprice"
+                                            placeholder="Enter Price">
+                                        </div>
+                                        {{-- Month Year --}}
+                                        <div id="date" style="display: none">
+                                            <label for="addprice" class="form-label">Month/Year</label>
+                                            <input type="month" class="form-control" name="rentdate" placeholder="Enter Month/Year"/>
+                                        </div>
+                                    </div>
+ 
+                                    {{-- Get Type --}}
+                                    <div class="form-group">
+                                        <div id="GetType" style="display: none">
+                                        <label for="GetType" class="form-label">SubType</label>
+                                        <select class="form-control form-select" name="gettype" id="gettype" onchange="OtherGettype()">
+                                            <option value="4">Need</option>                                           
+                                            <option value="5">Buy</option>                                           
+                                        </select>
+                                        <br>
+                                        </div>
+                                        {{-- Buy Price --}}
+                                        <div id="getaddprice" style="display: none">
+                                            <label for="addprice" class="form-label">Add Price</label>
+                                            <input type="text" class="form-control" name="price"
+                                            placeholder="Enter Price">
+                                        </div>
+                                    </div>
+                                    {{-- Category --}}
                                     <div class="form-group">
                                         <label for="Catgory" class="form-label">Category</label>
-                                        <select class="form-control" name="category" id="category"
+                                        <select class="form-control form-select" name="category" id="category"
                                             onchange="OtherData()">
                                             @foreach ($categoryId as $item)
                                                 <option value="{{ $item->id }}">
@@ -110,8 +157,8 @@
                                              @endforeach
                                             <option value="0">Others</option>
                                         </select>
-
                                         <br>
+                                        {{-- New Category --}}
                                         <div id="addcatgory" style="display: none">
                                             <input type="text" class="form-control" name="Addcategory"
                                                 placeholder="Enter Category Name">
@@ -120,7 +167,7 @@
                                             <span class="text-danger">{{ $errors->first('Addcategory') }}</span>
                                         @endif
                                     </div>
-
+                                    {{-- Person --}}
                                     <div class="form-group">
                                         <label for="Person" class="form-label">Person</label>
                                         <input type="number" name="quantity"
@@ -130,69 +177,7 @@
                                             <span class="text-danger">{{ $errors->first('quantity') }}</span>
                                         @endif
                                     </div>
-                               
-                                    <div class="form-group">
-                                        <div id="GiveType" style="display: none">
-                                        <label for="GiveType" class="form-label">SubType</label>
-                                        <select class="form-control" name="givetype" id="givetype" onchange="OtherGivetype()">
-
-                                            <option value="1">Donation</option>                                           
-                                            <option value="2">Sell</option>                                           
-                                            <option value="3">Rent</option>                                           
-
-                                        </select>
-                                        <br>
-                                        </div>
-                                        <div id="price" style="display: none">
-                                            <label for="price" class="form-label">Add Price</label>
-                                            <input type="text" class="form-control" name="sellprice"
-                                            placeholder="Enter Price">
-                                        </div>
-
-                                        <div id="addprice" style="display: none">
-                                            <label for="addprice" class="form-label">Add Price</label>
-                                            <input type="text" class="form-control" name="rentprice"
-                                            placeholder="Enter Price">
-                                        </div>
-                                        <div id="date" style="display: none">
-                                            <label for="addprice" class="form-label">Month/Year</label>
-                                            <input type="month" class="form-control" name="rentdate" placeholder="Enter Month/Year"/>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group">
-                                        <div id="GetType" style="display: none">
-                                        <label for="GetType" class="form-label">SubType</label>
-                                        <select class="form-control" name="gettype" id="gettype" onchange="OtherGettype()">
-                                            <option value="4">Need</option>                                           
-                                            <option value="5">Buy</option>                                           
-                                        </select>
-                                        <br>
-                                        </div>
-                                        <div id="getaddprice" style="display: none">
-                                            <label for="addprice" class="form-label">Add Price</label>
-                                            <input type="text" class="form-control" name="price"
-                                            placeholder="Enter Price">
-                                        </div>
-                                    </div>
-
-                                    
-                                    {{-- <div class="form-group">
-                                        <input class="form-check-input ms-0" type="checkbox" value=" " data-toggle="toggle" id="checkbox" onchange="Otherprice()"/>
-                                        <label class="form-label ms-4" for="checkbox" id="checkbox" data-toggle="toggle">Add Price</label>
-                                      </div>
-                                      <div id="addprice" style="display: none">
-                                    <div class="form-group">
-                                      
-                                        <input type="text" name="price"
-                                            class="form-control {{ $errors->has('price') ? 'is-invalid' : '' }}"
-                                            placeholder="Enter Price" value="{{ old('price') }}">
-                                        @if ($errors->has('price'))
-                                            <span class="text-danger">{{ $errors->first('price') }}</span>
-                                        @endif
-                                    </div>
-                                </div> --}}
+                                {{-- Image --}}
                                     <div class="form-group">
                                         <label for="media" class="form-label">Media</label>
                                         <input type="file" name="media" class="form-control">
@@ -200,15 +185,14 @@
                                     @if ($errors->has('media'))
                                             <span class="text-danger">{{ $errors->first('media') }}</span>
                                         @endif
+                                        {{-- Requirement --}}
                                     <div class="form-group">
                                         <label for="Requirement" class="form-label">Requirement</label>
                                         <div class="mb-3">
-
                                             <textarea name="requirement" id="summernote"
                                                 class="ckeditor form-control  {{ $errors->has('requirement') ? 'is-invalid' : '' }}" rows="3"
                                                 placeholder="Enter requirement">{{ old('requirement') }}</textarea>
                                         </div>
-
                                         @if ($errors->has('requirement'))
                                             <span class="text-danger">{{ $errors->first('requirement') }}</span>
                                         @endif

@@ -111,7 +111,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete("/delete/{id}",[AddRequirementController::class,'destroy'])->name('delete');
     Route::post("/update/{id}",[AddRequirementController::class,'update'])->name('update');
     Route::get("/editprofile",[UserProfileController::class,'edit'])->name('editprofile');
-    Route::get("/userupdateprofile",[UserProfileController::class,'update'])->name('userupdateprofile');
+    Route::post("/userupdateprofile",[UserProfileController::class,'update'])->name('userupdateprofile');
 });
 
 
