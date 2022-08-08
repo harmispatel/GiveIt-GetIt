@@ -10,6 +10,7 @@ use App\Models\{Requirement, User, Category, Media};
 // Facades
 use Illuminate\Support\Facades\Auth;
 
+
 // Request Class
 use App\Http\Requests\ProfileValidation;
 
@@ -38,6 +39,9 @@ class UserprofileController extends Controller
     {
         // Update the Authenticated User details
         $user = Auth::user();
+        $request->validate([
+            'email' =>  'unique:users,email,'.$user->id
+        ]);
         
         $user->name = $request->username;
         $user->email = $request->email;
@@ -45,7 +49,7 @@ class UserprofileController extends Controller
         $user->address = $request->address;
         $user->save();
 
-        return redirect('fronted.profile');
+        return redirect('editprofile');
     }
      
 }

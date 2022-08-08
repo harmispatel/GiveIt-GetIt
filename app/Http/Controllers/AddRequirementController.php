@@ -47,12 +47,10 @@ class AddRequirementController extends Controller
     public function storeRequirement(Insertrequirement $request)
     {
         //Insert Requirement Data
-        
         $cat_name = $request->Addcategory;
         $categoryname =Category::where('name',$cat_name)->exists();
         $user = auth()->User();
         $user_id = $user['id'];
-        // $user_type = $user['user_type'];
         
         //Image Insert Media Models 
         $mediaAdd = new Media();
@@ -75,6 +73,7 @@ class AddRequirementController extends Controller
         
         
         $requirement = new Requirement();
+        // Insert New category
         if($request->category == 0)
         {
             $request->validate([
@@ -88,13 +87,12 @@ class AddRequirementController extends Controller
             
             $requirement->category_id  = $categoryAdd->id;    
         } else {
+            // Insert Category Id
             $requirement->category_id = $request->category;
          }
          $requirement->requirements = $request->requirement;
          $requirement->quantity = $request->quantity;
          $requirement->user_id = $user_id;
-         
-
          $requirement->price = $request->price;
          $requirement->media_id = $mediaAdd->id;
          $requirement->rent_date = $request->rentdate;
@@ -107,15 +105,15 @@ class AddRequirementController extends Controller
                 $requirement->subtype = $request->gettype;
             }
             if($request->givetype == 2){
-                $requirement->price = $request->sellprice;
+                $requirement->price = isset($request->sellprice) ? $request->sellprice : NULL;
             }elseif($request->givetype == 3){
-                $requirement->price = $request->rentprice;
+                $requirement->price = isset($request->rentprice) ? $request->rentprice : NULL;
             }else{
 
-                $requirement->price = $request->price;
+                $requirement->price = isset($request->price) ? $request->price : NULL;
             }
             
-            $requirement->status	= 1;
+            $requirement->status = 1;
             
                
             $requirement->save();
@@ -164,12 +162,17 @@ class AddRequirementController extends Controller
     public function update(EditValidation $request, $id)
     {
         //Update Requirement Data
-          
+       
         $cat_name = $request->Addcategory;
         $categoryname =Category::where('name',$cat_name)->exists();
         $user = auth()->User();
         $user_id = $user['id'];
+
+        //Update Requirement Image 
+       
         
+         // Insert New Catagory
+         $updateRequired = Requirement::find($id);
         if($request->category == 0)
         {
             $request->validate([
@@ -181,50 +184,92 @@ class AddRequirementController extends Controller
             $categoryAdd->save();
             
             
-            $updateRequired = Requirement::find($id);
-            $updateRequired->category_id  = $categoryAdd->id;
-            $updateRequired->requirements = $request->requirement;
-            $updateRequired->quantity = $request->quantity;
-            $updateRequired->status	= $request->status;
-            $updateRequired->save();
-        }
-        else
-        {
-            $updateRequired = Requirement::find($id);    
-           
-            $updateRequired->category_id  = $request->category;
-            $updateRequired->requirements = $request->requirement;
-            $updateRequired->quantity = $request->quantity;
-                $mediaAdd = new Media();
-        
-                if($request->hasfile('media')){
-                    $file= $request->file('media');
-                    $original_file_name =$request->media->getClientOriginalName();
-                    $image_mimetype = $request->media->getClientMimeType();
-                    $image_name   = time().'_'.$request->media->getClientOriginalName();
-                    $image_path = public_path(). Requirement::FILE_PATH;
-                    request()->media->move($image_path, $image_name);
-                    
-                    $mediaAdd->name = $image_name;
-                    $mediaAdd->path = Requirement::FILE_PATH . $image_name;
-                    $mediaAdd->original_name = $original_file_name;
-                    $mediaAdd->mime_type = $image_mimetype;
-                    
-                    $mediaAdd->save();
-                    $updateRequired->media_id = $mediaAdd->id;
-                }
-                // $requirement->type = $request->Type;
-                   
-                $updateRequired->type = $request->Type;
-                  
 
-                $updateRequired->status	= $request->status;
-                $updateRequired->save();
+            // Add New Category Id
+            $updateRequired->category_id  = $categoryAdd->id;
+
+            // Insert Image 
+            $mediaAdd = new Media();
+            if($request->hasfile('media')){
+                $file= $request->file('media');
+                $original_file_name =$request->media->getClientOriginalName();
+                $image_mimetype = $request->media->getClientMimeType();
+                $image_name   = time().'_'.$request->media->getClientOriginalName();
+                $image_path = public_path(). Requirement::FILE_PATH;
+                request()->media->move($image_path, $image_name);
+                
+                $mediaAdd->name = $image_name;
+                $mediaAdd->path = Requirement::FILE_PATH . $image_name;
+                $mediaAdd->original_name = $original_file_name;
+                $mediaAdd->mime_type = $image_mimetype;
+                
+                $mediaAdd->save();
+                $updateRequired->media_id = $mediaAdd->id;
+            }
+            
+           
+            
+        }else{
+            // $updateRequired = Requirement::find($id);
+
+            // Update Requirement Catgory 
+            $updateRequired->category_id = $request->category;
+
+            //Insert Image
+            $mediaAdd = new Media();
+            if($request->hasfile('media')){
+                $file= $request->file('media');
+                $original_file_name =$request->media->getClientOriginalName();
+                $image_mimetype = $request->media->getClientMimeType();
+                $image_name   = time().'_'.$request->media->getClientOriginalName();
+                $image_path = public_path(). Requirement::FILE_PATH;
+                request()->media->move($image_path, $image_name);
+                
+                $mediaAdd->name = $image_name;
+                $mediaAdd->path = Requirement::FILE_PATH . $image_name;
+                $mediaAdd->original_name = $original_file_name;
+                $mediaAdd->mime_type = $image_mimetype;
+                
+                $mediaAdd->save();
+                $updateRequired->media_id = $mediaAdd->id;
+            }
+            
+            
+        }
+            $updateRequired->requirements = $request->requirement;
+            $updateRequired->quantity = $request->quantity; 
+            $updateRequired->type = $request->Type;
+
+           // Update Type 
+            if($request->Type == 1)
+            {
+                $updateRequired->subtype = $request->givetype;
+            }else{
+                $updateRequired->subtype = $request->gettype;
             }
 
-           
-    
-        return redirect('editprofile')->with('updatedata','Update RequiredData Successfully');
+            //Update SubType
+
+                     if($request->givetype == 1){ 
+                         $updateRequired->price = NULL;
+                         $updateRequired->rent_date = NULL;
+                         }elseif($request->givetype == 2){
+                                    $updateRequired->price = $request->sellprice ;
+                                    $updateRequired->rent_date = NULL;
+                            }elseif($request->givetype == 3){
+                                         $updateRequired->price = $request->rentprice;
+                                         $updateRequired->rent_date = $request->rentdate;
+                                 }elseif($request->gettype == 4){
+                                            $updateRequired->price = NULL;
+                                            $updateRequired->rent_date = NULL;
+                                    }else{
+                                            $updateRequired->price =$request->price;
+                                            $updateRequired->rent_date = NULL;
+                                          }
+                              $updateRequired->status = $request->status;
+                              $updateRequired->save();
+
+            return redirect('editprofile')->with('updatedata','Update RequiredData Successfully');
     
     }
     
