@@ -4,9 +4,14 @@
 
 @section('content')
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    <script type="text/javascript">
-
+<script type="text/javascript">
+$( document ).ready(function() {
+    OtherType()
+    OtherGettype()
+    OtherGivetype()
+});
 function OtherData() {
             var selectVal = $('#category').val();
 
@@ -67,7 +72,19 @@ function OtherData() {
             
         }
     </script>
+    
 <body>
+    <div id="loader" style="display: block; background: rgb(255, 254, 254);">
+        <div id="square">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div id="laoding_text">
+            <span>Loading...</span>
+        </div>
+    </div>
     <div class="donation-info">
         <div class="container">
             <div class="row justify-content-center">
@@ -87,7 +104,7 @@ function OtherData() {
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <div id="GiveType" style="display: none">
+                                        <div id="GiveType" style="display:none">
                                         <label for="GiveType" class="form-label">SubType</label>
                                         <select class="form-control form-select" name="givetype" id="givetype" onchange="OtherGivetype()">
                                             <option value="1" {{$RequiredData->subtype == 1 ? 'selected' : ''}}>Donation</option>                                           
@@ -96,31 +113,32 @@ function OtherData() {
                                         </select>
                                         <br>
                                         </div>
-                                        <div id="price" style="display: none">
+                                        <div id="price" style="display:none">
                                             <label for="price" class="form-label">Add Price</label>
                                             <input type="text" class="form-control" name="sellprice"
                                             placeholder="Enter Price" value="{{$RequiredData->price}}">
                                         </div>
-                                        <div id="addprice" style="display: none">
+
+                                        <div id="addprice" style="display:none">
                                             <label for="addprice" class="form-label">Add Price</label>
                                             <input type="text" class="form-control" name="rentprice"
                                             placeholder="Enter Price" value="{{$RequiredData->price}}">
                                         </div>
-                                        <div id="date" style="display: none">
+                                        <div id="date" style="display:none">
                                             <label for="addprice" class="form-label">Month/Year</label>
                                             <input type="month" class="form-control" name="rentdate" placeholder="Enter Month/Year" value="{{$RequiredData->rent_date}}"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div id="GetType" style="display: none">
-                                        <label for="GetType" class="form-label">SubType</label>
+                                        <div id="GetType" style="display:none">
+                                        <label for="GetType" class="form-label" style="display:none">SubType</label>
                                         <select class="form-control form-select" name="gettype" id="gettype" onchange="OtherGettype()">
                                             <option value="4" {{$RequiredData->subtype == 4 ? 'selected' : ''}}>Need</option>                                           
                                             <option value="5" {{$RequiredData->subtype == 5 ? 'selected' : ''}}>Buy</option>                                           
                                         </select>
                                         <br>
                                         </div>
-                                        <div id="getaddprice" style="display: none">
+                                        <div id="getaddprice" style="display:none">
                                             <label for="addprice" class="form-label">Add Price</label>
                                             <input type="text" class="form-control" name="price"
                                             placeholder="Enter Price" value="{{$RequiredData->price}}">

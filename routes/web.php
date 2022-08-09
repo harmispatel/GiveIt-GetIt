@@ -115,6 +115,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post("/update/{id}",[AddRequirementController::class,'update'])->name('update');
     Route::get("/editprofile",[UserProfileController::class,'edit'])->name('editprofile');
     Route::post("/userupdateprofile",[UserProfileController::class,'update'])->name('userupdateprofile');
+    Route::post("/updatepassword",[UserProfileController::class,'password'])->name('updatepassword');
 });
 
 
