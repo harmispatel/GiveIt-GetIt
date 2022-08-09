@@ -1,3 +1,4 @@
+
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -6,6 +7,8 @@
       <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
     </li>
   </ul>
+
+  
   <!-- Right navbar links -->
   <ul class="navbar-nav ml-auto">
     <li class="nav-item dropdown">
@@ -28,15 +31,34 @@
           <li class="nav-item">
             <form action="{{route('logout')}}" method="POST">
               @csrf
-              Hello, {{session('admin')}} |  <a href="{{route('profile')}}"><i class="fa fa-user"></i></a>
+              Hello, {{session('admin')}} |  
+              {{-- <i class="fa fa-user text-danger profileBtn" data-toggle="modal" style="cursor: pointer;" data-target="#exampleModal" data-target-id="#" title="Profile"></i> --}}
+              <a href="{{route('adminProfile.index')}}" ><i class="fa fa-user" id="btn" ></i></a>
+
                 <a href="" class="nav-link">
                   <button class="btn btn-primary" type="submit" name="submit">Logout</button>
                 </a>
               </form>
             </li>
+
+          </div>
         </div>
-      </div>
-    </li>
-  </ul>
-</nav>
+      </li>
+    </ul>
+  </nav>
   <!--End Navbar -->
+
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}} --}}
+            {{-- <script>
+            $(document).ready(function(){
+              $('#btn').click(function(){
+                $('.adminProfile').toggle();
+                
+              });
+            });
+            </script> --}}
+
+{{-- 
+@if(auth()->user()->name)
+{{ auth()->user()->name }}
+@endif --}}

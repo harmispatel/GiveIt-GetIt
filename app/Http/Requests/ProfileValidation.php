@@ -28,7 +28,8 @@ class ProfileValidation extends FormRequest
             'username' => 'required|max:8',
             // 'email' => 'required|email|unique:users,email,'.$user->id,
             'number'  =>'required|digits:10 ',
-            'address' =>'required'
+            'address' =>'required',
+            'password' => 'required|min:6',
         ];
     }
 }

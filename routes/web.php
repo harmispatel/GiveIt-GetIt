@@ -14,6 +14,7 @@ use App\Http\Controllers\RequirementController;
 // use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AddRequirementController;
+use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\GiveitController;
 use App\Http\Controllers\GetitController;
 use App\Http\Controllers\ForgotPasswordController;
@@ -62,6 +63,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/filterStatus',[RequirementController::class,'changeStatus']);
     Route::post('/filterIsActive',[RequirementController::class,'changeIsActive']);
     Route::post('/search',[RequirementController::class,'searching']);
+    Route::resource('/adminProfile',AdminProfileController::class);
+    
 
     
 });
@@ -137,6 +140,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/filterIsActive',[RequirementController::class,'changeIsActive']);
     Route::post('/search',[RequirementController::class,'searching']);
     // Route::get('/search',[RequirementController::class,'searchCategory']);
-    Route::get('/adminProfile')->name('profile');
+    
     
 });

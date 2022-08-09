@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+// Request
+use App\Http\Requests\ProfileValidation;
+// Model
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 class AdminProfileController extends Controller
 {
     /**
@@ -13,7 +18,7 @@ class AdminProfileController extends Controller
      */
     public function index()
     {
-        //
+        return view('AdminProfile');
     }
 
     /**
@@ -55,8 +60,8 @@ class AdminProfileController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
+    {   
+       
     }
 
     /**
@@ -68,7 +73,34 @@ class AdminProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
+        if ($request->has('password')) {
+            
+            if ($request->password === $request->confirmPassword) {
+                $changePassword = User::Find($id);
+                $changePassword->password = Hash::make($request->password);
+                $changePassword->save();
+    
+                return view('AdminProfile');
+            }else{
+                echo"Password and Confirm Password are not Same";
+            }
+        }else{
+            // dd('hello');
+            if ($request->has('username')) {
+                
+                $userModel = User::find($id);
+                $userModel->name = $request->username;
+                $userModel->email = $request->email;
+                $userModel->mobile = $request->number;
+                $userModel->address = $request->address;
+                $userModel->save();
+        
+                return view('AdminProfile')->with('message','Profile Updated successfully!');
+            }
+        }
+
+        
     }
 
     /**
