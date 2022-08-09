@@ -9,5 +9,4 @@
  <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
  
-
     @yield('js')

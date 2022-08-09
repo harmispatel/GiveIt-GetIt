@@ -114,12 +114,9 @@ class AddRequirementController extends Controller
                 $requirement->price = isset($request->price) ? $request->price : NULL;
             }
             
-<<<<<<< HEAD
+
             $requirement->status	= 1;
-            $requirement->is_active	= 1;
-=======
-            $requirement->status = 1;
->>>>>>> 73b5d430c7c34901194472ba13ed294e22f9a1c7
+ 
             
                
             $requirement->save();
