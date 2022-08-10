@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProfileValidation extends FormRequest
+class ChangepasswordValidation extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,7 +17,7 @@ class ProfileValidation extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request for fronted side.
+     * Get the validation rules that apply to the request.
      *
      * @return array
      */
@@ -25,10 +25,12 @@ class ProfileValidation extends FormRequest
     {
         return [
             //
-            'username' => 'required|max:8',
-            'number'  =>'required|digits:10 ',
-            'address' =>'required',
-            // 'password' => 'required|min:6',
+                
+    
+            'password'=>'required|min:6',
+            'password_confirmation'=>'required|same:password|min:6'
+        
+
         ];
     }
 }

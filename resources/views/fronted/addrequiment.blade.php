@@ -65,11 +65,6 @@
             
             
         } 
-        
-        
-
-
-    
     </script>
 
 <body>
@@ -92,10 +87,13 @@
                                     {{-- Select Type --}}
                                     <div class="form-group">
                                         <select class="form-control form-select" name="Type" id="type" onchange="OtherType()">
-                                            <option >Select Type</option>
+                                            <option value="-- Select Type --" >Select Type</option>
                                             <option value="1">Giveit</option>                                           
                                             <option value="2">Getit</option>                                           
                                         </select>
+                                        @if ($errors->has('Type'))
+                                        <span class="text-danger">{{ $errors->first('Type') }}</span>
+                                    @endif
                                     </div>
 
                                 {{-- Give Type --}}
@@ -198,7 +196,8 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="text-right">
+
+                                <div class="text-center">
                                     <a href="welcome" class="btn donate-bt">Back</a>
                                     <button type="submit" name="submit" class="btn donate-bt">Add</button>
                                 </div>
@@ -214,12 +213,8 @@
         $(document).ready(function() {
             $('.ckeditor').ckeditor();
         });
-        
     </script>
     </div>
-
-
 </body>
-
 </html>
 @endsection
