@@ -14,6 +14,7 @@ use App\Http\Controllers\RequirementController;
 // use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AddRequirementController;
+use App\Http\Controllers\AdminForgotPasswordController;
 use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\GiveitController;
 use App\Http\Controllers\GetitController;
@@ -49,24 +50,38 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/registration',[RegistrationController::class,'index'])->name('registrationForm');
     Route::post('/registration',[RegistrationController::class,'store'])->name('registration');
 
+    //Forgot Password
+    Route::get('/forgotPassword',[AdminForgotPasswordController::class,'index'])->name('forgotPassword');
+    Route::post('/forgotPassword',[AdminForgotPasswordController::class,'submitForm'])->name('submitForm');
+    Route::get('/resetPassword/{token}',[AdminForgotPasswordController::class,'resetPasswordForm'])->name('getResetPassword');
+    Route::post('/resetPassword/{token}',[AdminForgotPasswordController::class,'submitResetPasswordForm'])->name('postResetPassword');
+
+
 
 });
 
 Route::group(['middleware' => ['auth']], function () {
 
     Route::view('home','welcome');
+    
+    // Logout Route
     Route::post("/logout",[loginController::class,'logout'])->name('logout')->middleware('auth');
     Route::get('/logout',[loginController::class,'log']);
+
+    // Resource Route of User,Category,Requirement
     Route::resource('/user',UserController::class);
     Route::resource('/category',CategoryController::class);
     Route::resource('/requirement',RequirementController::class);
+
+    // Filter Route
     Route::post('/filterStatus',[RequirementController::class,'changeStatus']);
     Route::post('/filterIsActive',[RequirementController::class,'changeIsActive']);
     Route::post('/search',[RequirementController::class,'searching']);
-    Route::resource('/adminProfile',AdminProfileController::class);
-    
 
-    
+    // Profile Route
+    Route::resource('/adminProfile',AdminProfileController::class);
+
+     
 });
 
 

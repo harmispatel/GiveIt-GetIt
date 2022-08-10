@@ -6,10 +6,17 @@
 
     
         {{-- TODO: Design --}}
+
+    
         <!-- Content -->
   <div class="content-wrapper">
     <div class="content-header">
       <div class="container-fluid">
+        @if (session()->has('message'))
+        <span class="alert alert-success">
+            {{ session()->get('message') }}
+        </span>
+    @endif
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0">Dashboard</h1>

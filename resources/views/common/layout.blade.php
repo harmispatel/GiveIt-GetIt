@@ -8,7 +8,7 @@
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
   @include('common.header')
-
+  
   @include('common.sidebar')
   
 

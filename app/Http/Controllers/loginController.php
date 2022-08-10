@@ -28,6 +28,7 @@ class LoginController extends Controller
              
             if (Auth::user()->user_type == '3') 
             {
+                
                 $value = $request->session()->put('admin',Auth::user()->name);
                 return redirect('home');
                  

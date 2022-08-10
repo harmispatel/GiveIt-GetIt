@@ -81,7 +81,7 @@
                       {{-- Type --}}
                       <div class="form-group">
                         <label for="type">Type</label>
-                        <select class="form-control form-control-md" name="type" value="{{old('type')}}">
+                        <select class="form-control form-control-md" name="type" value="{{old('type')}}" id="type" onchange="OtherData()">
                           <option value="#">Select Type</option>
                           <option value="1">Giveit</option>
                           <option value="2">Getit</option>    

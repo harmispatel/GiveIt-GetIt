@@ -13,7 +13,7 @@ class ProfileValidation extends FormRequest
      */
     public function authorize()
     {
-        return TRUE;
+        return true;
     }
 
     /**
@@ -24,11 +24,11 @@ class ProfileValidation extends FormRequest
     public function rules()
     {
         return [
-            //
-            'username' => 'required|max:8',
+            
+            'username' => 'required',
             'number'  =>'required|digits:10 ',
             'address' =>'required',
-            'password' => 'required|min:6',
+            'password' => 'required|min:6'
         ];
     }
 }

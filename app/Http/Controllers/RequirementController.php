@@ -256,7 +256,7 @@ class RequirementController extends Controller
     // AJAX call for Status
         public function changeStatus(Request $request)
         {
-            // dd($request->toArray());
+           
             $query = Requirement::query();
             
             if ($request->ajax()) {
@@ -265,9 +265,10 @@ class RequirementController extends Controller
                     $requirements = Requirement::query();
 
                     $requirements = $query->with('category', function($query) {
-                        $query->select('id', 'name');
-                    })
-                    ->get();
+                                    $query->select('id', 'name');
+                                })
+                                ->get();
+                    
 
                         return response()->json([
                         'requirements' => $requirements
@@ -283,14 +284,17 @@ class RequirementController extends Controller
                                             ->where('status', $request->filterStatus)
                                             ->where('is_active',$request->filterIsActive)
                                             ->get();
+                        
                         }else{
 
                             $requirement = $query->with('category', function($query) {
-                                $query->select('id', 'name');
-                            })
-                            ->where('status', $request->filterStatus)
-                            // ->where('is_active',$request->filterIsActive)
-                            ->get();
+                                            $query->select('id', 'name');
+                                        })
+                                        ->where('status', $request->filterStatus)
+                                        // ->where('is_active',$request->filterIsActive)
+                                        ->get();
+
+                            
                         }
 
                         

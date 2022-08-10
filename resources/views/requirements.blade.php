@@ -94,7 +94,7 @@
                                                     
                                                     </td>
                                                     <td>
-                                                        <span class="{{ $requirement['status'] == 1 ? 'badge badge-danger' : 'badge badge-success' }}">
+                                                        <span class="{{ $requirement['status'] == 1 ? 'badge badge-success' : 'badge badge-danger' }}">
                                                                     {{ $requirement['status'] == 1 ? 'Pending' : 'Completed' }}
                                                         </span>
                                                     </td>
@@ -259,8 +259,9 @@
 
                             $.each( data.datas, function( key, value ) 
                             {   
-
+                                echo"<pre>";print_r(value);exit;
                                 $("#tableBody").append('<tr>');
+                                $("#tableBody").append('<td>'+value.['media']+'</td>');
                                 $("#tableBody").append('<td>'+value.category.name+'</td>');
                                 // $("#tableBody").append('<td>'+value.requirements+'</td>');
                                 $("#tableBody").append('<td>'+value['quantity']+'</td>');

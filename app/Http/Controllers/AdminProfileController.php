@@ -28,7 +28,8 @@ class AdminProfileController extends Controller
      */
     public function create()
     {
-        //
+        
+        return view('AdminChangePassword');
     }
 
     /**
@@ -65,7 +66,7 @@ class AdminProfileController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in storage.    
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -81,13 +82,13 @@ class AdminProfileController extends Controller
                 $changePassword->password = Hash::make($request->password);
                 $changePassword->save();
     
-                return view('AdminProfile');
+                return view('welcome')->with('message','Change Password successfully!');
             }else{
-                echo"Password and Confirm Password are not Same";
+                return view('AdminChangePassword')->with('msg',"Password and Confirm Password are not Same");
             }
         }else{
-            // dd('hello');
-            if ($request->has('username')) {
+            
+            // if ($request->has('username')) {
                 
                 $userModel = User::find($id);
                 $userModel->name = $request->username;
@@ -96,8 +97,8 @@ class AdminProfileController extends Controller
                 $userModel->address = $request->address;
                 $userModel->save();
         
-                return view('AdminProfile')->with('message','Profile Updated successfully!');
-            }
+                return view('welcome')->with('message','Profile Updated successfully!');
+            // }
         }
 
         

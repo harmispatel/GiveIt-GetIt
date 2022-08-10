@@ -25,7 +25,7 @@
             <div class="col-lg-6">
                 <div class="card mt-5">
                     <div class="card-header">
-                      Login backed
+                      Login
                     </div>
                     <div class="card-body">
                         <form action="{{route('login')}}" method="POST" >
@@ -43,15 +43,11 @@
                                 @if ($errors->has('password'))
                                   <p class="alert alert-danger">{{$errors->first('password')}}</p>                                    
                                 @endif
+                                <div class="text-right mt-2">
+                                  <a href="{{route('forgotPassword')}}" class="text-primary ">Forgot Your Password ? </a>
+                                </div>
                               </div>
 
-                              {{-- <div class="form-group">
-                                <input type="password" name="confirmPassword" class="form-control" placeholder="confirm Password">
-                                @if ($errors->has('confirmPassword'))
-                                  <p class="alert alert-danger">{{$errors->first('confirmPassword')}}</p>                                    
-                                @endif
-                              </div> --}}
-                             
                               <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
                             <hr>                            
