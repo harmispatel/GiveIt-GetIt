@@ -38,6 +38,11 @@
             {{ session()->get('logout') }}
         </div>
     @endif
+    @if (session()->has('message'))
+        <div class="alert alert-success message">
+            {{ session()->get('message') }}
+        </div>
+    @endif
 
     <div class="donation-info">
         <div class="container">
@@ -119,6 +124,9 @@
                 }, 3500);
                 setTimeout(() =>{
                     $('.reg').remove( );
+                }, 3500);
+                setTimeout(() =>{
+                    $('.message').remove( );
                 }, 3500);
 
             </script>

@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Auth;
 
 
 // Request Class
-use App\Http\Requests\ProfileValidation;
+use App\Http\Requests\{ProfileValidation, ChangepasswordValidation};
+
 
 class UserprofileController extends Controller
 {
@@ -44,8 +45,8 @@ class UserprofileController extends Controller
             // 'password'=>'required|min:6',
             // 'password_confirmation' =>'required_with:password|same:password|min:6'
         ]);
-
-       
+        
+        
         
         $user->name = $request->username;
         $user->email = $request->email;
@@ -57,20 +58,24 @@ class UserprofileController extends Controller
         return redirect('editprofile');
     }
 
-    public function password(Request $request)
+     public function show(){
+
+        return view('fronted.password');
+     }
+   
+
+
+
+    public function password(ChangepasswordValidation $request)
     { 
         $user = Auth::user();
-        $request->validate([
-            'password'=>'required|min:6',
-            'password_confirmation' =>'required_with:password|same:password|min:6'
-            
-        ]); 
-        // echo "<pre>"; print_r($request->password);exit;
+      
+ 
         $pass = bcrypt($request->password);
         $user->password = $pass;
         $user->save();
 
-    return redirect('editprofile');
+    return redirect('editprofile')->with('updatepassword','Update password Successfully');
     }
      
 }

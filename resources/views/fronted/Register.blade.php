@@ -15,7 +15,6 @@
                         <hr>
                         <form action="{{ route('insert') }}" method="post">
                             @csrf
-                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="name" class="form-label">Your Username</label>

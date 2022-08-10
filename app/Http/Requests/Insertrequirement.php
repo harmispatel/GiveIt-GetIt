@@ -25,6 +25,7 @@ class Insertrequirement extends FormRequest
     {
         return [
             //
+            'Type'  => 'required|not_in:-- Select Type --',
             'category' =>'required',
            'quantity'  => 'required|integer|min:1',
            'media'  => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',  
