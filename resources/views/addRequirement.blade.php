@@ -11,14 +11,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    {{-- summer note --}}
-    {{-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script> --}}
-    {{-- End Summer note --}}
-
   </head>
     <body>
   
@@ -35,6 +27,79 @@
                     <form action="{{route('requirement.store')}}" method="POST" enctype="multipart/form-data" >
                       @csrf
 
+                      {{-- Type --}}
+                      <div class="form-group">
+                        <label for="type">Requirement Type</label>
+                        <select class="form-control form-control-md" name="type" value="{{old('type')}}" id="type" onchange="UserType()">
+                          <option value="#">Select Type</option>
+                          <option value="1">Giveit</option>
+                          <option value="2">Getit</option>    
+                        </select>
+                      </div>
+
+                      {{-- Giveit: Subtype --}}
+                      <div class="form-group" id="giveType" style="display: none">
+                        <label for="giveItType">Sub Type</label>
+                        <select class="form-control form-control-md" name="giveItType" id="giveItType" onchange="GiveItType()">
+                          <option value="#">Select Sub Type</option>
+                          <option value="1">Donation</option>
+                          <option value="2">Sell</option>    
+                          <option value="3">Rent</option>    
+                        </select>
+                      </div>
+
+                      {{-- Giveit: Subtype  --}}
+
+                      {{-- Add Donation --}}
+                      <div id="Adddonation" style="display: none">
+                        <input type="text" class="form-control" name="Adddonation" placeholder="Add Donation">                  
+                          @if ($errors->has('Adddonation'))
+                            <span class="text-danger">{{ $errors->first('Adddonation') }}</span>
+                          @endif
+                      </div>
+
+                      {{-- Add Sell Price --}}
+                      <div id="addSellPrice" style="display: none">
+                        <input type="text" class="form-control" name="addSellPrice" placeholder="Enter Sell Price">                  
+                          @if ($errors->has('addSellPrice'))
+                            <span class="text-danger">{{ $errors->first('addSellPrice') }}</span>
+                          @endif
+                      </div>
+
+                      {{-- Add Rent Price --}}
+                      <div id="addRentPrice" style="display: none">
+                        <input type="text" class="form-control" name="addRentPrice" placeholder="Enter Rent Price">                  
+                          @if ($errors->has('addRentPrice'))
+                            <span class="text-danger">{{ $errors->first('addRentPrice') }}</span>
+                          @endif
+                      </div>
+
+                      {{-- Add Rent Date --}}
+                      <div id="addRentDate" style="display: none">
+                        <input type="month" class="form-control" name="addRentDate" placeholder="Enter Rent Date">                  
+                          @if ($errors->has('addRentDate'))
+                            <span class="text-danger">{{ $errors->first('addRentDate') }}</span>
+                          @endif
+                      </div>
+
+                      {{-- Getit: Subtype --}}
+                      <div class="form-group" id="getType" style="display: none">
+                        <label for="getItType">Sub Type</label>
+                        <select class="form-control form-control-md" name="getItType" id="getItType" onchange="GetItType()">
+                          <option value="#">Select Sub Type</option>
+                          <option value="4">Need</option>
+                          <option value="5">Buy</option>       
+                        </select>
+                      </div>
+
+                      {{-- Add Buy --}}
+                      <div id="addBuy" style="display: none">
+                        <input type="number" class="form-control" name="price" placeholder="Enter Buy">                  
+                          @if ($errors->has('price'))
+                            <span class="text-danger">{{ $errors->first('price') }}</span>
+                          @endif
+                      </div>
+
                       {{-- Media --}}
                       <div class="form-group">
                         <label for="media">Media</label>
@@ -47,16 +112,16 @@
                       {{-- Category --}}
                       <div class="form-group">
                         <label for="category_id">Category</label>
-                          <select class="form-control form-control-md" name="category_id" value="{{old('category_id')}}" id="category" onchange="OtherData()">
+                          <select class="form-control form-control-md" name="category_id" id="category" onchange="OtherData()" >
                               @foreach ($categoryId as $categoryValue)
                                 <option value="{{$categoryValue->id}}">{{$categoryValue->name}}</option> 
                               @endforeach
-                              <option value="0" class="bg-dark">Others</option> 
+                              <option value="0" class="bg-dark"><i class="fa fa-plus"></i>Others</option> 
                           </select>
                       </div>
                                   
                       {{-- Add new Category --}}
-                      <div id="addcatgory" style="display: none">
+                      <div id="Addcatgory" style="display: none">
                         <input type="text" class="form-control" name="Addcategory" placeholder="Enter Category Name">                  
                           @if ($errors->has('Addcategory'))
                             <span class="text-danger">{{ $errors->first('Addcategory') }}</span>
@@ -78,15 +143,7 @@
                             @endif
                       </div>  
 
-                      {{-- Type --}}
-                      <div class="form-group">
-                        <label for="type">Type</label>
-                        <select class="form-control form-control-md" name="type" value="{{old('type')}}" id="type" onchange="OtherData()">
-                          <option value="#">Select Type</option>
-                          <option value="1">Giveit</option>
-                          <option value="2">Getit</option>    
-                        </select>
-                      </div>
+                      
 
                       {{-- Status --}}
                         <div class="form-group"><b> Status : </b>
@@ -119,31 +176,98 @@
             </div>
         </section>
       </div>
-      
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
-      <script type="text/javascript">
-          $(document).ready(function() {
 
-            $('.ckeditor').ckeditor();
+        <script type="text/javascript">
 
-          });
-      </script>
+            // CK editor
+            $(document).ready(function() {
+              $('.ckeditor').ckeditor();
+            });
 
-            {{-- Open Other Category Input Field --}}
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-            <script>
-              function OtherData() {
-                  var selectVal = $('#category').val();
-                  alert(selectVal);
-                  if (selectVal == 0) {
-                      $("#addcatgory").show().css('margin-bottom',10);
-                  } else {
-                      $("#addcatgory").hide();
-                  }
+            // Open Other Category Input Field
+            function OtherData() {
+                var selectVal = $('#category').val();
+                alert(selectVal);
+                if (selectVal == 0) {
+                  $("#Addcatgory").show().css('margin-bottom',10);
+                } else {
+                  $("#Addcatgory").hide();
+                }
+            }
+
+            // User Type
+            function UserType(){
+              var selectVal = $('#type').val();
+              alert(selectVal);
+              if (selectVal == 1) {
+                $("#giveType").show().css('margin-bottom',10);     
+              }else{
+                $("#giveType").hide(); 
+                $('#Adddonation').hide();  
+                $('#addSellPrice').hide();
+                $('#addRentPrice').hide();
+                $('#addRentDate').hide(); 
+
               }
-            </script>
 
-  
+              if (selectVal == 2) {
+                $("#getType").show().css('margin-bottom',10);    
+              }else{
+                $("#getType").hide();
+                $('#addBuy').hide();
+              }
+
+            }
+
+            // Giveit Sub Type
+            function GiveItType(){
+              var selectVal = $('#giveItType').val();
+              alert(selectVal);
+
+              // Donation show and hide
+              if (selectVal == 1) {
+                $('#Adddonation').show().css('margin-bottom',10);
+              }else{
+                $('#Adddonation').hide();
+              }
+
+              // sell Price show and hide
+              if (selectVal == 2) {
+                $('#addSellPrice').show().css('margin-bottom',10);
+              }else{
+                $('#addSellPrice').hide();
+              }
+
+              // Rent Price,Date show and hide
+              if (selectVal == 3) {
+                $('#addRentPrice').show().css('margin-bottom',10);
+                $('#addRentDate').show().css('margin-bottom',10);
+              }else{
+                $('#addRentPrice').hide();
+                $('#addRentDate').hide();
+              }
+            }
+
+            // Getit Sub Type
+            function GetItType(){
+              var selectVal = $('#getItType').val();
+              alert(selectVal);
+
+              // Buy show and hide
+              if (selectVal == 5) {
+                $('#addBuy').show().css('margin-bottom',10);
+              }else{
+                $('#addBuy').hide();
+
+              }
+            } 
+
+
+            // Validation
+
+      </script>
     </body>
   </html>
 @endsection

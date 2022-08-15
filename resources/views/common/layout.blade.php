@@ -23,6 +23,7 @@
     @include('common.footer')
   </div>
   
+  
   @include('common.js')
 </body>
 </html>

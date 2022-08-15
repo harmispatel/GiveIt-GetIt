@@ -28,6 +28,78 @@
                       @csrf
                       @method('PUT')
 
+                        {{-- Type --}}
+                        <div class="form-group">
+                          <label for="type">Type</label>
+                          <select class="form-control form-control-md" name="type" value="{{old('type')}}" id="type" onchange="UserType()" >
+                            <option value="1" {{ $editRequirementData->is_active == 1 ? 'selected' : '' }}>Giveit</option>    
+                            <option value="2" {{ $editRequirementData->is_active == 0 ? 'selected' : '' }}>Getit</option>
+                          </select>
+                        </div>
+
+                        {{-- Giveit: Subtype  --}}
+
+                        {{-- Add Donation --}}
+                        <div id="Adddonation" style="display: none">
+                          <input type="text" class="form-control" name="Adddonation" placeholder="Add Donation">                  
+                            @if ($errors->has('Adddonation'))
+                              <span class="text-danger">{{ $errors->first('Adddonation') }}</span>
+                            @endif
+                        </div>
+
+                        {{-- Add Sell Price --}}
+                        <div id="addSellPrice" style="display: none">
+                          <input type="text" class="form-control" name="addSellPrice" placeholder="Enter Sell Price">                  
+                            @if ($errors->has('addSellPrice'))
+                              <span class="text-danger">{{ $errors->first('addSellPrice') }}</span>
+                            @endif
+                        </div>
+
+                        {{-- Add Rent Price --}}
+                        <div id="addRentPrice" style="display: none">
+                          <input type="text" class="form-control" name="addRentPrice" placeholder="Enter Rent Price">                  
+                            @if ($errors->has('addRentPrice'))
+                              <span class="text-danger">{{ $errors->first('addRentPrice') }}</span>
+                            @endif
+                        </div>
+
+                        {{-- Add Rent Date --}}
+                        <div id="addRentDate" style="display: none">
+                          <input type="date" class="form-control" name="addRentDate" placeholder="Enter Rent Date">                  
+                            @if ($errors->has('addRentDate'))
+                              <span class="text-danger">{{ $errors->first('addRentDate') }}</span>
+                            @endif
+                        </div>
+
+                        {{-- Giveit: Subtype --}}
+                        <div class="form-group" id="giveType" style="display: none">
+                          <label for="giveItType">Sub Type</label>
+                          <select class="form-control form-control-md" name="giveItType" id="giveItType" onchange="GiveItType()">
+                            <option value="#">Select Sub Type</option>
+                            <option value="1">Donation</option>
+                            <option value="2">Sell</option>    
+                            <option value="3">Rent</option>    
+                          </select>
+                        </div>
+
+                        {{-- Getit: Subtype --}}
+                        <div class="form-group" id="getType" style="display: none">
+                          <label for="getItType">Sub Type</label>
+                          <select class="form-control form-control-md" name="getItType" id="getItType" onchange="GetItType()">
+                            <option value="#">Select Sub Type</option>
+                            <option value="1">Need</option>
+                            <option value="2">Buy</option>       
+                          </select>
+                        </div>
+
+                        {{-- Add Buy --}}
+                        <div id="addBuy" style="display: none">
+                          <input type="date" class="form-control" name="addBuy" placeholder="Enter Buy">                  
+                            @if ($errors->has('addBuy'))
+                              <span class="text-danger">{{ $errors->first('addBuy') }}</span>
+                            @endif
+                        </div>
+
                         {{-- Media --}}
                         <div class="form-group">
                           <label for="media">Media</label>
@@ -74,15 +146,7 @@
                             @endif
                         </div>
                         
-                        {{-- Type --}}
-                        <div class="form-group">
-                          <label for="type">Type</label>
-                          <select class="form-control form-control-md" name="type" value="{{old('type')}}" >
                         
-                            <option value="2" {{ $editRequirementData->is_active == 0 ? 'selected' : '' }}>Getit</option>
-                            <option value="1" {{ $editRequirementData->is_active == 1 ? 'selected' : '' }}>Giveit</option>    
-                          </select>
-                        </div>
                         
                         {{-- Status --}}
                         <div class="form-check form-check-inline"><b> Status: </b>
@@ -126,14 +190,82 @@
 
       {{-- Open Other Category Input Field --}}
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <script>
+      <script type="text/javascript">
+
+        // Open Other Category Input Field
         function OtherData() {
             var selectVal = $('#category').val();
+            alert(selectVal);
             if (selectVal == 0) {
                 $("#addcatgory").show().css('margin-bottom',10);
             } else {
                 $("#addcatgory").hide();
             }
+        }
+
+        // User Type
+        function UserType(){
+          var selectVal = $('#type').val();
+          alert(selectVal);
+          if (selectVal == 1) {
+              $('#giveType').show().css('margin-bottom',10);
+          }else{
+              $("#giveType").hide();
+              $('#Adddonation').hide();
+              $('#addSellPrice').hide();
+              $('#addRentPrice').hide();
+              $('#addRentDate').hide();
+          }
+
+          if (selectVal == 2) {
+              $('#getType').show().css('margin-bottom',10);
+          }else{
+              $("#getType").hide();
+              $('#addBuy').hide();
+          }
+        }
+
+        // Giveit Sub Type
+        function GiveItType(){
+              var selectVal = $('#giveItType').val();
+              alert(selectVal);
+
+              // Donation show and hide
+              if (selectVal == 1) {
+                $('#Adddonation').show().css('margin-bottom',10);
+              }else{
+                $('#Adddonation').hide();
+              }
+
+              // sell Price show and hide
+              if (selectVal == 2) {
+                $('#addSellPrice').show().css('margin-bottom',10);
+              }else{
+                $('#addSellPrice').hide();
+              }
+
+              // Rent Price,Date show and hide
+              if (selectVal == 3) {
+                $('#addRentPrice').show().css('margin-bottom',10);
+                $('#addRentDate').show().css('margin-bottom',10);
+              }else{
+                $('#addRentPrice').hide();
+                $('#addRentDate').hide();
+              }
+        }
+
+        // Getit Sub Type
+        function GetItType(){
+              var selectVal = $('#getItType').val();
+              alert(selectVal);
+              
+              // Buy show and hide
+              if (selectVal == 2) {
+                $('#addBuy').show().css('margin-bottom',10);
+              }else{
+                $('#addBuy').hide();
+
+              }
         }
       </script>
     </body>

@@ -53,7 +53,7 @@ class RequirementController extends Controller
      */
     public function store(Request $request)
     {   
-        
+        // dd($request->addRentDate);
         // Insert new Requirement 
         $cat_name = $request->Addcategory;
         $user = auth()->User();
@@ -103,16 +103,41 @@ class RequirementController extends Controller
             // Add category_id if already exist category
             $requirementObj->category_id = $request->category_id;
         }
-        
+
 
         $requirementObj->requirements = $request->requirement;
         $requirementObj->quantity = $request->quantity;
         $requirementObj->user_id = $user_id;
         $requirementObj->media_id = $mediaObj->id;
-        $requirementObj->type = $request->type;
+        // $requirementObj->type = $request->type;
         $requirementObj->status = $request->status;
         $requirementObj->is_active = $request->is_active;
-        
+
+        // type: Giveit, Getit
+        $requirementObj->type = $request->type;
+      
+        // subtype: giveItType, getItType
+        if ($request->type = 1) {
+
+            $requirementObj->subtype = $request->giveItType;
+        }else{
+            
+            $requirementObj->subtype = $request->getItType;
+        }
+
+        // price:  
+        if ($request->giveItType == 2) {
+            $requirementObj->price = isset($request->addSellPrice) ? $request->addSellPrice : NULL;
+            $requirementObj->rent_date =  NULL;
+        }elseif ($request->giveItType == 3){
+            $requirementObj->price = isset($request->addRentPrice) ? $request->addRentPrice : NULL;
+            $requirementObj->rent_date = $request->addRentDate;
+        }else{
+            $requirementObj->price = isset($request->price) ? $request->price : NULL;
+        }
+
+        // Rent
+
         $requirementObj->save();
         
         return redirect()->route('requirement.index')->with('message','Requirement added successfully!');
