@@ -30,12 +30,16 @@ function OtherData() {
                 $("#GiveType").show();
             } else {
                 $("#GiveType").hide();
+                $(".price").hide();
+            $(".addprice").hide();
+            $(".date").hide();
             }
             if (selectVal == 2) {
            
                 $("#GetType").show();
             } else {
                 $("#GetType").hide();
+                $(".getaddprice").hide();
             }
         }
 

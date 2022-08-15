@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('user_type');
             $table->string('password');
             $table->boolean('status');
+            $table->string('token')->after('status')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

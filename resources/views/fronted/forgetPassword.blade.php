@@ -19,7 +19,7 @@
                     
     
                       @if (Session::has('message'))
-                           <div class="alert alert-success" role="alert">
+                           <div class="alert alert-success message">
                               {{ Session::get('message') }}
                           </div>
                       @endif
@@ -51,6 +51,13 @@
             </div>
         </div>
     </div>
+    @include('fronted.js')
+    <script> 
+    setTimeout(() => {
+        $('.message').remove( );
+    }, 3500);
+    </script>
 
 </body>
+
 

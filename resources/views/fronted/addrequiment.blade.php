@@ -5,69 +5,19 @@
 @section('content')
 
 
-    <script type="text/javascript">
-        function OtherData() {
-            var selectVal = $('#category').val();
-
-            if (selectVal == 0) {
-                $("#addcatgory").show();
-            } else {
-                $("#addcatgory").hide();
-            }
-        }
-
-        function OtherType() {
-            var selectVal = $('#type').val();
-
-            if (selectVal == 1) {
-              
-                $("#GiveType").show();
-            } else {
-                $("#GiveType").hide();
-            }
-            if (selectVal == 2) {
-           
-                $("#GetType").show();
-            } else {
-                $("#GetType").hide();
-            }
-        }
-
-        function OtherGivetype() {
-            var selectVal = $('#givetype').val();
-                  
-            if (selectVal == 2) {
-                // alert('hello');
-                $("#price").show();
-            }else{
-                $("#price").hide();
-            }
-            if (selectVal == 3) {
-                $("#addprice").show();
-                $("#date").show();
-                
-            } else {
-                $("#addprice").hide();
-                $("#date").hide();
-            }
-            
-        } 
-
-        function OtherGettype() {
-            var selectVal = $('#gettype').val();
-                  
-            if (selectVal == 5) {
-            
-                $("#getaddprice").show();
-            }else{
-                $("#getaddprice").hide();
-            }
-            
-            
-        } 
-    </script>
-
+    
 <body>
+    <div id="loader" style="display:block ; background: rgb(255, 255, 255);">
+        <div id="square">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div id="laoding_text">
+            <span>Loading...</span>
+        </div>
+    </div>
     <div class="donation-info">
         <div class="container">
             <div class="row justify-content-center">
@@ -80,17 +30,18 @@
                         <hr>
 
                           
-                            <form action="{{route('insertdata')}}" id="quickForm" method="POST" enctype="multipart/form-data">
+                            <form action="{{route('insertdata')}}" id="insertdata" method="POST" enctype="multipart/form-data">
                                 @csrf
 
                                 <div class="card-body">
                                     {{-- Select Type --}}
                                     <div class="form-group">
-                                        <select class="form-control form-select" name="Type" id="type" onchange="OtherType()">
-                                            <option value="-- Select Type --" >Select Type</option>
+                                        <label for="RequirementType" class="form-label">Requirement Type</label>
+                                        <select class="form-control form-select type" name="Type"  onchange="OtherType()">
+                                            <option value="#">Select Type</option>
                                             <option value="1">Giveit</option>                                           
                                             <option value="2">Getit</option>                                           
-                                        </select>
+                                        </select> 
                                         @if ($errors->has('Type'))
                                         <span class="text-danger">{{ $errors->first('Type') }}</span>
                                     @endif
@@ -98,46 +49,47 @@
 
                                 {{-- Give Type --}}
                                     <div class="form-group">
-                                        <div id="GiveType" style="display: none">
+                                        <div class="GiveType" style="display: none">
                                         <label for="GiveType" class="form-label">SubType</label>
-                                        <select class="form-control form-select" name="givetype" id="givetype" onchange="OtherGivetype()">
+                                        <select class="form-control form-select givetype" name="givetype"  onchange="OtherGivetype()">
                                             <option value="1">Donation</option>                                           
                                             <option value="2">Sell</option>                                           
                                             <option value="3">Rent</option>                                           
                                         </select>
                                         <br>
                                         </div>
-                                        {{-- Sell Price --}}
-                                        <div id="price" style="display: none">
-                                            <label for="price" class="form-label">Add Price</label>
-                                            <input type="text" class="form-control" name="sellprice"
-                                            placeholder="Enter Price">
-                                        </div>
-                                    {{-- Rent Price --}}
-                                        <div id="addprice" style="display: none">
-                                            <label for="addprice" class="form-label">Add Price</label>
-                                            <input type="text" class="form-control" name="rentprice"
-                                            placeholder="Enter Price">
-                                        </div>
-                                        {{-- Month Year --}}
-                                        <div id="date" style="display: none">
-                                            <label for="addprice" class="form-label">Month/Year</label>
-                                            <input type="month" class="form-control" name="rentdate" placeholder="Enter Month/Year"/>
-                                        </div>
-                                    </div>
- 
-                                    {{-- Get Type --}}
+                                        {{-- Get Type --}}
                                     <div class="form-group">
-                                        <div id="GetType" style="display: none">
+                                        <div class="GetType" style="display: none">
                                         <label for="GetType" class="form-label">SubType</label>
-                                        <select class="form-control form-select" name="gettype" id="gettype" onchange="OtherGettype()">
+                                        <select class="form-control form-select gettype" name="gettype"  onchange="OtherGettype()">
                                             <option value="4">Need</option>                                           
                                             <option value="5">Buy</option>                                           
                                         </select>
                                         <br>
                                         </div>
+                                        {{-- Sell Price --}}
+                                        <div class="price" style="display: none">
+                                            <label for="price" class="form-label">Add Price</label>
+                                            <input type="text" class="form-control" name="sellprice"
+                                            placeholder="Enter Price">
+                                        </div>
+                                    {{-- Rent Price --}}
+                                        <div class="addprice" style="display: none">
+                                            <label for="addprice" class="form-label">Add Price</label>
+                                            <input type="text" class="form-control" name="rentprice"
+                                            placeholder="Enter Price">
+                                        </div>
+                                        {{-- Month Year --}}
+                                        <div class="date" style="display: none">
+                                            <label for="addprice" class="form-label">Month/Year</label>
+                                            <input type="month" class="form-control" name="rentdate" placeholder="Enter Month/Year"/>
+                                        </div>
+                                    </div>
+ 
+                                    
                                         {{-- Buy Price --}}
-                                        <div id="getaddprice" style="display: none">
+                                        <div class="getaddprice" style="display: none">
                                             <label for="addprice" class="form-label">Add Price</label>
                                             <input type="text" class="form-control" name="price"
                                             placeholder="Enter Price">
@@ -146,7 +98,7 @@
                                     {{-- Category --}}
                                     <div class="form-group">
                                         <label for="Catgory" class="form-label">Category</label>
-                                        <select class="form-control form-select" name="category" id="category"
+                                        <select class="form-control form-select category" name="category"
                                             onchange="OtherData()">
                                             @foreach ($categoryId as $item)
                                                 <option value="{{ $item->id }}">
@@ -157,7 +109,7 @@
                                         </select>
                                         <br>
                                         {{-- New Category --}}
-                                        <div id="addcatgory" style="display: none">
+                                        <div class="addcatgory" style="display: none">
                                             <input type="text" class="form-control" name="Addcategory"
                                                 placeholder="Enter Category Name">
                                         </div>
@@ -208,13 +160,108 @@
             </div>
     </div>
     </section>
-    <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.ckeditor').ckeditor();
-        });
-    </script>
+   
+    
     </div>
 </body>
 </html>
 @endsection
+
+@section('js')
+
+<script type="text/javascript">
+        $(document).ready(function() {
+            $('.ckeditor').ckeditor();
+        });
+
+    function OtherData() {
+        var selectVal = $('.category').val();
+
+        if (selectVal == 0) {
+            $(".addcatgory").show();
+        } else {
+            $(".addcatgory").hide();
+        }
+    }
+
+    function OtherType() {
+        var selectVal = $('.type').val();
+
+        if (selectVal == 1) {
+          
+            $(".GiveType").show();
+        } else {
+            $(".GiveType").hide();
+            $(".price").hide();
+            $(".addprice").hide();
+            $(".date").hide();
+        }
+        if (selectVal == 2) {
+       
+            $(".GetType").show();
+        } else {
+            $(".GetType").hide();
+            $(".getaddprice").hide();
+        }
+    }
+
+    function OtherGivetype() {
+        var selectVal = $('.givetype').val();
+              
+        if (selectVal == 2) {
+            // alert('hello');
+            $(".price").show();
+        }else{
+            $(".price").hide();
+        }
+        if (selectVal == 3) {
+            $(".addprice").show();
+            $(".date").show();
+            
+        } else {
+            $(".addprice").hide();
+            $(".date").hide();
+        }
+        
+    } 
+
+    function OtherGettype() {
+        var selectVal = $('.gettype').val();
+              
+        if (selectVal == 5) {
+        
+            $(".getaddprice").show();
+        }else{
+            $(".getaddprice").hide();
+        }
+        
+        
+    } 
+
+
+    
+        
+            $(document).ready(function(){
+                setTimeout(() => {
+                    $('.alert').hide()
+                }, 3000);
+            });
+
+            $("#insertdata").validate({
+                rules:{
+                    requirement : {
+                        required: true
+                    },
+                    
+                    messages: {
+                        requirement : {
+                        required: "Requiewment is required",
+                    },
+                }
+                         
+                }
+            });
+
+</script>
+@endsection
+

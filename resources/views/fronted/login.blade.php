@@ -23,6 +23,7 @@
 
 
 <body>
+
     @if (session()->has('msg'))
         <div class="alert alert-success msg reg">
             {{ session()->get('msg') }}
@@ -117,17 +118,9 @@
                 });
 
                 setTimeout(() => {
-                    $('.logout').remove( );
+                    $('.logout, .loginwrong, .reg, .message').remove( );
                 }, 3500);
-                setTimeout(() =>{
-                    $('.loginwrong').remove( );
-                }, 3500);
-                setTimeout(() =>{
-                    $('.reg').remove( );
-                }, 3500);
-                setTimeout(() =>{
-                    $('.message').remove( );
-                }, 3500);
+                
 
             </script>
         </div>

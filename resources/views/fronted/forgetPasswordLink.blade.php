@@ -4,6 +4,11 @@
 
 @section('content')
 <body>
+    @if (session()->has('error'))
+        <div class="alert alert-success error">
+            {{ session()->get('error') }}
+        </div>
+    @endif
     <div class="donation-info">
         <div class="container">
             <div class="row justify-content-center">
@@ -18,15 +23,6 @@
                                 @csrf
                                 <input type="hidden" name="token" value="{{ $token }}">
                                 <div class="row">
-                                <div class="col-md-9">
-                                <div class="mb-3">
-                                    <label for="email_address" class="form-label" >E-Mail Address</label>
-                                        <input type="text" id="email_address" class="form-control" name="email" required autofocus>
-                                        @if ($errors->has('email'))
-                                            <span class="text-danger">{{ $errors->first('email') }}</span>
-                                        @endif
-                                    </div>
-                                </div>
                                 <div class="col-md-9">
                                     <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
@@ -69,6 +65,11 @@
         </div>
     </div>
     @include('fronted.js')
+    <script>
+        setTimeout(() => {
+                    $('.error').remove( );
+                }, 3500);
+    </script>
 
 </body>
 
