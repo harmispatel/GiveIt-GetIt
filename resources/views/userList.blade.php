@@ -13,6 +13,13 @@
                  {{ session()->get('message') }}
             </div>
         @endif
+
+        {{-- Success messege --}}
+        @if(session()->has('msg'))
+            <div class="alert alert-success">
+                 {{ session()->get('msg') }}
+            </div>
+        @endif
         {{-- End Success messege --}}
         
         <div class="text-right mr-3 mb-2">

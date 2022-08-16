@@ -31,44 +31,10 @@
                         {{-- Type --}}
                         <div class="form-group">
                           <label for="type">Type</label>
-                          <select class="form-control form-control-md" name="type" value="{{old('type')}}" id="type" onchange="UserType()" >
-                            <option value="1" {{ $editRequirementData->is_active == 1 ? 'selected' : '' }}>Giveit</option>    
-                            <option value="2" {{ $editRequirementData->is_active == 0 ? 'selected' : '' }}>Getit</option>
+                          <select class="form-control form-control-md" name="type" id="type" onchange="UserType()" >
+                            <option value="1" {{ $editRequirementData->type == 1 ? 'selected' : '' }}>Giveit</option>    
+                            <option value="2" {{ $editRequirementData->type == 2 ? 'selected' : '' }}>Getit</option>
                           </select>
-                        </div>
-
-                        {{-- Giveit: Subtype  --}}
-
-                        {{-- Add Donation --}}
-                        <div id="Adddonation" style="display: none">
-                          <input type="text" class="form-control" name="Adddonation" placeholder="Add Donation">                  
-                            @if ($errors->has('Adddonation'))
-                              <span class="text-danger">{{ $errors->first('Adddonation') }}</span>
-                            @endif
-                        </div>
-
-                        {{-- Add Sell Price --}}
-                        <div id="addSellPrice" style="display: none">
-                          <input type="text" class="form-control" name="addSellPrice" placeholder="Enter Sell Price">                  
-                            @if ($errors->has('addSellPrice'))
-                              <span class="text-danger">{{ $errors->first('addSellPrice') }}</span>
-                            @endif
-                        </div>
-
-                        {{-- Add Rent Price --}}
-                        <div id="addRentPrice" style="display: none">
-                          <input type="text" class="form-control" name="addRentPrice" placeholder="Enter Rent Price">                  
-                            @if ($errors->has('addRentPrice'))
-                              <span class="text-danger">{{ $errors->first('addRentPrice') }}</span>
-                            @endif
-                        </div>
-
-                        {{-- Add Rent Date --}}
-                        <div id="addRentDate" style="display: none">
-                          <input type="date" class="form-control" name="addRentDate" placeholder="Enter Rent Date">                  
-                            @if ($errors->has('addRentDate'))
-                              <span class="text-danger">{{ $errors->first('addRentDate') }}</span>
-                            @endif
                         </div>
 
                         {{-- Giveit: Subtype --}}
@@ -76,25 +42,60 @@
                           <label for="giveItType">Sub Type</label>
                           <select class="form-control form-control-md" name="giveItType" id="giveItType" onchange="GiveItType()">
                             <option value="#">Select Sub Type</option>
-                            <option value="1">Donation</option>
-                            <option value="2">Sell</option>    
-                            <option value="3">Rent</option>    
+                            <option value="1" {{ $editRequirementData->subtype == 1 ? 'selected' : '' }}>Donation</option>
+                            <option value="2" {{ $editRequirementData->subtype == 2 ? 'selected' : '' }}>Sell</option>    
+                            <option value="3" {{ $editRequirementData->subtype == 3 ? 'selected' : '' }}>Rent</option>    
                           </select>
                         </div>
-
+ 
                         {{-- Getit: Subtype --}}
                         <div class="form-group" id="getType" style="display: none">
                           <label for="getItType">Sub Type</label>
                           <select class="form-control form-control-md" name="getItType" id="getItType" onchange="GetItType()">
                             <option value="#">Select Sub Type</option>
-                            <option value="1">Need</option>
-                            <option value="2">Buy</option>       
+                            <option value="4" {{ $editRequirementData->subtype == 4 ? 'selected' : '' }}>Need</option>
+                            <option value="5" {{ $editRequirementData->subtype == 5 ? 'selected' : '' }}>Buy</option>       
                           </select>
                         </div>
 
+                        {{-- Giveit: Subtype  --}}
+
+                        {{-- Add Donation --}}
+                        <div id="Adddonation" style="display: none">
+                          <input type="text" class="form-control" name="Adddonation" placeholder="Add Donation" value="{{$editRequirementData->subtype}}">                  
+                            @if ($errors->has('Adddonation'))
+                              <span class="text-danger">{{ $errors->first('Adddonation') }}</span>
+                            @endif
+                        </div>
+
+                        {{-- Add Sell Price --}}
+                        <div id="addSellPrice" style="display: none">
+                          <input type="text" class="form-control" name="addSellPrice" placeholder="Enter Sell Price" value="{{$editRequirementData->price}}">                  
+                            @if ($errors->has('addSellPrice'))
+                              <span class="text-danger">{{ $errors->first('addSellPrice') }}</span>
+                            @endif
+                        </div>
+
+                        {{-- Add Rent Price --}}
+                        <div id="addRentPrice" style="display: none">
+                          <input type="text" class="form-control" name="addRentPrice" placeholder="Enter Rent Price" value="{{$editRequirementData->price}}">                  
+                            @if ($errors->has('addRentPrice'))
+                              <span class="text-danger">{{ $errors->first('addRentPrice') }}</span>
+                            @endif
+                        </div>
+
+                        {{-- Add Rent Date --}}
+                        <div id="addRentDate" style="display: none">
+                          <input type="month" class="form-control" name="addRentDate" placeholder="Enter Rent Date" value="{{$editRequirementData->rent_date}}">                  
+                            @if ($errors->has('addRentDate'))
+                              <span class="text-danger">{{ $errors->first('addRentDate') }}</span>
+                            @endif
+                        </div>
+
+                        {{-- Getit: Subtype  --}}
                         {{-- Add Buy --}}
                         <div id="addBuy" style="display: none">
-                          <input type="date" class="form-control" name="addBuy" placeholder="Enter Buy">                  
+                          <input type="date" class="form-control" name="addBuy" placeholder="Enter Buy" value="{{$editRequirementData->price}}">                  
                             @if ($errors->has('addBuy'))
                               <span class="text-danger">{{ $errors->first('addBuy') }}</span>
                             @endif
@@ -150,20 +151,20 @@
                         
                         {{-- Status --}}
                         <div class="form-check form-check-inline"><b> Status: </b>
-                          <input class="form-check-input" type="radio" name="status" id="inlineRadio1" value="1" {{ $editRequirementData->status == '1' ? 'checked' : ''}}>
+                          <input class="form-check-input" type="radio" name="status" id="inlineRadio1" value="2" {{ $editRequirementData->status == '2' ? 'checked' : ''}}>
                             <label class="form-check-label" for="inlineRadio1">Completed</label>
                         </div>
                         <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="radio" name="status" id="inlineRadio2" value="0" {{ $editRequirementData->status == '0' ? 'checked' : ''}}>
+                          <input class="form-check-input" type="radio" name="status" id="inlineRadio2" value="1" {{ $editRequirementData->status == '1' ? 'checked' : ''}}>
                             <label class="form-check-label" for="inlineRadio2">Pending</label>
                         </div><br><br>
 
                         {{-- Is Active? --}}
                         <div class="form-group">
                           <label for="is_active">Is Active</label>
-                            <select name="is_active" id="is_active" class="form-control" value="{{$editRequirementData->is_active}}">
-                              <option value="1" {{ $editRequirementData->is_active == 1 ? 'selected' : '' }}>Active</option>
-                              <option value="0" {{ $editRequirementData->is_active == 0 ? 'selected' : '' }}>Inactive</option>
+                            <select name="is_active" id="is_active" class="form-control">
+                              <option value="2" {{ $editRequirementData->is_active == 2 ? 'selected' : '' }}>Active</option>
+                              <option value="1" {{ $editRequirementData->is_active == 1 ? 'selected' : '' }}>In Active</option>
                             </select>
                         </div>
       
@@ -192,7 +193,13 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript">
 
-        // Open Other Category Input Field
+        
+        $(document).ready(function() {
+              UserType()
+              GiveItType()
+              GetItType()
+          });
+          // Open Other Category Input Field
         function OtherData() {
             var selectVal = $('#category').val();
             alert(selectVal);
@@ -260,7 +267,7 @@
               alert(selectVal);
               
               // Buy show and hide
-              if (selectVal == 2) {
+              if (selectVal == 5) {
                 $('#addBuy').show().css('margin-bottom',10);
               }else{
                 $('#addBuy').hide();

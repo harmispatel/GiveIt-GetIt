@@ -26,7 +26,7 @@ class EditUserRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required',
-            'mobile' => 'required | numeric | digits:10',
+            'mobile' => 'required|numeric|digits:10',
             'address' => 'required',
             'user_type' => 'required',
             'status' => 'required',

@@ -44,6 +44,9 @@
                                 <div class="form-group purple-border">
                                 <label for="address">address</label>
                                     <textarea class="form-control" name="address" id="exampleFormControlTextarea4" rows="3" placeholder="Enter Address" value="{{old('address')}}"></textarea>
+                                        @if ($errors->has('address'))
+                                            <p class="alert alert-danger">{{$errors->first('address')}}</p>                                    
+                                        @endif
                                 </div>
 
                                 {{-- <div class="form-group">
@@ -60,8 +63,11 @@
                                         <option value="1">Trust</option>
                                         <option value="2">Donor</option>   
                                         <option value="3">Admin</option>   
-
                                     </select>
+
+                                    @if ($errors->has('user_type'))
+                                        <p class="alert alert-danger">{{$errors->first('user_type')}}</p>                                    
+                                    @endif
                                 </div>
 
                                 <div class="form-group">
@@ -80,6 +86,9 @@
                                     <input class="form-check-input" type="radio" name="status" id="inlineRadio2" value="0">
                                     <label class="form-check-label" for="inlineRadio2">In Active</label>
                                 </div>
+                                    @if ($errors->has('status'))
+                                        <p class="alert alert-danger">{{$errors->first('status')}}</p>                                    
+                                    @endif
                                 <hr>
 
                                 <button type="submit" class="btn btn-primary">Submit</button>

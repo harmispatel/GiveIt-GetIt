@@ -118,6 +118,7 @@ class UserController extends Controller
         $editUser->save();
         return redirect()->route('user.index')->with('message','User updated successfully!');
         
+        
     }
 
     /**
@@ -129,14 +130,9 @@ class UserController extends Controller
  
     public function destroy($id)
     {
-        // Delete User
-        
+        // Delete User  
         $delete = User::find($id)->delete();
-        return redirect()->route('user.index');
-
-
-        
-        
+        return redirect()->route('user.index')->with('msg','User deleted successfully!'); 
     }
   
 

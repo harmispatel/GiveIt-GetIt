@@ -53,7 +53,7 @@ class RequirementController extends Controller
      */
     public function store(Request $request)
     {   
-        // dd($request->addRentDate);
+        
         // Insert new Requirement 
         $cat_name = $request->Addcategory;
         $user = auth()->User();
@@ -109,7 +109,6 @@ class RequirementController extends Controller
         $requirementObj->quantity = $request->quantity;
         $requirementObj->user_id = $user_id;
         $requirementObj->media_id = $mediaObj->id;
-        // $requirementObj->type = $request->type;
         $requirementObj->status = $request->status;
         $requirementObj->is_active = $request->is_active;
 
@@ -136,7 +135,9 @@ class RequirementController extends Controller
             $requirementObj->price = isset($request->price) ? $request->price : NULL;
         }
 
-        // Rent
+        if ($request->getItType == 5) {
+            $requirementObj->subtype = isset($request->getItType) ? $request->getItType : NULL;
+        }
 
         $requirementObj->save();
         
@@ -167,7 +168,6 @@ class RequirementController extends Controller
         
             $categoryId = Category::get();
             $editRequirementData = Requirement::find($id);
-        
             return view('editRequirement',compact('editRequirementData','categoryId'));
     }
 
@@ -181,16 +181,62 @@ class RequirementController extends Controller
     public function update(EditRequirementRequest $request, $id)
     {
            
+
             $cat_name = $request->Addcategory;
             $categoryname =Category::where('name',$cat_name)->exists();
             $requirementObj = new Requirement();
             
-        // Save Update Requirement
+            // Save Update Requirement
             $user = auth()->User();
             $user_id = $user['id'];
             $user_type = $user['user_type'];
             $category = $request->requirementCategory;  
             
+            $editRequirement = Requirement::find($id);
+            
+            // Update media
+            $mediaObj = new Media();        
+            if ($request->has('media')) {
+                
+                // Save Image If exist 
+                $file = $request->media;
+                $originalName = $file->getClientOriginalName();
+                $image_mimetype = $file->getClientMimeType();
+                $image_name = time().'_'.$originalName;
+                $image_path = public_path(). Requirement::FILE_PATH;
+                $request->media->move($image_path,$image_name);
+                
+                $mediaObj->name = $image_name;
+                $mediaObj->path = Requirement::FILE_PATH . $image_name;
+                $mediaObj->original_name = $originalName;
+                $mediaObj->mime_type = $image_mimetype;
+                
+                $mediaObj->save();
+                $editRequirement->media_id = $mediaObj->id;
+            } else {
+                 // Update media
+                $mediaObj = new Media();        
+                if ($request->has('media')) {
+                    
+                    // Save Image If exist 
+                    $file = $request->media;
+                    $originalName = $file->getClientOriginalName();
+                    $image_mimetype = $file->getClientMimeType();
+                    $image_name = time().'_'.$originalName;
+                    $image_path = public_path(). Requirement::FILE_PATH;
+                    $request->media->move($image_path,$image_name);
+                    
+                    $mediaObj->name = $image_name;
+                    $mediaObj->path = Requirement::FILE_PATH . $image_name;
+                    $mediaObj->original_name = $originalName;
+                    $mediaObj->mime_type = $image_mimetype;
+                    
+                    $mediaObj->save();
+                    $editRequirement->media_id = $mediaObj->id;
+                }
+            }
+
+            // Update new Category and Stored in Categories table
             if ($request->requirementCategory == 0) 
             {
                 
@@ -200,62 +246,53 @@ class RequirementController extends Controller
     
                 $categoryAdd = new Category();
                 $categoryAdd->name = isset($cat_name) ?  $cat_name : '';
-                
                 $categoryAdd->status = 1;
                 $categoryAdd->save();
                 
-                $editRequirement = Requirement::find($id);
-                $editRequirement->category_id = $categoryAdd->id;
-                $editRequirement->requirements = $request->requirement;
-                $editRequirement->quantity = $request->quantity;
-                $editRequirement->type = $request->quantity;
-                $editRequirement->status = $request->status;
-                $editRequirement->is_active = $request->is_active;
-                $editRequirement->save();
+                // Add category_id if new category
+                $requirementObj->category_id  = $categoryAdd->id;  
 
-
-                // $editRequirement->user_id = $user_id;
-                // $editRequirement->type = $request->type;
-                // $editRequirement->is_active = $request->is_active;
-
-                // $requirementObj->category_id  = $categoryAdd->id;   
             }else {
-                    // $requirementObj->category_id = $request->category;
-                    
-                    $editRequirement = Requirement::find($id);
-                    $editRequirement->category_id  = $category;
-                    $editRequirement->requirements = $request->requirement;
-                    $editRequirement->quantity = $request->quantity;
-                    
+                // Add category_id if already exist category
+                $requirementObj->category_id = $request->category_id;
+            }
 
-                 
-                    
-                    // Update media
-                    $mediaObj = new Media();        
-                    if ($request->has('media')) {
-                        
-                        // Save Image If exist 
-                        $file = $request->media;
-                        $originalName = $file->getClientOriginalName();
-                        $image_mimetype = $file->getClientMimeType();
-                        $image_name = time().'_'.$originalName;
-                        $image_path = public_path(). Requirement::FILE_PATH;
-                        $request->media->move($image_path,$image_name);
-                        
-                        $mediaObj->name = $image_name;
-                        $mediaObj->path = Requirement::FILE_PATH . $image_name;
-                        $mediaObj->original_name = $originalName;
-                        $mediaObj->mime_type = $image_mimetype;
-                        
-                        $mediaObj->save();
-                        $editRequirement->media_id = $mediaObj->id;  
-                    }
-                    $editRequirement->type = $request->type;
-                    $editRequirement->status = $request->status;
-                    $editRequirement->is_active = $request->is_active;
-                    
-                    $editRequirement->save();
-                }
+            $editRequirement->requirements = $request->requirement;
+            $editRequirement->quantity = $request->quantity;
+            $editRequirement->status = $request->status;
+            $editRequirement->is_active = $request->is_active;
+            
+            // type: Giveit, Getit
+            $editRequirement->type = $request->type;
+
+            // subtype: giveItType, getItType
+            if ($request->type = 1) {
+                
+                $editRequirement->subtype = $request->giveItType;
+            }else{
+                
+                $editRequirement->subtype = $request->getItType;
+            }
+
+            // price:
+            if($request->giveItType == 1){
+                $editRequirement->price =  NULL;
+                $editRequirement->rent_date =  NULL;
+            }
+            elseif($request->giveItType == 2) {
+                $editRequirement->price = isset($request->addSellPrice) ? $request->addSellPrice : NULL;
+                $editRequirement->rent_date =  NULL;
+            }elseif ($request->giveItType == 3){
+                $editRequirement->price = isset($request->addRentPrice) ? $request->addRentPrice : NULL;
+                $editRequirement->rent_date = $request->addRentDate;
+            }elseif($request->getItType == 5){
+                $editRequirement->subtype = isset($request->getItType) ? $request->getItType : NULL;
+            }else{
+                $editRequirement->price = isset($request->price) ? $request->price : NULL;
+            }
+
+
+            $editRequirement->save();
 
             return redirect()->route('requirement.index')->with('message','Requirement updated successfully!');
     }
@@ -274,32 +311,31 @@ class RequirementController extends Controller
         
         $delete = Requirement::find($id)->delete();
         $deleteId = Media::find($deletemediaId)->delete();
-        return redirect()->route('requirement.index');     
+        return redirect()->route('requirement.index')->with('message','Requirement deleted successfully!');     
     }
     
 
     // AJAX call for Status
         public function changeStatus(Request $request)
         {
-           
+            
             $query = Requirement::query();
             
             if ($request->ajax()) {
+                
                 if ($request->filterStatus == "" ){
-
+                    
                     $requirements = Requirement::query();
-
                     $requirements = $query->with('category', function($query) {
                                     $query->select('id', 'name');
                                 })
                                 ->get();
-                    
 
                         return response()->json([
-                        'requirements' => $requirements
+                        'requirements' => $requirements,
                         ]);
                 }else{
-
+                    
                     // $requirement = Requirement::query();
                         if ($request->filterIsActive != "" ) {
                             
@@ -311,7 +347,7 @@ class RequirementController extends Controller
                                             ->get();
                         
                         }else{
-
+                            
                             $requirement = $query->with('category', function($query) {
                                             $query->select('id', 'name');
                                         })
@@ -322,7 +358,7 @@ class RequirementController extends Controller
                             
                         }
 
-                        
+                        // echo"<pre>";print_r('hello');exit;
                         // $requirement->where(!empty($request->filterIsActive), function($query) use($request) {
                         //             $query->where('is_active',$request->filterIsActive);
                         //                 // ->orWhere('field', 'LIKE' , '%' . $request->searchString . "%");
@@ -345,7 +381,7 @@ class RequirementController extends Controller
     // AJAX call for IsActive
         public function changeIsActive(Request $request)
         {
-
+            
             $isActiveQuery = Requirement::query();
 
             if($request->ajax()){
@@ -470,158 +506,4 @@ class RequirementController extends Controller
         }
 
 
-
-
-    //frontend
-    public function showinsert()
-    {
-        $categoryId = Category::get();
-
-        return view('fronted.insertdatar',compact ('categoryId'));        
-    }
-    
-    public function storeRequirement(Insertrequirement  $request)
-    { 
-        $cat_name = $request->Addcategory;
-        $categoryname =Category::where('name',$cat_name)->exists();
-        $user = auth()->User();
-        $user_id = $user['id'];
-        $user_type = $user['user_type'];
-        $mediaAdd = new Media();
-        
-        if($request->hasfile('media')){
-            $file= $request->file('media');
-            $original_file_name =$request->media->getClientOriginalName();
-            $image_mimetype = $request->media->getClientMimeType();
-            $image_name   = time().'_'.$request->media->getClientOriginalName();
-            $image_path = public_path(). Requirement::FILE_PATH;
-            request()->media->move($image_path, $image_name);
-        
-            $mediaAdd->name = $image_name;
-            $mediaAdd->path = Requirement::FILE_PATH . $image_name;
-            $mediaAdd->original_name = $original_file_name;
-            $mediaAdd->mime_type = $image_mimetype;
-            
-            $mediaAdd->save();
-         }
-    
-            
-        // if ($request->hasfile('media')) {
-        //     $uploadedFile = $this->saveImage($request->media['path'], Requirement::FILE_PATH);  
-        // }
-
-        $requirement = new Requirement();
-        if($request->category == 0)
-        {
-            $request->validate([
-                'Addcategory' => 'required|unique:categories,name'
-            ]);
-            
-            $categoryAdd = new  Category();
-            $categoryAdd->name = isset($cat_name) ?  $cat_name : '';
-            $categoryAdd->status = 1;
-            $categoryAdd->save();
-            
-            $requirement->category_id  = $categoryAdd->id;    
-        } else {
-            $requirement->category_id = $request->category;
-        }
-
-        $requirement->requirements = $request->requirement;
-        $requirement->quantity = $request->quantity;
-        $requirement->user_id = $user_id;
-        $requirement->media_id = $mediaAdd->id;
-        $requirement->type = $user_type == 1 ? 1 : 2;
-        $requirement->status	= 1;
-        $requirement->save();
-          
-        return redirect('required')->with('message','Inserted RequiredData Successfully');
-    }
-
-    public function display()
-    {
-        $data = Requirement::with(['media'])->get();
-    
-        return view('fronted.requirements', compact('data'));
-        
-    }
-    
-
-    public function delete($id)
-    {
-        $data = Requirement::find($id)->delete();  
-        
-        return redirect('required')->with('messagedelete','Deleted RequiredData Successfully');
-    }
-
-
-    // public function edit($id)
-    // {
-    
-    //  $categoryId = Category::get();
-    //  $mediaData = Media::get();
-    //  $RequiredData = Requirement::find($id);
-    //  return view('fronted.edit',compact('RequiredData','categoryId','mediaData'));
-    // }
-
-
-    // public function update(EditValidation $request, $id)
-    // {    
-    //     // dd($request->toArray());
-    //     $cat_name = $request->Addcategory;
-    //     $categoryname =Category::where('name',$cat_name)->exists();
-    //     $user = auth()->User();
-    //     $user_id = $user['id'];
-    //     $user_type = $user['user_type'];
-    //     if($request->category == 0)
-    //     {
-    //         $request->validate([
-    //             'Addcategory' => 'required|unique:categories,name'
-    //         ]);
-    //         $categoryAdd = new  Category();
-    //         $categoryAdd->name = isset( $cat_name) ?  $cat_name : '';
-    //         $categoryAdd->status = 1;
-    //         $categoryAdd->save();
-            
-            
-    //         $updateRequired = Requirement::find($id);
-    //         $updateRequired->category_id  = $categoryAdd->id;
-    //         $updateRequired->requirements = $request->requirement;
-    //         $updateRequired->quantity = $request->quantity;
-    //         $updateRequired->status	= $request->status;
-    //         $updateRequired->save();
-    //     }
-    //     else
-    //     {
-    //         $updateRequired = Requirement::find($id);    
-    //             $updateRequired->category_id  = $request->category;
-    //             $updateRequired->requirements = $request->requirement;
-    //             $updateRequired->quantity = $request->quantity;
-    //             $mediaAdd = new Media();
-        
-    //             if($request->hasfile('media')){
-    //                 $file= $request->file('media');
-    //                 $original_file_name =$request->media->getClientOriginalName();
-    //                 $image_mimetype = $request->media->getClientMimeType();
-    //                 $image_name   = time().'_'.$request->media->getClientOriginalName();
-    //                 $image_path = public_path(). Requirement::FILE_PATH;
-    //                 request()->media->move($image_path, $image_name);
-                    
-    //                 $mediaAdd->name = $image_name;
-    //                 $mediaAdd->path = Requirement::FILE_PATH . $image_name;
-    //                 $mediaAdd->original_name = $original_file_name;
-    //                 $mediaAdd->mime_type = $image_mimetype;
-                    
-    //                 $mediaAdd->save();
-    //                 $updateRequired->media_id = $mediaAdd->id;
-    //             }
-    //             $updateRequired->status	= $request->status;
-    //             $updateRequired->save();
-    //         }
-
-           
-    
-    //     return redirect('required')->with('updatedata','Update RequiredData Successfully');
-    
-    // }
 }

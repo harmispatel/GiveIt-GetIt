@@ -4,15 +4,6 @@
 
 @section('content')
 
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-  </head>
-    <body>
   
       <div class="content-wrapper">
         <section class="content">
@@ -94,7 +85,7 @@
 
                       {{-- Add Buy --}}
                       <div id="addBuy" style="display: none">
-                        <input type="number" class="form-control" name="price" placeholder="Enter Buy">                  
+                        <input type="number" class="form-control" name="price" placeholder="Enter Price">                  
                           @if ($errors->has('price'))
                             <span class="text-danger">{{ $errors->first('price') }}</span>
                           @endif
@@ -268,6 +259,5 @@
             // Validation
 
       </script>
-    </body>
-  </html>
+    
 @endsection

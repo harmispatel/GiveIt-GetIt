@@ -34,8 +34,8 @@
                             <div class="form-group">
                                 <select id="status" class="form-control form-control-md" name="filterStatus">
                                     <option value="">All Status</option>
-                                    <option value="0">Pending</option>
-                                    <option value="1">Completed</option>
+                                    <option value="1">Pending</option>
+                                    <option value="2">Completed</option>
                                 </select>
                             </div>
                         </form>
@@ -44,8 +44,8 @@
                         <div class="form-group">
                             <select id="isActive" class="form-control form-control-md" name="filterIsActive">
                                 <option value="">Is Active?</option>
-                                <option value="0">In Active</option>
                                 <option value="1">Active</option>
+                                <option value="2">In Active</option>
                             </select>
                         </div>
                     </div>
@@ -99,8 +99,8 @@
                                                         </span>
                                                     </td>
                                                     <td>
-                                                        <span class="{{ $requirement['is_active'] == 1 ? 'badge badge-danger' : 'badge badge-success' }}">       
-                                                                    {{ $requirement['is_active'] == 1 ? 'In Active' : 'Active' }}
+                                                        <span class="{{ $requirement['is_active'] == 1 ? 'badge badge-success' : 'badge badge-danger' }}">       
+                                                                    {{ $requirement['is_active'] == 1 ? 'Active' : 'In Active' }}
                                                         </span>
                                                     <td>
                                                         <a href="{{ route('requirement.edit', $requirement->id) }}" class="mr-2" title="Edit"><i class="fas fa-edit"></i></a>
@@ -169,10 +169,8 @@
                 $('#status').on('change', function() {
                     var status = $(this).val();
                     var isActive = $('#isActive').val();
-
-                    // var isActive = $('#isActive').val();
-                
-                    // alert(status);
+                    alert(status);
+            
                     $.ajax({
                         url: "{{ url('filterStatus') }}",
                         type: "POST",
@@ -187,10 +185,11 @@
                             $('#isActive').val();
                             $.each( data.requirements, function( key, value ) 
                             {   
-                                
+
                                 // $("#tableBody").append('<td>'+value.category.name+'</td>');
                                 
                                 $("#tableBody").append('<tr>');
+                                $("#tableBody").append('<td>'+value.category.name+'</td>');
                                 $("#tableBody").append('<td>'+value.category.name+'</td>');
                                 // $("#tableBody").append('<td>'+value.requirements+'</td>');
                                 $("#tableBody").append('<td>'+value['quantity']+'</td>');
@@ -198,8 +197,8 @@
                                 $("#tableBody").append(
                                                     `
                                                         <td>
-                                                            <span class="${value.status == 0 ? 'badge badge-danger' : 'badge badge-success'}">
-                                                                ${value.status == '0' ? 'Pending':'Completed'}
+                                                            <span class="${value.status == 1 ? 'badge badge-success' : 'badge badge-danger'}">
+                                                                ${value.status == '1' ? 'Pending':'Completed'}
                                                             </span>
                                                         </td>
                                                     `
@@ -207,8 +206,8 @@
                                 $("#tableBody").append(
                                                         `
                                                             <td>
-                                                                <span class="${value.is_active == 0 ? 'badge badge-danger' : 'badge badge-success'}">
-                                                                    ${value.is_active == '0' ? 'InActive':'Active'}
+                                                                <span class="${value.is_active == 1 ? 'badge badge-success' : 'badge badge-danger'}">
+                                                                    ${value.is_active == '1' ? 'Active':'InActive'}
                                                                 </span>
                                                             </td>
                                                         `
@@ -235,21 +234,16 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#isActive').on('change', function() {
-                    var isData = $(this).val();
+                    var isActive = $(this).val();
                     var status = $('#status').val();
+                    alert(status);
 
-                    // $('#status'.on('change' function(){
-                    //     var status = $(this).val();
-                    // }));
-                    // var status = $('#status').val();
-
-                    // alert(isData);
                     $.ajax({
                         url: "{{ url('filterIsActive') }}",
                         type: "POST",
                         data: {
                             "_token": "{{ csrf_token() }}",
-                            'filterIsActive': isData,
+                            'filterIsActive': isActive,
                             'filterStatus': status
                         },
                         success: function(data) {
