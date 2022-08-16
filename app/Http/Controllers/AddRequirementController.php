@@ -46,6 +46,7 @@ class AddRequirementController extends Controller
      */
     public function storeRequirement(Insertrequirement $request)
     {
+        // echo"<pre>";print_r($request->toArray()); exit;
         //Insert Requirement Data
         $cat_name = $request->Addcategory;
         $categoryname =Category::where('name',$cat_name)->exists();
