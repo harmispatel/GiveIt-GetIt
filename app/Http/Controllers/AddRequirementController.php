@@ -186,8 +186,6 @@ class AddRequirementController extends Controller
             $categoryAdd->status = 1;
             $categoryAdd->save();
             
-            
-
             // Add New Category Id
             $updateRequired->category_id  = $categoryAdd->id;
 
