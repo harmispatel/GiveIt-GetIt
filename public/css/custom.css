@@ -923,3 +923,7 @@ p{
   }
 
 }
+ /* error  */
+ .error{
+  color: red;
+ }
