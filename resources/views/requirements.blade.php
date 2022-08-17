@@ -29,8 +29,7 @@
                         </div>
                     </div>
                     <div class="col col-md-3">
-                        <form action="" method="get">
-                            @csrf
+                        
                             <div class="form-group">
                                 <select id="status" class="form-control form-control-md" name="filterStatus">
                                     <option value="">All Status</option>
@@ -38,16 +37,18 @@
                                     <option value="2">Completed</option>
                                 </select>
                             </div>
-                        </form>
-                    </div>
+                        
+                    </div>  
                     <div class="col col-md-3">
+                       
                         <div class="form-group">
-                            <select id="isActive" class="form-control form-control-md" name="filterIsActive">
+                            <select id="isActive" class="form-control form-control-md" name="filterIsActive" onchange="isActive()">
                                 <option value="">Is Active?</option>
                                 <option value="1">Active</option>
                                 <option value="2">In Active</option>
                             </select>
                         </div>
+                    
                     </div>
                 </div>
             </div>
@@ -170,6 +171,7 @@
                     var status = $(this).val();
                     var isActive = $('#isActive').val();
                     alert(status);
+                    alert(isActive);
             
                     $.ajax({
                         url: "{{ url('filterStatus') }}",
@@ -189,11 +191,21 @@
                                 // $("#tableBody").append('<td>'+value.category.name+'</td>');
                                 
                                 $("#tableBody").append('<tr>');
+                                // $("#tableBody").append('<td><img src="'+ value->media['path'] == null ? asset('/img/requirement/Noimage.jpg') : asset(value->media['path']) +'"></td>');
                                 $("#tableBody").append('<td>'+value.category.name+'</td>');
                                 $("#tableBody").append('<td>'+value.category.name+'</td>');
                                 // $("#tableBody").append('<td>'+value.requirements+'</td>');
                                 $("#tableBody").append('<td>'+value['quantity']+'</td>');
-                                $("#tableBody").append('<td>'+(value.type == '0' ? 'Getit':'Giveit')+'</td>');                       
+                                $("#tableBody").append(
+                                                        
+                                                    `
+                                                        <td>
+                                                            <span class="${value.type == '1' ? 'badge badge-success':'badge badge-danger  '}">
+                                                                ${value.type == '1' ? 'Giveit':'Getit'}
+                                                            </span>
+                                                       </td>
+                                                    `
+                                                        );                       
                                 $("#tableBody").append(
                                                     `
                                                         <td>
@@ -213,7 +225,15 @@
                                                         `
                                                     );                                                                        
                                 // $("#tableBody").append('<td>'+(value.is_active == '0' ? 'InActive' : 'Active') +'</td>');
-                                $("#tableBody").append('<td><a href=""><i class="fas fa-edit"></i></a> <a href=""><i class="fas fa-trash deleteBtn"></i><a></td>');
+                                $("#tableBody").append(
+                                                        `
+                                                        <td>
+                                                            <a href=""><i class="fas fa-edit "></i></a>&nbsp;&nbsp;
+                                                            <a href=""><i class="fas fa-trash text-danger deleteBtn"></i><a>
+                                                        </td>
+                                                        `
+                                                        
+                                                    );
                                 $("#tableBody").append('</tr>');
                             });
                             
@@ -222,21 +242,94 @@
                     });
 
                 });
-
-
-
-                
+   
             });
-        </script>
 
+
+            
+        </script>
 
         {{-- Ajax Call: Is_active --}}
         <script type="text/javascript">
+            function isActive(){
+                var isActive = $('#isActive').val();
+                var status = $('#status').val();
+
+                alert(isActive);
+                alert(status);
+
+                $.ajax({
+                    url: "{{ url('filterIsActive') }}",
+                    type: "POST",
+                    data: {
+                            "_token": "{{ csrf_token() }}",
+                            'filterIsActive': isActive,
+                            'filterStatus': status
+                        },
+                    success: function(data) {
+                        console.log(data);
+                        $('#tableBody').html('');
+                        $.each( data.datas, function( key, value)
+                        {
+                            $("#tableBody").append('<tr>');
+                                // $("#tableBody").append('<td>'+value.['media']+'</td>');
+                                // <img src="{{ $requirement->media == null ? asset('/img/requirement/Noimage.jpg') : asset($requirement->media['path']) }}" alt="Image" width="100">
+                                // $("#tableBody").append('<td><img src="'+ value->media->path == null ? asset('/img/requirement/Noimage.jpg') : asset(value->media['path']) +'"></td>');
+                                $("#tableBody").append('<td>'+value.category.name+'</td>');
+                                $("#tableBody").append('<td>'+value.category.name+'</td>');
+                                // $("#tableBody").append('<td>'+value.requirements+'</td>');
+                                $("#tableBody").append('<td>'+value['quantity']+'</td>');
+                                $("#tableBody").append(
+                                                    `
+                                                        <td>
+                                                            <span class="${value.type == '1' ? 'badge badge-success':'badge badge-danger  '}">
+                                                                ${value.type == '1' ? 'Giveit':'Getit'}
+                                                            </span>
+                                                       </td>
+                                                    `
+                                                        );
+                                $("#tableBody").append(
+                                                    `
+                                                        <td>
+                                                            <span class="${value.status == 1 ? 'badge badge-success' : 'badge badge-danger'}">
+                                                                ${value.status == '1' ? 'Pending':'Completed'}
+                                                            </span>
+                                                        </td>
+                                                    `
+                                                );
+                                $("#tableBody").append(
+                                                        `
+                                                            <td>
+                                                                <span class="${value.is_active == 1 ? 'badge badge-success' : 'badge badge-danger'}">
+                                                                    ${value.is_active == '1' ? 'Active':'InActive'}
+                                                                </span>
+                                                            </td>
+                                                        `
+                                                    );
+                                                    
+                                $("#tableBody").append(
+                                    // '<td><a href=""><i class="fas fa-edit"></i></a> <a href=""><i class="fas fa-trash text-danger"></i><a></td>'
+                                                        `
+                                                            <td>
+                                                                <a href=""><i class="fas fa-edit "></i></a>&nbsp;&nbsp; 
+                                                                <a href=""><i class="fas fa-trash text-danger deleteBtn"></i><a>
+                                                            </td>
+                                                        `
+                                                    );
+                            $("#tableBody").append('</tr>');
+                        });
+                    }
+                });
+                
+            }
+        </script>
+    
+        {{-- Ajax Call: Is_active --}}
+        {{-- <script type="text/javascript">
             $(document).ready(function() {
                 $('#isActive').on('change', function() {
                     var isActive = $(this).val();
                     var status = $('#status').val();
-                    alert(status);
 
                     $.ajax({
                         url: "{{ url('filterIsActive') }}",
@@ -253,7 +346,7 @@
 
                             $.each( data.datas, function( key, value ) 
                             {   
-                                echo"<pre>";print_r(value);exit;
+                                
                                 $("#tableBody").append('<tr>');
                                 $("#tableBody").append('<td>'+value.['media']+'</td>');
                                 $("#tableBody").append('<td>'+value.category.name+'</td>');
@@ -287,7 +380,7 @@
                     });
                 });
             });
-        </script>
+        </script> --}}
 
         {{-- Ajax Call: Seraching --}}
         <script type="text/javascript">

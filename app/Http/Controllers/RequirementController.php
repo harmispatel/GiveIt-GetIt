@@ -314,29 +314,76 @@ class RequirementController extends Controller
         return redirect()->route('requirement.index')->with('message','Requirement deleted successfully!');     
     }
     
+// ----------------
 
-    // AJAX call for Status
-        public function changeStatus(Request $request)
+public function changeStatus(Request $request)
         {
             
             $query = Requirement::query();
-            
+            $mediaQuery = Media::query();
+
             if ($request->ajax()) {
                 
+                
+                // If Status is Empty
                 if ($request->filterStatus == "" ){
                     
-                    $requirements = Requirement::query();
-                    $requirements = $query->with('category', function($query) {
+                    if ($request->filterIsActive == "" ){
+
+                        // If Status and IsActive is Empty
+                        $requirements = Requirement::query();
+                        $requirements = $query->with('category', function($query) {
                                     $query->select('id', 'name');
                                 })
                                 ->get();
+                        
+                                // $requirements = Media::query();
+                                // $requirements = $mediaQuery->with('media', function($query) {
+                                //     $query->select('id', 'path');
+                                // })
+                                // ->get();
+                        
+                        return response()->json([
+                            'requirements' => $requirements,
+                        ]);
+                    }else{
+
+                        // If Status is Empty and IsActive is not Empty
+                        $requirements = Requirement::query();
+                        $requirements = $query->with('category', function($query) {
+                                    $query->select('id', 'name');
+                                })
+                                ->where('is_active',$request->filterIsActive)
+                                ->get();
+                        
+                                // $requirements = Media::query();
+                                // $requirements = $mediaQuery->with('media', function($query) {
+                                //     $query->select('id', 'path');
+                                // })
+                                // ->get();
 
                         return response()->json([
-                        'requirements' => $requirements,
+                            'requirements' => $requirements,
                         ]);
-                }else{
+                    }
+
                     
-                    // $requirement = Requirement::query();
+                }else{
+
+                        // If Status is not Empty
+                        $requirements = Requirement::query();
+                        $requirements = $query->with('category', function($query) {
+                                        $query->select('id', 'name');
+                                    })
+                                    ->where('status', $request->filterStatus);
+                                    
+                                    // $requirements = Media::query();
+                                    // $requirements = $mediaQuery->with('media', function($query) {
+                                    //     $query->select('id', 'path');
+                                    // })
+                                    // ->get();
+
+                        // If Status is not Empty and IsActive is Not Empty
                         if ($request->filterIsActive != "" ) {
                             
                             $requirement = $query->with('category', function($query) {
@@ -345,9 +392,16 @@ class RequirementController extends Controller
                                             ->where('status', $request->filterStatus)
                                             ->where('is_active',$request->filterIsActive)
                                             ->get();
+
+                                            // $requirements = Media::query();
+                                            // $requirements = $mediaQuery->with('media', function($query) {
+                                            //     $query->select('id', 'path');
+                                            // })
+                                            // ->get();
                         
                         }else{
                             
+                            // If Status is not Empty and IsActive is Empty
                             $requirement = $query->with('category', function($query) {
                                             $query->select('id', 'name');
                                         })
@@ -355,17 +409,14 @@ class RequirementController extends Controller
                                         // ->where('is_active',$request->filterIsActive)
                                         ->get();
 
-                            
+                                        // $requirements = Media::query();
+                                        // $requirements = $mediaQuery->with('media', function($query) {
+                                        //     $query->select('id', 'path');
+                                        // })
+                                        // ->get();
+
                         }
 
-                        // echo"<pre>";print_r('hello');exit;
-                        // $requirement->where(!empty($request->filterIsActive), function($query) use($request) {
-                        //             $query->where('is_active',$request->filterIsActive);
-                        //                 // ->orWhere('field', 'LIKE' , '%' . $request->searchString . "%");
-                        //         });
-                        
-                        // $requirements = $requirement->get();
-                        
                         return response()->json([
                         'requirements' => $requirement
                         ]);
@@ -377,6 +428,89 @@ class RequirementController extends Controller
                 // return view('requirements',compact('category','requirements'));
             }
         }
+
+//-----------------
+    // AJAX call for Status
+        // public function changeStatus(Request $request)
+        // {
+            
+        //     $query = Requirement::query();
+            
+        //     if ($request->ajax()) {
+                
+        //         // If Status is Empty
+        //         if ($request->filterStatus == "" ){
+                    
+        //             if ($request->filterIsActive == "" ){
+
+        //                 // If Status and IsActive is Empty
+        //                 $requirements = Requirement::query();
+        //                 $requirements = $query->with('category', function($query) {
+        //                             $query->select('id', 'name');
+        //                         })
+        //                         ->get();
+                        
+        //                 return response()->json([
+        //                     'requirements' => $requirements,
+        //                 ]);
+        //             }else{
+
+        //                 // If Status is Empty and IsActive is not Empty
+        //                 $requirements = Requirement::query();
+        //                 $requirements = $query->with('category', function($query) {
+        //                             $query->select('id', 'name');
+        //                         })
+        //                         ->where('is_active',$request->filterIsActive)
+        //                         ->get();
+
+        //                 return response()->json([
+        //                     'requirements' => $requirements,
+        //                 ]);
+        //             }
+
+                    
+        //         }else{
+
+        //                 // If Status is not Empty
+        //                 $requirements = Requirement::query();
+        //                 $requirements = $query->with('category', function($query) {
+        //                                 $query->select('id', 'name');
+        //                             })
+        //                             ->where('status', $request->filterStatus);
+                        
+        //                 // If Status is not Empty and IsActive is Not Empty
+        //                 if ($request->filterIsActive != "" ) {
+                            
+        //                     $requirement = $query->with('category', function($query) {
+        //                                         $query->select('id', 'name');
+        //                                     })
+        //                                     ->where('status', $request->filterStatus)
+        //                                     ->where('is_active',$request->filterIsActive)
+        //                                     ->get();
+                        
+        //                 }else{
+                            
+        //                     // If Status is not Empty and IsActive is Empty
+        //                     $requirement = $query->with('category', function($query) {
+        //                                     $query->select('id', 'name');
+        //                                 })
+        //                                 ->where('status', $request->filterStatus)
+        //                                 // ->where('is_active',$request->filterIsActive)
+        //                                 ->get();
+
+        //                 }
+
+        //                 return response()->json([
+        //                 'requirements' => $requirement
+        //                 ]);
+        //             }
+                
+        //     }
+        //     else{
+        //         return response()->json(['errors' => $request->errors()]);
+        //         // return view('requirements',compact('category','requirements'));
+        //     }
+        // }
     
     // AJAX call for IsActive
         public function changeIsActive(Request $request)
@@ -386,20 +520,40 @@ class RequirementController extends Controller
 
             if($request->ajax()){
 
+                // If IsActive is Empty
                 if ($request->filterIsActive == "") {
 
-                    $datas = Requirement::query();
+                    // If IsActive Is Empty and Status is Empty
+                    if ($request->filterStatus == "") {
+                        $datas = Requirement::query();
+                        $datas = $isActiveQuery->with('category', function($isActiveQuery){
+                                $isActiveQuery->select('id','name');
+                            })
+                            ->get();
 
-                    $datas = $isActiveQuery->with('category', function($isActiveQuery){
-                        $isActiveQuery->select('id','name');
-                    })
-                    ->get();
+                            return response()->json([
+                                'datas' => $datas
+                            ]);
+                    }else{
 
-                    return response()->json([
-                        'datas' => $datas
-                    ]); 
+                        // If IsActive is Empty and Satus is not Empty
+                        $datas = Requirement::query();
+                         $datas = $isActiveQuery->with('category', function($isActiveQuery){
+                                $isActiveQuery->select('id','name');
+                            })
+                            ->where('status',$request->filterStatus)
+                            ->get();
+
+                        return response()->json([
+                            'datas' => $datas
+                        ]);
+
+                    }
+
+                     
                 }else{
-                
+                    
+                    // If IsActive is not Empty and Status is not Empty
                     if ($request->filterStatus != "" ) {
                         
                         $data = $isActiveQuery->with('category', function($isActiveQuery){
@@ -410,33 +564,23 @@ class RequirementController extends Controller
                                         ->get();
                     }else{
 
+                        // If IsActive is not Empty and Status is Empty
                         $data = $isActiveQuery->with('category', function($isActiveQuery){
                                             $isActiveQuery->select('id','name');
                                         })
                                         ->where('is_active', $request->filterIsActive)
-                                        // ->where('status',$request->filterStatus)
                                         ->get();
                     }
+
+                    return response()->json([
+                        'datas' => $data
+                    ]); 
                 }
-
-
-
-                        // $data->where(!empty($request->filterStatus), function($query) use($request) {
-                        //     $query->where('status',$request->filterStatus);
-                        //         // ->orWhere('field', 'LIKE' , '%' . $request->searchString . "%");
-                        //     });
-                
-                // $datas = $data->get();
-
-                // dd($datas->toArray());
-
-                return response()->json([
-                    'datas' => $data
-                ]);  
+                 
             }
             else{
 
-                return view('requirements',compact('is_active','data'));
+                return response()->json(['errors' => $request->errors()]);
 
             }
         }
