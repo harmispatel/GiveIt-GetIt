@@ -21,7 +21,7 @@
                         <a class="nav-link {{ Request::is('getit*') ? 'active' : '' }}" href="{{route('getit')}}">Get It</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link {{ Request::is('aboutus*') ? 'active' : '' }}" href="aboutus">About</a>
                     </li>
                     {{-- <li class="nav-item">
                         <a class="nav-link {{ Request::is('donate*') ? 'active' : '' }}" href="donate">Donate</a>

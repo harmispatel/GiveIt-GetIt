@@ -166,7 +166,7 @@ class AddRequirementController extends Controller
     public function update(EditValidation $request, $id)
     {
         //Update Requirement Data
-       
+       try{
         $cat_name = $request->Addcategory;
         $categoryname =Category::where('name',$cat_name)->exists();
         $user = auth()->User();
@@ -270,7 +270,10 @@ class AddRequirementController extends Controller
                                           }
                               $updateRequired->status = $request->status;
                               $updateRequired->save();
+                                        }catch(Exception $e){
+                                            
 
+                                        }
             return redirect('editprofile')->with('updatedata','Update RequiredData Successfully');
     
     }

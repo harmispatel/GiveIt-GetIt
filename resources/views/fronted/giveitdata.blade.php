@@ -1,4 +1,7 @@
+
 @foreach ($data as $datas)
+{{--  --}}
+
     <div class="col-md-4">
 
         <div class="get_detalis_inr">

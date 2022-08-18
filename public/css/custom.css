@@ -476,6 +476,28 @@ p{
   right: 30px;
 }
 
+/* About us */
+
+.about-main{
+  padding:50px 0;
+}
+
+.about-info{
+  padding:30px;
+  background-color:#fff;
+  box-shadow:0 2px 10px rgba(0, 0, 0, 30%);
+  border-radius:20px;
+}
+
+.about-info p{
+  font-size:20px;
+  color: #000;
+  font-weight:600;
+  margin-bottom:15px;
+}
+.about-info p:last-child{
+  margin:0;
+}
 
 
 /* footer */
@@ -861,6 +883,12 @@ p{
   .social-links{
     margin-top: 20px;
   }
+  .about-main {
+    padding: 30px 0;
+  }
+  .about-info p{
+    text-align: justify;
+  }
 }
 
 @media (max-width: 767px){
@@ -926,4 +954,5 @@ p{
  /* error  */
  .error{
   color: red;
- }
+  font-size: large ;
+}

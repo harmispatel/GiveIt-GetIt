@@ -1,78 +1,103 @@
-@include('fronted.css')
+@extends('fronted.layout')
 
 @section('title', 'Give It & Get It - Reset password')
 
 @section('content')
-<body>
-    @if (session()->has('error'))
-        <div class="alert alert-success error">
-            {{ session()->get('error') }}
-        </div>
-    @endif
-    <div class="donation-info">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="donate-form">
-                        <div class="form-title text-center">
+
+    <body>
+        @if (session()->has('error'))
+            <div class="alert alert-success error">
+                {{ session()->get('error') }}
+            </div>
+        @endif
+        <div class="donation-info">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="donate-form">
+                            <div class="form-title text-center">
 
 
-                            <h3>Reset Password</h3>
-                            <hr>
-                            <form action="{{ route('reset.password.post') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="token" value="{{ $token }}">
-                                <div class="row">
-                                <div class="col-md-9">
-                                    <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
-                                        <input type="password"   class="form-control" name="password">
-                                        <i class="bi bi-eye-slash eye_ic" id="togglePassword"></i>
-                                        @if ($errors->has('password'))
-                                            <span class="text-danger">{{ $errors->first('password') }}</span>
-                                        @endif
+                                <h3>Reset Password</h3>
+                                <hr>
+                                <form action="{{ route('reset.password.post') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="token" value="{{ $token }}">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="mb-3">
+                                                <label for="password" class="form-label">Password</label>
+                                                <input type="password" class="form-control" id="password" name="password">
+                                                <i class="bi bi-eye-slash eye_ic" id="togglePassword"></i>
+                                                @if ($errors->has('password'))
+                                                    <span class="text-danger">{{ $errors->first('password') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-9">
+                                            <div class="mb-3">
+                                                <label for="password-confirm" class="form-label">Confirm Password</label>
+
+                                                <input type="password" class="form-control" id="comform_password" name="password_confirmation">
+                                                <i class="bi bi-eye-slash eye_ic" id="toggleCPassword"></i>
+                                                @if ($errors->has('password_confirmation'))
+                                                    <span
+                                                        class="text-danger">{{ $errors->first('password_confirmation') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+
                                     </div>
-                                </div>
-                            
-                                <div class="col-md-9">
-                                <div class="mb-3">
-                                    <label for="password-confirm" class="form-label">Confirm Password</label>
-                                    
-                                        <input type="password"   class="form-control" name="password_confirmation">
-                                        <i class="bi bi-eye-slash eye_ic" id="toggleCPassword"></i>
-                                        @if ($errors->has('password_confirmation'))
-                                            <span class="text-danger">{{ $errors->first('password_confirmation') }}</span>
-                                        @endif
-                                    </div>
-                                </div>
-                                
-                                </div>
-                            
-                                <div class="col-md-11">
-                                    <div class="text-center">
-                                    <button type="submit" class="btn donate-bt bt-sm">
-                                        Reset Password
-                                    </button>
-                                </div>
-                            </form>
+
+                                    <div class="col-md-11">
+                                        <div class="text-center">
+                                            <button type="submit" class="btn donate-bt bt-sm">
+                                                Reset Password
+                                            </button>
+                                        </div>
+                                </form>
+                            </div>
+
                         </div>
-                       
+
+
                     </div>
-                    
-        
                 </div>
             </div>
         </div>
-    </div>
-    @include('fronted.js')
+    </body>
+@endsection
+@section('js')
     <script>
         setTimeout(() => {
-                    $('.error').remove( );
-                }, 3500);
+            $('.error').remove();
+        }, 3500);
+
+        const togglePassword = document.querySelector("#togglePassword");
+                const password = document.querySelector("#password");
+
+                togglePassword.addEventListener("click", function() {
+                    // toggle the type attribute
+                    const type = password.getAttribute("type") === "password" ? "text" : "password";
+                    password.setAttribute("type", type);
+
+                    // toggle the icon
+                    this.classList.toggle("bi-eye");
+                });
+                const toggleCPassword = document.querySelector("#toggleCPassword");
+        const comform_password = document.querySelector("#comform_password");
+
+        toggleCPassword.addEventListener("click", function() {
+            // toggle the type attribute
+            const type = comform_password.getAttribute("type") === "password" ? "text" : "password";
+            comform_password.setAttribute("type", type);
+
+            // toggle the icon
+            this.classList.toggle("bi-eye");
+        });
     </script>
-
-</body>
-
+@endsection
 
 
 

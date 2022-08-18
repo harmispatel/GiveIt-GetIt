@@ -125,10 +125,10 @@
                                         <div class="addcatgory" style="display: none">
                                             <input type="text" class="form-control" name="Addcategory"
                                                 placeholder="Enter Category Name">
+                                            @if ($errors->has('Addcategory'))
+                                                <span class="text-danger">{{ $errors->first('Addcategory') }}</span>
+                                            @endif
                                         </div>
-                                        @if ($errors->has('Addcategory'))
-                                            <span class="text-danger">{{ $errors->first('Addcategory') }}</span>
-                                        @endif
                                     </div>
                                     {{-- Person --}}
                                     <div class="form-group">
@@ -141,28 +141,30 @@
                                     </div>
                                     {{-- Image --}}
                                     <div class="form-group">
-                                        <label for="media" class="form-label">Media</label>
-                                        <input type="file" id="media" name="media" class="form-control">
+                                        <label for="media" class="form-label">Image</label>
+                                        <input type="file" id="media" name="media" accept=".png, .jpg"
+                                            class="form-control">
                                     </div>
                                     @if ($errors->has('media'))
                                         <span class="text-danger">{{ $errors->first('media') }}</span>
                                     @endif
                                     {{-- Requirement --}}
-                                            <script>
-                                                CKEDITOR.replace('requirement');
-                                            </script>
+
                                     <div class="form-group">
                                         <label for="Requirement" class="form-label">Requirement</label>
                                         <div class="mb-3">
-                                            <textarea name="requirement" id="requirement"  class="ckeditor form-control" required="required" rows="3"
-                                            placeholder="Enter requirement">{{ old('requirement') }}</textarea>
+                                            <textarea name="requirement" id="requirement" class="ckeditor form-control" required="required" rows="3"
+                                                placeholder="Enter requirement">{{ old('requirement') }}</textarea>
+                                            <script>
+                                                CKEDITOR.replace('requirement');
+                                            </script>
+                                            @if ($errors->has('requirement'))
+                                                <span class="text-danger">{{ $errors->first('requirement') }}</span>
+                                            @endif
                                         </div>
 
-                                        </div>
                                     </div>
-                                        @if ($errors->has('requirement'))
-                                            <span class="text-danger">{{ $errors->first('requirement') }}</span>
-                                        @endif
+                                </div>
 
                                 <div class="text-center">
                                     <a href="welcome" class="btn donate-bt">Back</a>
@@ -185,11 +187,12 @@
 @endsection
 
 @section('js')
+    <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
 
     <script type="text/javascript">
-        // $(document).ready(function() {
-        //     $('.ckeditor').validate.notEmpty( 'Value is required.' ),
-        // });
+    
+
+
 
         function OtherData() {
             var selectVal = $('.category').val();
@@ -258,36 +261,51 @@
 
 
 
-        $(document).ready(function() {
-            setTimeout(() => {
-                $('#error').hide()
-            }, 3000);
-        });
+
 
         $(document).ready(function() {
             $("#insertdata").validate({
                 ignore: [],
-                 rules: {
+                rules: {
                     requirement: {
                         required: function() {
                             CKEDITOR.instances.requirement.updateElement();
                         }
                     },
-                    quantity:{
-                        required:true,
+                    quantity: {
+                        required: true,
                         min: 1,
                         number: true
                     },
                     Type: {
-                        required:true,
-                    }
-                    
+                        required: true,
+                    },
+                    // media: {
+                    //     // required: true,
+                    //     accept: "jpg|jpeg|png|gif|svg",
+                    //     filesize: 1048576
+                    // }, 
+
+
                 },
+                messages: {
+                    requirement: {
+                        required: "reuirement is required"
+                    },
+                    quantity: {
+                        required: "Person is required",
+                        min: "Select at least one person",
+                        number: "Number is not valid"
+                    },
+                    Type:{
+                        required: "Select at least one type",
+
+                    }
+                }
 
             });
         });
     </script>
 
-    <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
 
 @endsection

@@ -9,6 +9,8 @@ use App\Models\User;
 
 //Requests
 use App\Http\Requests\RegisterValidation;
+use Exception;
+// use Illuminate\Database\QueryException;
 
 class RegisterController extends Controller
 {
@@ -22,18 +24,23 @@ class RegisterController extends Controller
         public function store(RegisterValidation $request)
         {
             // Insert Data user Fronted side
-        
-            $pass = bcrypt($request->password);
-            $insertdata = new User();
-            $insertdata->name =  $request->username;
-            $insertdata->email =  $request->email;
-            $insertdata->mobile =  $request->number;
-            $insertdata->address =  $request->address;
-             $insertdata->status = 1;
-            $insertdata->user_type = 0;
-            $insertdata->password = $pass;
-            
-            $insertdata->save();
+            try{
+                $pass = bcrypt($request->password);
+                $insertdata = new User();
+                $insertdata->name =  $request->username;
+                $insertdata->email   =  $request->email;
+                $insertdata->mobile =  $request->number;
+                $insertdata->address =  $request->address;
+                $insertdata->status = 1;
+                $insertdata->user_type = 0;
+                $insertdata->password = $pass;
+                
+              $insertdata->save();
+            }catch(Exception  $e)
+            {
+                return back()->with('mistake','Data has been Insert fail!');
+            }
             return redirect('userlogin')->with('msg','Register successfully');
+            
         }
- }
+    }

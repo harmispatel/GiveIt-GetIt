@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 // Request Class
 use App\Http\Requests\{ProfileValidation, ChangepasswordValidation};
+use Exception;
 
 
 class UserprofileController extends Controller
@@ -46,36 +47,48 @@ class UserprofileController extends Controller
             // 'password_confirmation' =>'required_with:password|same:password|min:6'
         ]);
         
-        
-        
-        $user->name = $request->username;
-        $user->email = $request->email;
-        $user->mobile = $request->number;
-        $user->address = $request->address;
-        
-        $user->save();
+        try{
+
+            
+            $user->name = $request->username;
+            $user->email = $request->email;
+            $user->mobile = $request->number;
+            $user->address = $request->address;
+            
+            $user->save();
+        }catch(Exception $e){
+            return back()->with('mistake','Data has been Update fail!');
+
+        }
         
         return redirect('editprofile');
     }
 
-     public function show(){
+    //  public function show(){
 
-        return view('fronted.password');
-     }
+    //     return view('fronted.password');
+    //  }
    
 
 
 
     public function password(ChangepasswordValidation $request)
     { 
+        
         $user = Auth::user();
-      
- 
-        $pass = bcrypt($request->password);
-        $user->password = $pass;
-        $user->save();
+        
+        try{
+            //    dd($request);
+            $pass = bcrypt($request->password);
+            $user->password = $pass;
+            $user->save();
+        }catch(Exception  $e)
+        {
+            return back()->with('mistake','Password has been Update fail!');
 
-    return redirect('editprofile')->with('updatepassword','Update password Successfully');
+        }
+            
+            return redirect('editprofile')->with('updatepassword','Update password Successfully');
     }
      
 }

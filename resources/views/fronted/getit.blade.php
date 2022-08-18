@@ -58,6 +58,7 @@
             <div class="container">
                 <div class="row" id="post-data">
                     @include('fronted.getitdata')
+                  
                 </div>
                 <div id="loader" style="display: block; background: rgb(255, 254, 254);">
                     <div id="square">
@@ -76,39 +77,46 @@
             </div>
             <div class="no-data text-center mb-4" style="display:none">
                 <b>No data - last page</b>
-                </div>
-        @section('js')
+            </div>
+        </section>
+    </div>
+@endsection
+@section('js')
+    
+<script type="text/javascript">
+	var page = 1;
+	$(window).scroll(function() {
+	    if($(window).scrollTop() + $(window).height() >= $(document).height()) {
+	        page++;
+	        loadMoreData(page);
+	    }
+	});
 
-            <script type="text/javascript">
-                var page = 1;
-                $(window).scroll(function() {
-                    if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
-                        page++;
-                        loadMoreData(page);
-                    }
-                });
-                function loadMoreData(page) {
-                    $.ajax({
-                            url: '?page=' + page,
-                            type: "get",
-                            beforeSend: function() {
-                                $('.ajax-load').show();
-                            }
-                        })
-                        .done(function(data) {
-                            if (data.html == '') {
-                                $('.ajax-load').html("");                                 
-                            } else {
-                                $('.ajax-load').hide();
-                                $("#post-data").append(data.html);
-                            }
-                        })
-                        .fail(function(jqXHR, ajaxOptions, thrownError) {
-                            alert('server not responding...');
-                        });
-                }
-            </script>
-        @endsection
-    </section>
-</div>
+
+	function loadMoreData(page){
+	  $.ajax(
+          {
+              url: '?page=' + page,
+              type: "get",
+              beforeSend: function()
+              {
+                  $('.ajax-load').show();
+	            }
+	        })
+	        .done(function(data)
+	        {
+                if(data.html == " "){
+                    $('.ajax-load').html("No more records found");
+	                return;
+	            }
+	            $('.ajax-load').hide();
+                // console.log(data.html);
+	            $("#post-data").append(data.html);
+	        })
+	        .fail(function(jqXHR, ajaxOptions, thrownError)
+	        {
+	              alert('server not responding...');
+	        });
+	}
+</script>
 @endsection

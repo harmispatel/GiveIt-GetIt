@@ -95,6 +95,7 @@ Route::get('/home', function () {
 });
 
 Route::view("/welcome",'fronted.index');
+Route::view("/aboutus",'fronted.about');
 
 Route::get("/register",[RegisterController::class, 'show'])->name('register');
 Route::post("/insert", [RegisterController::class, 'store'])->name('insert');
@@ -130,7 +131,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post("/update/{id}",[AddRequirementController::class,'update'])->name('update');
     Route::get("/editprofile",[UserProfileController::class,'edit'])->name('editprofile');
     Route::post("/userupdateprofile",[UserProfileController::class,'update'])->name('userupdateprofile');
-    Route::get("/changepassword",[UserProfileController::class,'show'])->name('changepassword');
+    // Route::get("/changepassword",[UserProfileController::class,'show'])->name('changepassword');
     Route::post("/updatepassword",[UserProfileController::class,'password'])->name('updatepassword');
 });
 

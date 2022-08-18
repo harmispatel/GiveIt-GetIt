@@ -22,13 +22,19 @@ class GetitController extends Controller
     {
         //Show Gitite Requirement Data
         $data = Requirement:: with(['user','categories'])->where('type', 2 )->paginate(3);
-           if ($request->ajax()) 
-           {
-    		 $view = view('fronted.getitdata',compact('data'))->render();
+        dd($data);
+           
+        if ($request->ajax()) {
+    		$view = view('fronted.getitdata',compact('data'))->render();
+            // dd($view);
+            // echo"<pre>", print_r($view->toArray());exit;
             return response()->json(['html'=>$view]);
-           }
-        return view('fronted.getit',compact('data'));
+        }
+
+
+    	return view('fronted.getit',compact('data'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
