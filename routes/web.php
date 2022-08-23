@@ -93,12 +93,12 @@ Route::group(['middleware' => ['auth']], function () {
 Route::get('/home', function () {
     return view('fronted.index');
 });
-
 Route::view("/welcome",'fronted.index');
 Route::view("/aboutus",'fronted.about');
 
 Route::get("/register",[RegisterController::class, 'show'])->name('register');
 Route::post("/insert", [RegisterController::class, 'store'])->name('insert');
+
 
 Route::get("/userlogin",[UserController::class,'home'])->name('userlogin')->middleware('guest');
 Route::post("/userget",[UserController::class,'check'])->name('useget');
@@ -152,7 +152,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/user',UserController::class);
     Route::resource('/category',CategoryController::class);
     Route::resource('/requirement',RequirementController::class);
-    Route::view('/home','welcome');
+    // Route::view('/home','welcome');
     // Route::get('/filterStatus',[RequirementController::class,'filterStatus'])->name('filterStatus');
     Route::post('/filterStatus',[RequirementController::class,'changeStatus']);
     Route::post('/filterIsActive',[RequirementController::class,'changeIsActive']);

@@ -834,7 +834,7 @@ p{
 
 .releted_product_inr{
   display:flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   background-color: #fff;
   border: 2px solid rgb(114 128 157 / 20%);
   padding: 20px;

@@ -22,12 +22,9 @@ class GetitController extends Controller
     {
         //Show Gitite Requirement Data
         $data = Requirement:: with(['user','categories'])->where('type', 2 )->paginate(3);
-        dd($data);
            
         if ($request->ajax()) {
     		$view = view('fronted.getitdata',compact('data'))->render();
-            // dd($view);
-            // echo"<pre>", print_r($view->toArray());exit;
             return response()->json(['html'=>$view]);
         }
 
@@ -70,8 +67,12 @@ class GetitController extends Controller
         $categoryId = Category::get();
         $mediaData = Media::get();
         $RequiredData = Requirement::find($id);
-        
-        return view('fronted.getitview',compact('RequiredData','categoryId','mediaData'));
+        $cat_id = $RequiredData->category_id;
+        // $RequirementData = Requirement::all();
+        $relatedData = Requirement::with(['categories','media'])->where('category_id',$cat_id)->limit(3)->get();
+        // echo "<pre>"; print_r($relatedData->toArray());exit;
+        // dd($relatedData);
+        return view('fronted.getitview',compact('RequiredData','categoryId','mediaData','relatedData'));
     }
 
     /**
