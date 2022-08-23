@@ -34,43 +34,39 @@
                     </div>
                     <div class="releted_product-main">
                         <h2>Related Product</h2>
+                        @foreach ($relatedData as $item)
                         <div class="releted_product_inr">
+                            {{-- @php
+                             echo"<pre>"; print_r($relatedData->toArray());exit;   
+                            @endphp --}}
+                            
                             <div class="product-img">
-                                <img src="assets/image/book1.jpg" class="w-100">
+                                <img src="{{ $item->media == null ? asset('/img/requirement/Noimage.jpg') : asset($item->media['path']) }}" class="w-100">
                             </div>
                             <div class="product-info">
-                                <h3>Name</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                                <h3>Name:{{$item->categories['name']}}</h3>
+                                <p>{!!html_entity_decode($item->requirements)!!}</p>
                             </div>
                         </div>
-                        <div class="releted_product_inr">
-                            <div class="product-img">
-                                <img src="assets/image/book1.jpg" class="w-100">
-                            </div>
-                            <div class="product-info">
-                                <h3>Name</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                            </div>
-                        </div>
-                        <div class="releted_product_inr">
-                            <div class="product-img">
-                                <img src="assets/image/book1.jpg" class="w-100">
-                            </div>
-                            <div class="product-info">
-                                <h3>Name</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                            </div>
-                        </div>
+                        @endforeach
+                       
                     </div>
                 </div>
                 <div class="col-md-5">
                     <div class="product-detail-right">
                         <div class="product-price-box">
                             <div class="price-box-header">
-                                <h3>₹ 500</h3>
+                                <h3>₹{{$RequiredData->price == null ? 00.00 : $RequiredData->price }}</h3>
                                 <div class="price-share">
                                     <button class="btn"><i class="fa-solid fa-share-nodes"></i></button>
-                                    <button class="btn"><i class="fa-solid fa-heart"></i></button>
+                                    @auth
+                                    <button class="btn"><i class="fa-solid fa-heart" href="#"></i></button>
+                                    {{-- <a href="{{route('addform')}}" class="give_bt">Get IT</a> --}}
+                                    @endauth
+                                    @guest
+                                    <button class="btn"><a href="{{route('userlogin')}}" class="fa-solid fa-heart"></a></button>
+                                    @endguest
+
                                 </div>
                             </div>
                             <p class="mb-2">Product Name : {{ $RequiredData->categories['name'] }}</p>
@@ -91,7 +87,7 @@
                                     <p><i class="fa-solid fa-angle-right"></i></p>
                                 </div>
                             </a>
-                            <button class="btn cht-seller">Chat with Seller</button>
+                            <a href="tel:{{$RequiredData->user['mobile']}}"><button class="btn cht-seller">Contact</button></a>
                         </div>
                         <div class="location">
                             <h3>Location</h3>

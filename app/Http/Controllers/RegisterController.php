@@ -16,6 +16,10 @@ class RegisterController extends Controller
 {
      
     // Open Register page User 
+    public function __construct()
+    {
+        $this->middleware(['auth','verified']);
+    }
     public function show()
     {
          return view('fronted.Register');

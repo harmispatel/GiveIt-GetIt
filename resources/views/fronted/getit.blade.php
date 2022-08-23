@@ -106,11 +106,10 @@
 	        .done(function(data)
 	        {
                 if(data.html == " "){
-                    $('.ajax-load').html("No more records found");
-	                return;
+                    $('.ajax-load').html();
+	                
 	            }
 	            $('.ajax-load').hide();
-                // console.log(data.html);
 	            $("#post-data").append(data.html);
 	        })
 	        .fail(function(jqXHR, ajaxOptions, thrownError)

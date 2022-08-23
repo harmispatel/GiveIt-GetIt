@@ -68,7 +68,11 @@ class GiveitController extends Controller
        $categoryId = Category::get();
         $mediaData = Media::get();
         $RequiredData = Requirement::find($id);
-        return view('fronted.giveitview',compact('RequiredData','categoryId','mediaData'));
+        $RequirementData = Requirement::all();
+        $cat_id = $RequiredData->category_id;
+
+        $relatedData = Requirement::with(['categories','media'])->where('category_id',$cat_id)->limit(3)->get();
+        return view('fronted.giveitview',compact('RequiredData','categoryId','mediaData','relatedData'));
     }
 
     /**

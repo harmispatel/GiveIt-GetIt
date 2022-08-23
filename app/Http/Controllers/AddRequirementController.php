@@ -271,7 +271,7 @@ class AddRequirementController extends Controller
                               $updateRequired->status = $request->status;
                               $updateRequired->save();
                                         }catch(Exception $e){
-                                            
+                                            return back()->with('mistake','Data has been Update fail!');
 
                                         }
             return redirect('editprofile')->with('updatedata','Update RequiredData Successfully');
