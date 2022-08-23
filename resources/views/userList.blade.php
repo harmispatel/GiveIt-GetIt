@@ -1,6 +1,6 @@
 @extends('common.layout')
 
-@section('title', 'User Page')
+@section('title', 'Users')
 
 @section('content')
 
@@ -42,7 +42,7 @@
                         <th>Email</th>
                         <th>Mobile</th>
                         <th>Address</th>
-                        <th>User_type</th>
+                        <th>User type</th>
                         <th>Status</th>
                         
                         <th colspan="2">Actions</th>
@@ -56,12 +56,12 @@
                             <td>{{$user['mobile']}}</td>
                             <td>{{$user['address']}}</td>
                             <td>
-                                @if ( $user['user_type'] == 1 )
-                                    <span class="badge badge-warning">
-                                        {{ $user['user_type'] = 'Trust'}}
+                                @if ( $user['user_type'] == 0)
+                                    <span>
+                                        {{ $user['user_type'] =  'User'}}
                                     </span>
                                 @endif
-                                @if ( $user['user_type'] == 2 )
+                                {{-- @if ( $user['user_type'] == 2 )
                                     <span class="badge badge-primary">
                                         {{ $user['user_type'] = 'Donor' }}
                                     </span>
@@ -70,7 +70,7 @@
                                     <span class="badge badge-success">
                                         {{ $user['user_type'] = 'Admin'}}
                                     </span>
-                                @endif
+                                @endif --}}
 
                             </td>
                             <td>

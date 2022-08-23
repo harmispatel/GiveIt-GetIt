@@ -62,7 +62,7 @@ Route::group(['middleware' => ['guest']], function () {
 
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::view('home','welcome');
+    Route::view('home1','welcome');
     
     // Logout Route
     Route::post("/logout",[loginController::class,'logout'])->name('logout')->middleware('auth');
@@ -71,6 +71,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Resource Route of User,Category,Requirement
     Route::resource('/user',UserController::class);
     Route::resource('/category',CategoryController::class);
+    Route::delete('multipleCategoryDelete',[CategoryController::class,'multipleDelete']);
     Route::resource('/requirement',RequirementController::class);
 
     // Filter Route

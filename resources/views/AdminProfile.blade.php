@@ -51,12 +51,39 @@
                                     </div>
                                     <hr>
 
+                                    
+
                                     <button type="submit" class="btn btn-primary">Update</button>
-                                    <a class="btn btn-primary" href="{{route('adminProfile.create')}}">Change Password</a>
+                                    <a class="btn btn-primary changePwd" >Update Password</a>
                                     <a class="btn btn-dark" href="{{'home'}}" > Back </a>
 
                                 </form>
-                                <hr>                          
+                                <hr>
+                                <div class="form-group changePassword" style="display: none">
+                                    <form action="{{route('adminProfile.update', auth()->user()->id)}}" method="POST">
+                                        @csrf
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <label for="password" class="mt-2">Password</label>
+                                                    <input type="password" name="password" id="pwd" class="form-control"  placeholder="Enter password">
+                                                        @if ($errors->has('password'))
+                                                            <p class="alert alert-danger">{{$errors->first('password')}}</p>                                    
+                                                        @endif
+                                                </div>
+                                                <div class="col-lg-6">   
+                                                    <label for="confirmPassword" class="mt-2">Confirm Password</label>
+                                                    <input type="password" name="confirmPassword" id="pwd" class="form-control"  placeholder="Enter confirm password">
+                                                        @if ($errors->has('password'))
+                                                            <p class="alert alert-danger">{{$errors->first('password')}}</p>                                    
+                                                        @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a class="btn btn-primary mt-3 mb-3 changePwd" >Change Password</a>
+                                    </form>
+                                    
+                                </div>                          
                                 
                         </div>
                     </div>
@@ -66,3 +93,15 @@
     </div>
 
 @endsection
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.changePwd').click(function(){
+                $('.changePassword').toggle();
+            });
+        });
+    </script>
+
+
+
+  {{-- <a class="btn btn-primary changePwd" href="{{route('adminProfile.create')}}">Change Password</a>  --}}

@@ -31,7 +31,7 @@ class RegistrationController extends Controller
             $insertData->email =  $request->email;
             $insertData->mobile =  $request->mobile;
             $insertData->address =  $request->address;
-            $insertData->user_type =  $request->user_type; 
+            $insertData->user_type =  0 ; 
             $insertData->password = Hash::make($request->password);
             $insertData->status = $request->status;
             

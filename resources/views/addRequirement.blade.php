@@ -1,6 +1,6 @@
 @extends('common.layout')
 
-@section('title', 'Welcome Page')
+@section('title', 'Add Requirement')
 
 @section('content')
 
@@ -42,12 +42,12 @@
                       {{-- Giveit: Subtype  --}}
 
                       {{-- Add Donation --}}
-                      <div id="Adddonation" style="display: none">
+                      {{-- <div id="Adddonation" style="display: none">
                         <input type="text" class="form-control" name="Adddonation" placeholder="Add Donation">                  
                           @if ($errors->has('Adddonation'))
                             <span class="text-danger">{{ $errors->first('Adddonation') }}</span>
                           @endif
-                      </div>
+                      </div> --}}
 
                       {{-- Add Sell Price --}}
                       <div id="addSellPrice" style="display: none">
@@ -180,7 +180,7 @@
             // Open Other Category Input Field
             function OtherData() {
                 var selectVal = $('#category').val();
-                alert(selectVal);
+                // alert(selectVal);
                 if (selectVal == 0) {
                   $("#Addcatgory").show().css('margin-bottom',10);
                 } else {
@@ -191,12 +191,12 @@
             // User Type
             function UserType(){
               var selectVal = $('#type').val();
-              alert(selectVal);
+              // alert(selectVal);
               if (selectVal == 1) {
                 $("#giveType").show().css('margin-bottom',10);     
               }else{
                 $("#giveType").hide(); 
-                $('#Adddonation').hide();  
+                // $('#Adddonation').hide();  
                 $('#addSellPrice').hide();
                 $('#addRentPrice').hide();
                 $('#addRentDate').hide(); 
@@ -215,7 +215,7 @@
             // Giveit Sub Type
             function GiveItType(){
               var selectVal = $('#giveItType').val();
-              alert(selectVal);
+              // alert(selectVal);
 
               // Donation show and hide
               if (selectVal == 1) {
@@ -244,7 +244,7 @@
             // Getit Sub Type
             function GetItType(){
               var selectVal = $('#getItType').val();
-              alert(selectVal);
+              // alert(selectVal);
 
               // Buy show and hide
               if (selectVal == 5) {

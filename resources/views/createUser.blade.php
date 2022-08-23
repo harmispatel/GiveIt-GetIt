@@ -1,6 +1,6 @@
 @extends('common.layout')
 
-@section('title', 'Welcome Page')
+@section('title', 'Add User')
 
 @section('content')
 

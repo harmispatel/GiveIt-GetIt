@@ -1,6 +1,6 @@
 @extends('common.layout')
 
-@section('title', 'Requirements Page')
+@section('title', 'Requirements')
 
 @section('content')
 
@@ -15,7 +15,7 @@
             {{-- End Success messege --}}
             <div class="container">
                 <div class="row post-grid">
-                    <div class="col col-md-3">
+                    <div class="col col-md-4">
                         <div>
                             <div class="form-outline">
                                 {{-- <form action="" method="GET"> --}}
@@ -28,7 +28,7 @@
                             </button> --}}
                         </div>
                     </div>
-                    <div class="col col-md-3">
+                    <div class="col col-md-4">
                         
                             <div class="form-group">
                                 <select id="status" class="form-control form-control-md" name="filterStatus">
@@ -38,8 +38,13 @@
                                 </select>
                             </div>
                         
+                    </div>
+                    <div class="col col-md-4 ">
+                        <div class="text-right mr-3 mb-2">
+                            <a href="{{ route('requirement.create') }}" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Add Requirement</a>
+                        </div>
                     </div>  
-                    <div class="col col-md-3">
+                    {{-- <div class="col col-md-3">
                        
                         <div class="form-group">
                             <select id="isActive" class="form-control form-control-md" name="filterIsActive" onchange="isActive()">
@@ -49,13 +54,11 @@
                             </select>
                         </div>
                     
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
-            <div class="text-right mr-3 mb-2">
-                <a href="{{ route('requirement.create') }}" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Add Requirement</a>
-            </div>
+            
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
@@ -74,8 +77,8 @@
                                                 <th>Person</th>
                                                 <th>Type</th>
                                                 <th>Status</th>
-                                                <th>Is Active?</th>
-                                                <th colspan="2">Actions</th>
+                                                {{-- <th>Is Active?</th> --}}
+                                                <th colspan="2" class="text-right">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody id="tableBody">
@@ -99,11 +102,12 @@
                                                                     {{ $requirement['status'] == 1 ? 'Pending' : 'Completed' }}
                                                         </span>
                                                     </td>
-                                                    <td>
+                                                    {{-- <td>
                                                         <span class="{{ $requirement['is_active'] == 1 ? 'badge badge-success' : 'badge badge-danger' }}">       
                                                                     {{ $requirement['is_active'] == 1 ? 'Active' : 'In Active' }}
                                                         </span>
-                                                    <td>
+                                                    </td> --}}
+                                                    <td class="text-right">
                                                         <a href="{{ route('requirement.edit', $requirement->id) }}" class="mr-2" title="Edit"><i class="fas fa-edit"></i></a>
                                                         <i class="fa fa-trash text-danger deleteBtn" data-toggle="modal" style="cursor: pointer;" data-target="#exampleModal" data-target-id="{{route('requirement.destroy',$requirement->id)}}" title="Delete"></i>
                                                                     
@@ -169,9 +173,9 @@
 
                 $('#status').on('change', function() {
                     var status = $(this).val();
-                    var isActive = $('#isActive').val();
+                    // var isActive = $('#isActive').val();
                     alert(status);
-                    alert(isActive);
+                    // alert(isActive);
             
                     $.ajax({
                         url: "{{ url('filterStatus') }}",
@@ -179,12 +183,14 @@
                         data: {
                             "_token": "{{ csrf_token() }}",
                             'filterStatus': status,
-                            'filterIsActive': isActive
+                          
                         },
                         success: function(data) {
                             console.log(data);
                             $('#tableBody').html('');
-                            $('#isActive').val();
+                            // $('#isActive').val();
+
+                        
                             $.each( data.requirements, function( key, value ) 
                             {   
 
@@ -192,7 +198,8 @@
                                 
                                 $("#tableBody").append('<tr>');
                                 // $("#tableBody").append('<td><img src="'+ value->media['path'] == null ? asset('/img/requirement/Noimage.jpg') : asset(value->media['path']) +'"></td>');
-                                $("#tableBody").append('<td>'+value.category.name+'</td>');
+                                // <img src="{{ $requirement->media == null ? asset('/img/requirement/Noimage.jpg') : asset($requirement->media['path']) }}" alt="Image" width="100">
+                                // $("#tableBody").append('<td>'+value.category.name+'</td>');
                                 $("#tableBody").append('<td>'+value.category.name+'</td>');
                                 // $("#tableBody").append('<td>'+value.requirements+'</td>');
                                 $("#tableBody").append('<td>'+value['quantity']+'</td>');
@@ -215,19 +222,19 @@
                                                         </td>
                                                     `
                                                 );
-                                $("#tableBody").append(
-                                                        `
-                                                            <td>
-                                                                <span class="${value.is_active == 1 ? 'badge badge-success' : 'badge badge-danger'}">
-                                                                    ${value.is_active == '1' ? 'Active':'InActive'}
-                                                                </span>
-                                                            </td>
-                                                        `
-                                                    );                                                                        
+                                // $("#tableBody").append(
+                                //                         `
+                                //                             <td>
+                                //                                 <span class="${value.is_active == 1 ? 'badge badge-success' : 'badge badge-danger'}">
+                                //                                     ${value.is_active == '1' ? 'Active':'InActive'}
+                                //                                 </span>
+                                //                             </td>
+                                //                         `
+                                //                     );                                                                        
                                 // $("#tableBody").append('<td>'+(value.is_active == '0' ? 'InActive' : 'Active') +'</td>');
                                 $("#tableBody").append(
                                                         `
-                                                        <td>
+                                                        <td class="text-right">
                                                             <a href=""><i class="fas fa-edit "></i></a>&nbsp;&nbsp;
                                                             <a href=""><i class="fas fa-trash text-danger deleteBtn"></i><a>
                                                         </td>
@@ -250,13 +257,13 @@
         </script>
 
         {{-- Ajax Call: Is_active --}}
-        <script type="text/javascript">
+        {{-- <script type="text/javascript">
             function isActive(){
                 var isActive = $('#isActive').val();
                 var status = $('#status').val();
 
-                alert(isActive);
-                alert(status);
+                // alert(isActive);
+                // alert(status);
 
                 $.ajax({
                     url: "{{ url('filterIsActive') }}",
@@ -322,7 +329,7 @@
                 });
                 
             }
-        </script>
+        </script> --}}
     
         {{-- Ajax Call: Is_active --}}
         {{-- <script type="text/javascript">

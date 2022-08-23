@@ -1,9 +1,9 @@
 <!-- Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-  <a href="#" class="brand-link">
-    <img src="{{ asset ('img/admin/AdminLTELogo.png')}}" class="brand-image img-circle elevation-3" style="opacity: .8">
-    <span class="brand-text font-weight-light">Giveit-Getit</span>
+  <a href="#" class="brand-link bg-white">
+    <img src="{{ asset ('img/fronted/logo.png')}}" class="brand-image bg-light mt-0.9" style="height:100px">
+    <span class="brand-text font-weight-light"><h4>Giveit-Getit</h4></span>
   </a>
 
   <!-- Sidebar -->

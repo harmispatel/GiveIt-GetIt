@@ -16,6 +16,7 @@ class LoginController extends Controller
      */
     public function index()
     {
+       
         return view('login');       
     }
 
@@ -23,14 +24,14 @@ class LoginController extends Controller
 
         // Only Admin Login
         $credentials = $request->only('email', 'password');
-        
         if (Auth::attempt($credentials)) {
-             
-            if (Auth::user()->user_type == '3') 
+            
+            if (Auth::user()->user_type == '1') 
             {
+                // dd('hello');
                 
                 $value = $request->session()->put('admin',Auth::user()->name);
-                return redirect('home');
+                return redirect('home1');
                  
             }else{
                 

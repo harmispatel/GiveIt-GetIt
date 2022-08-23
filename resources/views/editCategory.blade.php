@@ -1,6 +1,6 @@
 @extends('common.layout')
 
-@section('title', 'Edit Category Page')
+@section('title', 'Edit Category')
 
 @section('content')
 <div class="content-wrapper">

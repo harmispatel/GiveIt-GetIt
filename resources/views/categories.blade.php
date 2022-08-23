@@ -1,6 +1,6 @@
 @extends('common.layout')
 
-@section('title', 'User List')
+@section('title', 'Categories')
 
 @section('content')
 
@@ -42,24 +42,32 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card">
-                                    <div class="card-header">
+                                    <div class="card-header text-right">
                                         <h3 class="card-title">Categories</h3>
+                                        <a class="btn btn-danger" href="">Delete</a>
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>Id</th>
+                                                    <th class="text-right">Checked</th>
                                                     <th>Name</th>
                                                     <th>Status</th>
-                                                    <th colspan="2">Actions</th>
+                                                    <th colspan="2" class="text-right">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach ($categories as $category)
-                                                    <tr>
-                                                        <td>{{ $category->id }}</td>
+                                                    <tr id="tr_{{$category->id}}">
+                                                        {{-- <td>
+                                                        class="form-check-input"
+                                                                <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." />
+                                                            
+                                                        </td> --}}
+                                                        <td class="text-right">
+                                                            <input type="checkbox" name="deleteCategory[]" class="sub_chk" data-id="{{$category->id}}">
+                                                        </td>
                                                         <td>{{ $category->name }}</td>
                                                         {{-- <td>{{$category->status}}</td> --}}
                                                         <td>
@@ -68,7 +76,7 @@
                                                                 {{ $category['status'] == 0 ? 'Inactive' : 'Active' }}
                                                             </span>
                                                         </td>
-                                                        <td>
+                                                        <td class="text-right">
                                                             <a href="{{ route('category.edit', $category->id) }}"class="mr-2" title="Edit"><i class="fas fa-edit"></i></a>       
                                                             <i class="fa fa-trash text-danger deleteBtn"  data-toggle="modal" style="cursor: pointer;" data-target="#exampleModal" data-target-id="{{route('category.destroy',$category->id)}}" title="Delete"></i>
                                                             {{-- <a class="btn btn-danger" role="button"  data-toggle="modal" data-target="#exampleModal">Delete</a> --}}
@@ -122,6 +130,8 @@
                     });
                 });
             </script>
+            
+            
         </div>
         </div>
     </body>

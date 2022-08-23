@@ -87,16 +87,16 @@
                                         @endif
                                 </div> --}}
 
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                 <label for="user_type">user_type</label>
                                     <select class="form-control form-control-md" name="user_type" value="{{old('user_type')}}">
                                         <option value="#">Select User</option>
-                                        <option value="1">Trust</option>
-                                        <option value="2">Donor</option>   
-                                        <option value="3">Admin</option>   
+                                        <option value="1">Admin</option>
+                                        <option value="0">User</option>   
+                                        <option value="3"></option>   
 
                                     </select>
-                                </div>
+                                </div> --}}
 
                                 <div class="form-group">
                                 <label for="password">password</label>

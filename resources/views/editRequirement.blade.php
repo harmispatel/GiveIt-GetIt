@@ -1,6 +1,6 @@
 @extends('common.layout')
 
-@section('title', 'Welcome Page')
+@section('title', 'Edit Requiremet')
 
 @section('content')
 
@@ -32,6 +32,7 @@
                         <div class="form-group">
                           <label for="type">Type</label>
                           <select class="form-control form-control-md" name="type" id="type" onchange="UserType()" >
+                            <option value="#">Select Type</option>
                             <option value="1" {{ $editRequirementData->type == 1 ? 'selected' : '' }}>Giveit</option>    
                             <option value="2" {{ $editRequirementData->type == 2 ? 'selected' : '' }}>Getit</option>
                           </select>
@@ -41,7 +42,7 @@
                         <div class="form-group" id="giveType" style="display: none">
                           <label for="giveItType">Sub Type</label>
                           <select class="form-control form-control-md" name="giveItType" id="giveItType" onchange="GiveItType()">
-                            <option value="#">Select Sub Type</option>
+                            
                             <option value="1" {{ $editRequirementData->subtype == 1 ? 'selected' : '' }}>Donation</option>
                             <option value="2" {{ $editRequirementData->subtype == 2 ? 'selected' : '' }}>Sell</option>    
                             <option value="3" {{ $editRequirementData->subtype == 3 ? 'selected' : '' }}>Rent</option>    
@@ -61,12 +62,12 @@
                         {{-- Giveit: Subtype  --}}
 
                         {{-- Add Donation --}}
-                        <div id="Adddonation" style="display: none">
+                        {{-- <div id="Adddonation" style="display: none">
                           <input type="text" class="form-control" name="Adddonation" placeholder="Add Donation" value="{{$editRequirementData->subtype}}">                  
                             @if ($errors->has('Adddonation'))
                               <span class="text-danger">{{ $errors->first('Adddonation') }}</span>
                             @endif
-                        </div>
+                        </div> --}}
 
                         {{-- Add Sell Price --}}
                         <div id="addSellPrice" style="display: none">
@@ -95,7 +96,7 @@
                         {{-- Getit: Subtype  --}}
                         {{-- Add Buy --}}
                         <div id="addBuy" style="display: none">
-                          <input type="date" class="form-control" name="addBuy" placeholder="Enter Buy" value="{{$editRequirementData->price}}">                  
+                          <input type="text" class="form-control" name="addBuy" placeholder="Enter Buy" value="{{$editRequirementData->price}}">                  
                             @if ($errors->has('addBuy'))
                               <span class="text-danger">{{ $errors->first('addBuy') }}</span>
                             @endif
@@ -202,7 +203,7 @@
           // Open Other Category Input Field
         function OtherData() {
             var selectVal = $('#category').val();
-            alert(selectVal);
+            
             if (selectVal == 0) {
                 $("#addcatgory").show().css('margin-bottom',10);
             } else {
@@ -213,12 +214,12 @@
         // User Type
         function UserType(){
           var selectVal = $('#type').val();
-          alert(selectVal);
+          // alert(selectVal);
           if (selectVal == 1) {
               $('#giveType').show().css('margin-bottom',10);
           }else{
               $("#giveType").hide();
-              $('#Adddonation').hide();
+              // $('#Adddonation').hide();
               $('#addSellPrice').hide();
               $('#addRentPrice').hide();
               $('#addRentDate').hide();
@@ -235,14 +236,14 @@
         // Giveit Sub Type
         function GiveItType(){
               var selectVal = $('#giveItType').val();
-              alert(selectVal);
+              
 
               // Donation show and hide
-              if (selectVal == 1) {
-                $('#Adddonation').show().css('margin-bottom',10);
-              }else{
-                $('#Adddonation').hide();
-              }
+              // if (selectVal == 1) {
+              //   $('#Adddonation').show().css('margin-bottom',10);
+              // }else{
+              //   $('#Adddonation').hide();
+              // }
 
               // sell Price show and hide
               if (selectVal == 2) {
@@ -264,7 +265,7 @@
         // Getit Sub Type
         function GetItType(){
               var selectVal = $('#getItType').val();
-              alert(selectVal);
+              // alert(selectVal);
               
               // Buy show and hide
               if (selectVal == 5) {

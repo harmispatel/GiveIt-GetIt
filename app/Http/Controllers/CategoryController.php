@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 // Request Class
+use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
 
 // Models
 use App\Models\Category;
-use Illuminate\Http\Request;
+use App\Models\Requirement;
+
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -110,9 +113,20 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         // Delete Category
-
+        // dd($id);
+       
+        // $cat_id = Category::with('requirements')->find($id)->get();
+        // dd($cat_id);
         $delete = Category::find($id)->delete();
         return redirect()->route('category.index')->with('message','Category deleted successfully!');
 
+    }
+    
+    public function multipleDelete(Request $request){
+        // dd($request);
+        $ids = $request->ids;
+        DB::table("categories")->whereIn('id',explode(",",$ids))->delete();
+
+        return redirect()->route('category.index')->with('message','Category deleted successfully!');
     }
 }

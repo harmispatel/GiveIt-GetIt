@@ -74,7 +74,7 @@ class AdminProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        dd($request->toArray());
         if ($request->has('password')) {
             
             if ($request->password === $request->confirmPassword) {

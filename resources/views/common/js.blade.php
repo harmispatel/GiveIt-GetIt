@@ -11,7 +11,7 @@
 <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
 <!-- Sparkline -->
  <script src="{{ asset('plugins/sparklines/sparkline.js') }}"></script> 
- JQVMap -->
+ <!-- JQVMap -->
  <script src="{{ asset('plugins/jqvmap/jquery.vmap.min.js') }}"></script> 
  <script src="{{ asset('plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
 <!-- jQuery Knob Chart -->
@@ -27,9 +27,12 @@
 <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset ('js/adminlte.js')}}"></script>
-<script src="{{ asset ('js/adminlte.min.js')}}"></script>
+
+{{-- me aa link comment ma muki che avu lage to kadhi nakhvi --}}
+{{-- <script src="{{ asset ('js/adminlte.min.js')}}"></script> --}}
+
 <!-- AdminLTE for demo purposes -->
-<script src="{{ asset ('js/demo.js')}}"></script>
+<script src="{{ asset ('js/demo.js')}}"></script>  
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset ('js/pages/dashboard.js')}}"></script>
 <!-- jquery-validation -->

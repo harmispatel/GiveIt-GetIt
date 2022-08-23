@@ -110,7 +110,7 @@ class RequirementController extends Controller
         $requirementObj->user_id = $user_id;
         $requirementObj->media_id = $mediaObj->id;
         $requirementObj->status = $request->status;
-        $requirementObj->is_active = $request->is_active;
+        // $requirementObj->is_active = $request->is_active;
 
         // type: Giveit, Getit
         $requirementObj->type = $request->type;
@@ -260,7 +260,7 @@ class RequirementController extends Controller
             $editRequirement->requirements = $request->requirement;
             $editRequirement->quantity = $request->quantity;
             $editRequirement->status = $request->status;
-            $editRequirement->is_active = $request->is_active;
+            // $editRequirement->is_active = $request->is_active;
             
             // type: Giveit, Getit
             $editRequirement->type = $request->type;
@@ -314,9 +314,8 @@ class RequirementController extends Controller
         return redirect()->route('requirement.index')->with('message','Requirement deleted successfully!');     
     }
     
-// ----------------
-
-public function changeStatus(Request $request)
+    // ----------------
+    public function changeStatus(Request $request)
         {
             
             $query = Requirement::query();
@@ -324,103 +323,41 @@ public function changeStatus(Request $request)
 
             if ($request->ajax()) {
                 
-                
                 // If Status is Empty
                 if ($request->filterStatus == "" ){
                     
-                    if ($request->filterIsActive == "" ){
-
-                        // If Status and IsActive is Empty
-                        $requirements = Requirement::query();
-                        $requirements = $query->with('category', function($query) {
-                                    $query->select('id', 'name');
-                                })
-                                ->get();
-                        
-                                // $requirements = Media::query();
-                                // $requirements = $mediaQuery->with('media', function($query) {
-                                //     $query->select('id', 'path');
-                                // })
-                                // ->get();
-                        
-                        return response()->json([
-                            'requirements' => $requirements,
-                        ]);
-                    }else{
 
                         // If Status is Empty and IsActive is not Empty
                         $requirements = Requirement::query();
                         $requirements = $query->with('category', function($query) {
                                     $query->select('id', 'name');
                                 })
-                                ->where('is_active',$request->filterIsActive)
                                 ->get();
                         
-                                // $requirements = Media::query();
-                                // $requirements = $mediaQuery->with('media', function($query) {
-                                //     $query->select('id', 'path');
-                                // })
-                                // ->get();
 
-                        return response()->json([
-                            'requirements' => $requirements,
-                        ]);
-                    }
+                        // return response()->json([
+                        //     'requirements' => $requirements,
+                        // ]);
+                    
 
                     
                 }else{
 
-                        // If Status is not Empty
-                        $requirements = Requirement::query();
-                        $requirements = $query->with('category', function($query) {
-                                        $query->select('id', 'name');
-                                    })
-                                    ->where('status', $request->filterStatus);
-                                    
-                                    // $requirements = Media::query();
-                                    // $requirements = $mediaQuery->with('media', function($query) {
-                                    //     $query->select('id', 'path');
-                                    // })
-                                    // ->get();
-
-                        // If Status is not Empty and IsActive is Not Empty
-                        if ($request->filterIsActive != "" ) {
-                            
-                            $requirement = $query->with('category', function($query) {
-                                                $query->select('id', 'name');
-                                            })
-                                            ->where('status', $request->filterStatus)
-                                            ->where('is_active',$request->filterIsActive)
-                                            ->get();
-
-                                            // $requirements = Media::query();
-                                            // $requirements = $mediaQuery->with('media', function($query) {
-                                            //     $query->select('id', 'path');
-                                            // })
-                                            // ->get();
-                        
-                        }else{
-                            
                             // If Status is not Empty and IsActive is Empty
-                            $requirement = $query->with('category', function($query) {
+                            $requirements = $query->with('category', function($query) {
                                             $query->select('id', 'name');
                                         })
                                         ->where('status', $request->filterStatus)
                                         // ->where('is_active',$request->filterIsActive)
                                         ->get();
 
-                                        // $requirements = Media::query();
-                                        // $requirements = $mediaQuery->with('media', function($query) {
-                                        //     $query->select('id', 'path');
-                                        // })
-                                        // ->get();
 
-                        }
-
-                        return response()->json([
-                        'requirements' => $requirement
-                        ]);
                     }
+
+                    return response()->json([
+                    'requirements' => $requirements
+    
+                    ]);
                 
             }
             else{
@@ -428,6 +365,120 @@ public function changeStatus(Request $request)
                 // return view('requirements',compact('category','requirements'));
             }
         }
+
+
+    // public function changeStatus(Request $request)
+    //     {
+            
+    //         $query = Requirement::query();
+    //         $mediaQuery = Media::query();
+
+    //         if ($request->ajax()) {
+                
+    //             // If Status is Empty
+    //             if ($request->filterStatus == "" ){
+                    
+    //                 // if ($request->filterIsActive == "" ){
+
+    //                     // If Status and IsActive is Empty
+    //                     // $requirements = Requirement::query();
+    //                     // $requirements = $query->with('category', function($query) {
+    //                     //             $query->select('id', 'name');
+    //                     //         })
+    //                     //         ->get();
+                        
+    //                     //         // $requirements = Media::query();
+    //                     //         // $requirements = $mediaQuery->with('media', function($query) {
+    //                     //         //     $query->select('id', 'path');
+    //                     //         // })
+    //                     //         // ->get();
+                        
+    //                     // return response()->json([
+    //                     //     'requirements' => $requirements,
+    //                     // ]);
+    //                 // }else{
+
+    //                     // If Status is Empty and IsActive is not Empty
+    //                     $requirements = Requirement::query();
+    //                     $requirements = $query->with('category', function($query) {
+    //                                 $query->select('id', 'name');
+    //                             })
+    //                             // ->where('is_active',$request->filterIsActive)
+    //                             ->get();
+                        
+                                
+    //                             // $requirements = Media::query();
+    //                             // $requirements = $mediaQuery->with('media', function($query) {
+    //                             //     $query->select('id', 'path');
+    //                             // })
+    //                             // ->get();
+
+    //                     return response()->json([
+    //                         'requirements' => $requirements,
+    //                     ]);
+    //                 // }
+
+                    
+    //             }else{
+
+    //                     // If Status is not Empty
+    //                     $requirements = Requirement::query();
+    //                     $requirements = $query->with('category', function($query) {
+    //                                     $query->select('id', 'name');
+    //                                 })
+    //                                 ->where('status', $request->filterStatus);
+                                    
+    //                                 // $requirements = Media::query();
+    //                                 // $requirements = $mediaQuery->with('media', function($query) {
+    //                                 //     $query->select('id', 'path');
+    //                                 // })
+    //                                 // ->get();
+
+    //                     // If Status is not Empty and IsActive is Not Empty
+    //                     // if ($request->filterIsActive != "" ) {
+                            
+    //                     //     $requirement = $query->with('category', function($query) {
+    //                     //                         $query->select('id', 'name');
+    //                     //                     })
+    //                     //                     ->where('status', $request->filterStatus)
+    //                     //                     ->where('is_active',$request->filterIsActive)
+    //                     //                     ->get();
+
+    //                     //                     // $requirements = Media::query();
+    //                     //                     // $requirements = $mediaQuery->with('media', function($query) {
+    //                     //                     //     $query->select('id', 'path');
+    //                     //                     // })
+    //                     //                     // ->get();
+                        
+    //                     // }else{
+                            
+    //                         // If Status is not Empty and IsActive is Empty
+    //                         $requirement = $query->with('category', function($query) {
+    //                                         $query->select('id', 'name');
+    //                                     })
+    //                                     ->where('status', $request->filterStatus)
+    //                                     // ->where('is_active',$request->filterIsActive)
+    //                                     ->get();
+
+    //                                     // $requirements = Media::query();
+    //                                     // $requirements = $mediaQuery->with('media', function($query) {
+    //                                     //     $query->select('id', 'path');
+    //                                     // })
+    //                                     // ->get();
+
+    //                     // }
+
+    //                     return response()->json([
+    //                     'requirements' => $requirement
+    //                     ]);
+    //                 }
+                
+    //         }
+    //         else{
+    //             return response()->json(['errors' => $request->errors()]);
+    //             // return view('requirements',compact('category','requirements'));
+    //         }
+    //     }
 
 //-----------------
     // AJAX call for Status
@@ -513,77 +564,77 @@ public function changeStatus(Request $request)
         // }
     
     // AJAX call for IsActive
-        public function changeIsActive(Request $request)
-        {
+        // public function changeIsActive(Request $request)
+        // {
             
-            $isActiveQuery = Requirement::query();
+        //     $isActiveQuery = Requirement::query();
 
-            if($request->ajax()){
+        //     if($request->ajax()){
 
-                // If IsActive is Empty
-                if ($request->filterIsActive == "") {
+        //         // If IsActive is Empty
+        //         if ($request->filterIsActive == "") {
 
-                    // If IsActive Is Empty and Status is Empty
-                    if ($request->filterStatus == "") {
-                        $datas = Requirement::query();
-                        $datas = $isActiveQuery->with('category', function($isActiveQuery){
-                                $isActiveQuery->select('id','name');
-                            })
-                            ->get();
+        //             // If IsActive Is Empty and Status is Empty
+        //             if ($request->filterStatus == "") {
+        //                 $datas = Requirement::query();
+        //                 $datas = $isActiveQuery->with('category', function($isActiveQuery){
+        //                         $isActiveQuery->select('id','name');
+        //                     })
+        //                     ->get();
 
-                            return response()->json([
-                                'datas' => $datas
-                            ]);
-                    }else{
+        //                     return response()->json([
+        //                         'datas' => $datas
+        //                     ]);
+        //             }else{
 
-                        // If IsActive is Empty and Satus is not Empty
-                        $datas = Requirement::query();
-                         $datas = $isActiveQuery->with('category', function($isActiveQuery){
-                                $isActiveQuery->select('id','name');
-                            })
-                            ->where('status',$request->filterStatus)
-                            ->get();
+        //                 // If IsActive is Empty and Satus is not Empty
+        //                 $datas = Requirement::query();
+        //                  $datas = $isActiveQuery->with('category', function($isActiveQuery){
+        //                         $isActiveQuery->select('id','name');
+        //                     })
+        //                     ->where('status',$request->filterStatus)
+        //                     ->get();
 
-                        return response()->json([
-                            'datas' => $datas
-                        ]);
+        //                 return response()->json([
+        //                     'datas' => $datas
+        //                 ]);
 
-                    }
+        //             }
 
                      
-                }else{
+        //         }else{
                     
-                    // If IsActive is not Empty and Status is not Empty
-                    if ($request->filterStatus != "" ) {
+        //             // If IsActive is not Empty and Status is not Empty
+        //             if ($request->filterStatus != "" ) {
                         
-                        $data = $isActiveQuery->with('category', function($isActiveQuery){
-                                            $isActiveQuery->select('id','name');
-                                        })
-                                        ->where('is_active', $request->filterIsActive)
-                                        ->where('status',$request->filterStatus)
-                                        ->get();
-                    }else{
+        //                 $data = $isActiveQuery->with('category', function($isActiveQuery){
+        //                                     $isActiveQuery->select('id','name');
+        //                                 })
+        //                                 ->where('is_active', $request->filterIsActive)
+        //                                 ->where('status',$request->filterStatus)
+        //                                 ->get();
+        //             }else{
 
-                        // If IsActive is not Empty and Status is Empty
-                        $data = $isActiveQuery->with('category', function($isActiveQuery){
-                                            $isActiveQuery->select('id','name');
-                                        })
-                                        ->where('is_active', $request->filterIsActive)
-                                        ->get();
-                    }
+        //                 // If IsActive is not Empty and Status is Empty
+        //                 $data = $isActiveQuery->with('category', function($isActiveQuery){
+        //                                     $isActiveQuery->select('id','name');
+        //                                 })
+        //                                 ->where('is_active', $request->filterIsActive)
+        //                                 ->get();
+        //             }
 
-                    return response()->json([
-                        'datas' => $data
-                    ]); 
-                }
+        //             return response()->json([
+        //                 'datas' => $data
+        //             ]); 
+        //         }
                  
-            }
-            else{
+        //     }
+        //     else{
 
-                return response()->json(['errors' => $request->errors()]);
+        //         return response()->json(['errors' => $request->errors()]);
 
-            }
-        }
+        //     }
+        // }
 
     // AJAX call for Searching...
         public function searching(Request $request)

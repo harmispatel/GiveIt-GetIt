@@ -25,7 +25,7 @@ class UserController extends Controller
     public function index()
     {
         // Open user list
-        $users = User::all();
+        $users = User::all()->where('user_type','0');
         return view('userList')->with('users',$users);
         
         // $users = User::all();
