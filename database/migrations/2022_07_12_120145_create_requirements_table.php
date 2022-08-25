@@ -22,13 +22,18 @@ class CreateRequirementsTable extends Migration
 
             $table->string('requirements');
             $table->integer('quantity');
+            $table->decimal('price')->nullable();
             
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->boolean('type');
-            $table->integer('status');
+            $table->unsignedBigInteger('media_id')->nullable();
+            $table->foreign('media_id')->references('id')->on('media');
             
+            $table->boolean('type');
+            $table->integer('subtype')->nullable();
+            $table->string('rent_date')->format('Y-m')->nullable();
+            $table->integer('status');
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->integer('deleted_by')->nullable();
