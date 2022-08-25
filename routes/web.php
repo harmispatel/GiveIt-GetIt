@@ -54,9 +54,7 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/forgotPassword',[AdminForgotPasswordController::class,'index'])->name('forgotPassword');
     Route::post('/forgotPassword',[AdminForgotPasswordController::class,'submitForm'])->name('submitForm');
     Route::get('/resetPassword/{token}',[AdminForgotPasswordController::class,'resetPasswordForm'])->name('getResetPassword');
-    Route::post('/resetPassword/{token}',[AdminForgotPasswordController::class,'submitResetPasswordForm'])->name('postResetPassword');
-
-
+    Route::post('/postResetPassword/{token}',[AdminForgotPasswordController::class,'submitResetPasswordForm'])->name('postResetPassword');
 
 });
 

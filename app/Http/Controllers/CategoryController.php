@@ -113,20 +113,46 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         // Delete Category
-        // dd($id);
-       
-        // $cat_id = Category::with('requirements')->find($id)->get();
-        // dd($cat_id);
-        $delete = Category::find($id)->delete();
-        return redirect()->route('category.index')->with('message','Category deleted successfully!');
+        $RequirementData = Requirement::all();
+        $data = count(Requirement::where('category_id',$id)->get());
+        
+        if($data > 0)
+        {
+            return redirect()->back()->with('msg','This id is already exist in Requirement table so, You can not delete this Record!');
+            
+        }else{
+
+            $delete = Category::find($id)->delete();
+            return redirect()->route('category.index')->with('message','Category deleted successfully!');
+        }
+        
+        // $query = Category::query()->find($id);
+        // $category = $query->with('requirement',function($q){
+        //     $q->where('category_id','id');
+        // })->get();
+        
+        // $delete = Category::find($id)->delete();
+        // return redirect()->route('category.index')->with('message','Category deleted successfully!');
 
     }
     
     public function multipleDelete(Request $request){
-        // dd($request);
+        
         $ids = $request->ids;
-        DB::table("categories")->whereIn('id',explode(",",$ids))->delete();
+        $RequirementData = Requirement::all();
+        $data = count(Requirement::where('category_id',$ids)->get());
+        if($data > 0)
+        {
+            return redirect()->back()->with('msg','This id is already exist in Requirement table so, You can not delete this Record!');
+            
+        }else{
 
-        return redirect()->route('category.index')->with('message','Category deleted successfully!');
+            Category::whereIn('id',$ids)->delete();
+            return redirect()->route('category.index')->with('message','Category deleted successfully!');
+
+            // $delete = Category::find($id)->delete();
+            // return redirect()->route('category.index')->with('message','Category deleted successfully!');
+        }
+        
     }
 }

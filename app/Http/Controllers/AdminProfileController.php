@@ -18,6 +18,7 @@ class AdminProfileController extends Controller
      */
     public function index()
     {
+
         return view('AdminProfile');
     }
 
@@ -74,17 +75,19 @@ class AdminProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->toArray());
+        
         if ($request->has('password')) {
             
             if ($request->password === $request->confirmPassword) {
+                
                 $changePassword = User::Find($id);
                 $changePassword->password = Hash::make($request->password);
+                // dd($changePassword->password);
                 $changePassword->save();
     
                 return view('welcome')->with('message','Change Password successfully!');
             }else{
-                return view('AdminChangePassword')->with('msg',"Password and Confirm Password are not Same");
+                return view('welcome')->with('message',"Password and Confirm Password are not Same");
             }
         }else{
             
@@ -97,7 +100,7 @@ class AdminProfileController extends Controller
                 $userModel->address = $request->address;
                 $userModel->save();
         
-                return view('welcome')->with('message','Profile Updated successfully!');
+                return redirect()->route('adminProfile.index')->with('message','Profile Updated successfully!');
             // }
         }
 

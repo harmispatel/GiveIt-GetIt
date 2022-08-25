@@ -27,7 +27,7 @@
                             </div>
 
                             <div class="form-group">
-                                <button type="button" class="btn btn-primary btn-lg btn-block">Reset Password</button>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">Reset Password</button>
                                 {{-- <button type="button" class="btn btn-primary btn-lg btn-block">Reset Password</button> --}}
                             </div>
                             {{-- <div class="form-group other_auth_links">

@@ -319,7 +319,7 @@ class RequirementController extends Controller
         {
             
             $query = Requirement::query();
-            $mediaQuery = Media::query();
+            
 
             if ($request->ajax()) {
                 
@@ -329,34 +329,91 @@ class RequirementController extends Controller
 
                         // If Status is Empty and IsActive is not Empty
                         $requirements = Requirement::query();
-                        $requirements = $query->with('category', function($query) {
-                                    $query->select('id', 'name');
-                                })
+                        $requirements = $query->with(['category','medias'])
+                                                // ->with('medias',function($q){
+                                                //     $q->select('id','path');
+                                                // })
                                 ->get();
                         
-
-                        // return response()->json([
-                        //     'requirements' => $requirements,
-                        // ]);
-                    
-
-                    
                 }else{
 
                             // If Status is not Empty and IsActive is Empty
-                            $requirements = $query->with('category', function($query) {
-                                            $query->select('id', 'name');
-                                        })
-                                        ->where('status', $request->filterStatus)
-                                        // ->where('is_active',$request->filterIsActive)
-                                        ->get();
-
+                            $requirements = $query->with(['category','medias'])
+                                                    // $requirements = $query->with(['category','medias'], function($query) {
+                                                    //     $query->select('id', 'name');
+                                                    // })
+                                                    // ->with('medias',function($q){
+                                                    //     $q->select('id','path');
+                                                    // })
+                                                    ->where('status', $request->filterStatus)
+                                                    // ->where('is_active',$request->filterIsActive)
+                                                    ->get();
+                            // echo"<pre>";print_r($requirements->toArray());exit;
+                            // dd($requirements);
+                                  
+                            
+                            // $requirements = $mediaQuery->with('medias',function($q){
+                            //             $q->select('id','path');
+                            //             })
+                            //             ->get();
+                            
+                            
 
                     }
 
+                    // echo"<pre>";
+                    // print_r($requirements->toArray());
+                    // exit;
+
+                    // $html = "";
+
+                    // foreach ($requirements as $value) {
+                       
+                    
+                    // $html .= "<tr>";
+
+                    
+                                
+
+                    //             // $html .= '<td><img width="100px" src="'. asset($value->medias->path) .'"></td>';
+                              
+                    //             $html .= '<td>'.$value->category->name.'</td>';
+                    //             $html .= '<td>'.$value->requirements.'</td>';
+                    //             $html .= '<td>'.$value->quantity.'</td>';
+                    //             // $html .= 
+                                                        
+                                                    
+                    //             //                      "<td>
+                    //             //                             <span class=".${$value->type == '1' ? 'badge badge-success':'badge badge-danger'}.">"
+                    //             //                                 .${$value->type == '1' ? 'Giveit':'Getit'}.
+                    //             //                             "</span>
+                    //             //                        </td>";
+                                                    
+                                                                        
+                    //             // $html .= 
+                                                
+                    //             //                         "<td>
+                    //             //                             <span class=".${$value->status == 1 ? 'badge badge-success' : 'badge badge-danger'}.">"
+                    //             //                                 .${$value->status == '1' ? 'Pending':'Completed'}.
+                    //             //                             "</span>
+                    //             //                         </td>";
+                                                    
+                                              
+                    //             // $html .= 
+                                                        
+                    //             //                         '<td class="text-right">
+                    //             //                             <a href=""><i class="fas fa-edit "></i></a>&nbsp;&nbsp;
+                    //             //                             <a href=""><i class="fas fa-trash text-danger deleteBtn"></i><a>
+                    //             //                         </td>';
+                                                        
+                                                        
+                                                
+                    //             $html .= "</tr>";
+                    // }
+                    
                     return response()->json([
                     'requirements' => $requirements
-    
+                    
                     ]);
                 
             }
@@ -652,7 +709,9 @@ class RequirementController extends Controller
                     $search->whereHas('category',function($query) use($request) {
                             $query->where('name', 'LIKE','%'.$request->searchString."%");
                                                     
-                    }); 
+                            })
+                            ->orWhere('quantity', 'LIKE','%'.$request->searchString."%");
+                            // ->orWhere('type', 'LIKE','%'.$request->searchString."%"); 
                 }
                 // ->where('status',$request->filterStatus)
                 // ->orWhere('is_active',$request->filterIsActive);
@@ -678,17 +737,22 @@ class RequirementController extends Controller
                     foreach ($datas as $key => $product) {
                         $output.='<tr>'.
                                     '<td>'.$product->category->name.'</td>'.
+                                    '<td>'.$product->category->name.'</td>'.
                                     // '<td>'.$product->requirements.'</td>'.
                                     '<td>'.$product->quantity.'</td>'.
-                                    '<td>'.($product->type == '0' ? 'Getit' : 'Giveit').'</td>'.
-                                    '<td><span class="'.($product->status == '0' ? 'badge badge-danger' : 'badge badge-success').'">'
-                                            .($product->status == '0' ? 'Pending' : 'Completed').
+
+                                    '<td><span class="'.($product->type == '0' ? 'badge badge-danger' : 'badge badge-success').'">'
+                                            .($product->type == '0' ? 'Getit' : 'Giveit').
                                         '<span>
                                     </td>'.
-                                    '<td><span class="'.($product->is_active == '0' ? 'badge badge-danger' : 'badge badge-success').'">'
-                                        .($product->is_active == '0' ? 'In Active' : 'Active') .
-                                    '</td>'.
-                                    '<td><a href=""><i class="fas fa-edit"></i></a> <a href=""><i class="fas fa-trash"></i><a></td>'.
+                                    '<td><span class="'.($product->status == '1' ? 'badge badge-success' : 'badge badge-danger').'">'
+                                            .($product->status == '1' ? 'Pending' : 'Completed').
+                                        '<span>
+                                    </td>'.
+                                    // '<td><span class="'.($product->is_active == '0' ? 'badge badge-danger' : 'badge badge-success').'">'
+                                    //     .($product->is_active == '0' ? 'In Active' : 'Active') .
+                                    // '</td>'.
+                                    '<td class="text-right"><a href=""><i class="fas fa-edit"></i></a> <a href=""><i class="fas fa-trash text-danger"></i><a></td>'.
                                 '</tr>';
                     }
                         

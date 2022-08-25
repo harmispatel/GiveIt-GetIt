@@ -6,6 +6,13 @@
 
     <div class="content-wrapper">
         <section class="content">
+            {{-- Success messege --}}
+            @if (session()->has('message'))
+                <div class="alert alert-success">
+                    {{ session()->get('message') }}
+                </div>
+            @endif
+            {{-- End Success messege --}}
             <div class="container-fluid">
                 <div class="row">
                     <div class="col">
@@ -62,6 +69,7 @@
                                 <div class="form-group changePassword" style="display: none">
                                     <form action="{{route('adminProfile.update', auth()->user()->id)}}" method="POST">
                                         @csrf
+                                        {{ method_field('PUT') }}
                                         <div class="container">
                                             <div class="row">
                                                 <div class="col-lg-6">
@@ -77,10 +85,10 @@
                                                         @if ($errors->has('password'))
                                                             <p class="alert alert-danger">{{$errors->first('password')}}</p>                                    
                                                         @endif
-                                                </div>
+                                                    </div>
+                                                <button class="btn btn-primary mt-3 mb-3" type="submit" value="submit">Change Password</button> 
                                             </div>
                                         </div>
-                                        <a class="btn btn-primary mt-3 mb-3 changePwd" >Change Password</a>
                                     </form>
                                     
                                 </div>                          

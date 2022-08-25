@@ -20,7 +20,7 @@
                             <div class="form-outline">
                                 {{-- <form action="" method="GET"> --}}
                                     <input type="search" id="search" name="search" class="form-control" placeholder="search category" />
-                                    {{-- <button class="btn btn-primary" type="submit">Search</button>                               --}}
+                                    {{-- <button class="btn btn-primary" type="submit">Search</button> --}}
                                 {{-- </form> --}}
                             </div>
                             {{-- <button type="button" class="btn btn-primary">
@@ -88,7 +88,7 @@
                                                     <td>
                                                         <img src="{{ $requirement->media == null ? asset('/img/requirement/Noimage.jpg') : asset($requirement->media['path']) }}" alt="Image" width="100">
                                                     </td>
-                                                    <td>{{ $requirement->category->name}}</td>
+                                                    <td>{{$requirement->category->name}}</td>
                                                     {{-- <td>{!!html_entity_decode($requirement->requirements)!!}</td> --}}
                                                     <td>{{ $requirement['quantity'] }}</td>
                                                     <td>
@@ -116,9 +116,10 @@
                                                 @empty
                                                   <p>No users</p>
                                             @endforelse
+                                            {{-- End Forelse --}}
                                         </tbody>
                                     </table>
-
+                                    
                                     {{-- model --}}
                                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
                                         <div class="modal-dialog" role="document">
@@ -168,38 +169,40 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
         {{-- Ajax Call: Status --}}
+
         <script type="text/javascript">
             $(document).ready(function() {
 
+                var app_url = '{{url('')}}';
+                console.log('app url : ', app_url)
+
                 $('#status').on('change', function() {
                     var status = $(this).val();
-                    // var isActive = $('#isActive').val();
-                    alert(status);
-                    // alert(isActive);
-            
+                    
                     $.ajax({
                         url: "{{ url('filterStatus') }}",
                         type: "POST",
                         data: {
                             "_token": "{{ csrf_token() }}",
                             'filterStatus': status,
-                          
+                            
                         },
                         success: function(data) {
                             console.log(data);
                             $('#tableBody').html('');
-                            // $('#isActive').val();
 
-                        
-                            $.each( data.requirements, function( key, value ) 
+                            console.log(data.requirements.length);
+                           
+                            $.each(data.requirements, function( key, value ) 
                             {   
-
-                                // $("#tableBody").append('<td>'+value.category.name+'</td>');
-                                
-                                $("#tableBody").append('<tr>');
-                                // $("#tableBody").append('<td><img src="'+ value->media['path'] == null ? asset('/img/requirement/Noimage.jpg') : asset(value->media['path']) +'"></td>');
                                 // <img src="{{ $requirement->media == null ? asset('/img/requirement/Noimage.jpg') : asset($requirement->media['path']) }}" alt="Image" width="100">
-                                // $("#tableBody").append('<td>'+value.category.name+'</td>');
+
+                                var img = app_url+value?.medias?.path;
+                                $("#tableBody").append('<tr>');
+                                
+                                $("#tableBody").append('<td><img width="100px" src="'+img+'"></td>');
+                                
+                                // $("#tableBody").append(`<td><img width="100px" src="http://127.0.0.1:8000${'asset(value.medias.path)'}"></td>`);
                                 $("#tableBody").append('<td>'+value.category.name+'</td>');
                                 // $("#tableBody").append('<td>'+value.requirements+'</td>');
                                 $("#tableBody").append('<td>'+value['quantity']+'</td>');
@@ -222,16 +225,7 @@
                                                         </td>
                                                     `
                                                 );
-                                // $("#tableBody").append(
-                                //                         `
-                                //                             <td>
-                                //                                 <span class="${value.is_active == 1 ? 'badge badge-success' : 'badge badge-danger'}">
-                                //                                     ${value.is_active == '1' ? 'Active':'InActive'}
-                                //                                 </span>
-                                //                             </td>
-                                //                         `
-                                //                     );                                                                        
-                                // $("#tableBody").append('<td>'+(value.is_active == '0' ? 'InActive' : 'Active') +'</td>');
+                                
                                 $("#tableBody").append(
                                                         `
                                                         <td class="text-right">
@@ -243,8 +237,6 @@
                                                     );
                                 $("#tableBody").append('</tr>');
                             });
-                            
-
                         }
                     });
 
@@ -420,37 +412,6 @@
 @endsection
         
 
-{{-- $.each( data.search, function( key, value ) 
-{   
-
-    $("#tableBody").append('<tr>');
-    $("#tableBody").append('<td>'+value.category.name+'</td>');
-    $("#tableBody").append('<td>'+value.requirements+'</td>');
-    $("#tableBody").append('<td>'+value['quantity']+'</td>');
-    $("#tableBody").append('<td>'+(value.type == '0' ? 'Getit':'Giveit')+'</td>');
-    $("#tableBody").append(
-                        `
-                            <td>
-                                <span class="${value.status == 0 ? 'badge badge-danger' : 'badge badge-success'}">
-                                    ${value.status == '0' ? 'Pending':'Completed'}
-                                </span>
-                            </td>
-                        `
-                    );
-    $("#tableBody").append(
-                            `
-                                <td>
-                                    <span class="${value.is_active == 0 ? 'badge badge-danger' : 'badge badge-success'}">
-                                        ${value.is_active == '0' ? 'InActive':'Active'}
-                                    </span>
-                                </td>
-                            `
-                        );
-                        
-    $("#tableBody").append('<td><a href=""><i class="fas fa-edit"></i></a> <a href=""><i class="fas fa-trash"></i><a></td>');
-    $("#tableBody").append('</tr>');
-                   
-}); --}}
 
   
 

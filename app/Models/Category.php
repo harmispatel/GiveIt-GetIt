@@ -12,8 +12,8 @@ class Category extends Model
     protected $table ='categories';
     protected $guarded = [];
 
-    
-    public function requirements(){
+
+    public function requirement(){
         return $this->belongsTo(Requirement::class,'category_id','id');
     }
 }
