@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\{StoreRequirement, Insertrequirement, EditValidation};
 
 //Models
-use App\Models\{Requirement, User, Category, Media};
+use App\Models\{Requirement, User, Category, Media, Favorite };
 
 
 class GiveitController extends Controller
@@ -70,9 +70,12 @@ class GiveitController extends Controller
         $RequiredData = Requirement::find($id);
         $RequirementData = Requirement::all();
         $cat_id = $RequiredData->category_id;
+        $Rre_id = $RequiredData->id;
+        $favoriteData =Favorite::where('requirement_id',$Rre_id)->first();
+        // dd($favoriteData);
 
         $relatedData = Requirement::with(['categories','media'])->where('category_id',$cat_id)->limit(3)->get();
-        return view('fronted.giveitview',compact('RequiredData','categoryId','mediaData','relatedData'));
+        return view('fronted.giveitview',compact('RequiredData','categoryId','mediaData','relatedData','favoriteData'));
     }
 
     /**

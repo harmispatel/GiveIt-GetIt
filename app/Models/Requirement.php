@@ -36,4 +36,5 @@ class Requirement extends Model
     {
         return $this->hasOne(Category::class, 'id', 'category_id');    
     }
+    
    }

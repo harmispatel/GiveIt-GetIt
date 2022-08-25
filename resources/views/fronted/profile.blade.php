@@ -82,6 +82,7 @@
                                             <button type="submit" class="btn donate-bt">Update</button>
                                             <a class="btn donate-bt update">Update Password</a>
                                             {{-- <a href="{{route('changepassword')}}"> <i class="fa fa-key"style="cursor: pointer;"  title="Change Password"></i></a> --}}
+                                            <a href="{{route('displayfavorites')}}" class="btn donate-bt">Favorite</a>
                                             <hr>
                                         </div>
                                     </div>
@@ -89,7 +90,6 @@
                                     </div>
                                 </div>
                             </form>
-                               
                             <div class="changepassword" style="display: none">
                                 <form action="{{ route('updatepassword') }}" id="cpassword" method="post">
                                     @csrf

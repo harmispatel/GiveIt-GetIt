@@ -1,6 +1,6 @@
 
 @foreach ($data as $datas)
-{{--  --}}
+
 
     <div class="col-md-4">
 

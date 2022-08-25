@@ -956,3 +956,33 @@ p{
   color: red;
   font-size: large ;
 }
+/* FAVORITE  */
+.fa-heart{
+  color: black;
+}
+
+#notifDiv {
+  z-index:10000;
+  display: none;
+  background-color: green;
+  font-weight: 450;
+  width: 350px;
+  position: inherit;
+  top: 80%;
+  left: 5%;
+  color: white;
+  padding: 5px 20px;
+}
+
+#notiDiv {
+  z-index:10000;
+  display: none;
+  background-color: green;
+  font-weight: 450;
+  width: 350px;
+  position: inherit;
+  top: 80%;
+  left: 5%;
+  color: white;
+  padding: 5px 20px;
+}

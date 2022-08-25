@@ -78,7 +78,6 @@ class UserprofileController extends Controller
         $user = Auth::user();
         
         try{
-            //    dd($request);
             $pass = bcrypt($request->password);
             $user->password = $pass;
             $user->save();

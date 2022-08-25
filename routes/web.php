@@ -20,9 +20,11 @@ use App\Http\Controllers\GiveitController;
 use App\Http\Controllers\GetitController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\FavoriteController;
 // use App\Http\Controllers\{LoginController, RegisterController, UserController, RequirementController, ForgotPasswordController, GiveitController, GetitController, AddRequirementController, UserProfileController};
 // use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+// use Auth;
 
 
 
@@ -96,7 +98,6 @@ Route::get('/home', function () {
 });
 Route::view("/welcome",'fronted.index');
 Route::view("/aboutus",'fronted.about');
-
 Route::get("/register",[RegisterController::class, 'show'])->name('register');
 Route::post("/insert", [RegisterController::class, 'store'])->name('insert');
 
@@ -115,7 +116,6 @@ Route::get("/giveviewdetail/{id}",[GiveitController::class,'show'])->name('givev
 Route::get("/getviewdetail/{id}",[GetitController::class,'show'])->name('getitview');
 
 
-
 Route::group(['middleware' => ['auth']], function () {
     
     Route::post("/userlogout",[UserController::class,'userLogout'])->name('userlogout'); 
@@ -124,15 +124,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/required",[RequirementController::class,'display'])->name('required');
     
     
-    
     Route::get("/insertrequired",[AddRequirementController::class,'index'])->name('addform');
     Route::post("/insertdata",[AddRequirementController::class,'storeRequirement'])->name('insertdata');
     Route::get("/edit/{id}",[AddRequirementController::class,'edit'])->name('edit');
     Route::delete("/delete/{id}",[AddRequirementController::class,'destroy'])->name('delete');
     Route::post("/update/{id}",[AddRequirementController::class,'update'])->name('update');
+    
+    Route::post('/add-to-favorite',[FavoriteController::class,'store'])->name('add-to-favorite');
+    Route::get('/display-favorites',[FavoriteController::class,'show'])->name('displayfavorites');
+    Route::delete("/delete/{id}",[FavoriteController::class,'destroy'])->name('delete');
     Route::get("/editprofile",[UserProfileController::class,'edit'])->name('editprofile');
     Route::post("/userupdateprofile",[UserProfileController::class,'update'])->name('userupdateprofile');
-    // Route::get("/changepassword",[UserProfileController::class,'show'])->name('changepassword');
     Route::post("/updatepassword",[UserProfileController::class,'password'])->name('updatepassword');
 });
 
