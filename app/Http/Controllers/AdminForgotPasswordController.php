@@ -49,13 +49,13 @@ class AdminForgotPasswordController extends Controller
    }
 
    public function resetPasswordForm($token){
+  
         return view('AdminForgetPasswordLink',['token' => $token]);
-        // return view('AdminForgetPasswordLink',['token' => $token]);
-    //    dd($token);
+    
    }
 
    public function submitResetPasswordForm(Request $request){
-    dd($request);
+   
         $request->validate([
             'email' => 'required|email|exists:users',
             'password' => 'required|string|min:6|confirmed',

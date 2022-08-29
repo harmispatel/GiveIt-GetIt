@@ -31,7 +31,7 @@
                         <form action="{{route('login')}}" method="POST" >
                             @csrf
                               <div class="form-group">
-                                <input type="email" name="email" class="form-control"  placeholder="Enter email">
+                                <input type="email" name="email" class="form-control"  placeholder="Enter email" value="{{old('email')}}">
                                 @if ($errors->has('email'))
                                   <p class="alert alert-danger">{{$errors->first('email')}}</p>                                    
                                 @endif

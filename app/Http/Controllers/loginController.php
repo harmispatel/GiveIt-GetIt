@@ -23,32 +23,18 @@ class LoginController extends Controller
    public function check(LoginValidationRequest $request){
 
         // Only Admin Login
-        $credentials = $request->only('email', 'password');
+        $user = $request->only('email', 'password');
+        $user['user_type'] = 1;
+        $credentials = $user;
         if (Auth::attempt($credentials)) {
-            
-            if (Auth::user()->user_type == '1') 
-            {
-                // dd('hello');
-                
-                $value = $request->session()->put('admin',Auth::user()->name);
-                return redirect('home1');
-                 
-            }else{
-                
-                return redirect('login');
-            }
+
+            $value = $request->session()->put('admin',Auth::user()->name);
+            return redirect('home1');
+
         }else{
             return redirect('login');
         }
 
-
-        // if (Auth::attempt($credentials)) {
-            
-        //     return view('welcome'); 
-        // } else {
-          
-        //     return view('login');
-        // }
     }
 
     public function logout(Request $request){

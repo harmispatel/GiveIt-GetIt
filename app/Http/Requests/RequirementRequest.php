@@ -29,8 +29,8 @@ class RequirementRequest extends FormRequest
             'requirement' => 'required',
             'quantity' => 'required | numeric | min:1',
             'type' => 'required',
-            'status' => 'required',
-            'is_active' => 'required',
+            // 'status' => 'required',
+            'is_active' => 'required'
         ];
     }
 }
