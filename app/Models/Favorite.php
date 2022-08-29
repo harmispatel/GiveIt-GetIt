@@ -14,7 +14,7 @@ class Favorite extends Model
     protected $guarded = [];
 
     public static function countWishlist($requirement_id){
-        $countWishlist = Favorite::where(['requirement_id' => $requirement_id,'user_id' => Auth::user()->id])->exists();
+        $countWishlist = Favorite::where(['requirement_id' => $requirement_id, 'user_id' => Auth::user()->id])->exists();
         return $countWishlist;
     }
 
@@ -26,4 +26,5 @@ class Favorite extends Model
     {
         return $this->belongsTo(User::class);
     }
+   
 }

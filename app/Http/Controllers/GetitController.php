@@ -9,6 +9,7 @@ use App\Http\Requests\{StoreRequirement, Insertrequirement, EditValidation};
 
 //Models
 use App\Models\{Requirement, User, Category, Media};
+use Illuminate\Support\Facades\URL;
 
 
 class GetitController extends Controller
@@ -63,7 +64,7 @@ class GetitController extends Controller
     public function show($id)
     {
         // Get It Requiment data Only View
-
+        $url = URL::current();
         $categoryId = Category::get();
         $mediaData = Media::get();
         $RequiredData = Requirement::find($id);
@@ -72,7 +73,7 @@ class GetitController extends Controller
         $relatedData = Requirement::with(['categories','media'])->where('category_id',$cat_id)->limit(3)->get();
         // echo "<pre>"; print_r($relatedData->toArray());exit;
         // dd($relatedData);
-        return view('fronted.getitview',compact('RequiredData','categoryId','mediaData','relatedData'));
+        return view('fronted.getitview',compact('RequiredData','categoryId','mediaData','relatedData','url'));
     }
 
     /**

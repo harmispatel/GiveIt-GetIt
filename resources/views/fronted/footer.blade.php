@@ -29,27 +29,27 @@
                     <h3>Social Links</h3>
                     <ul>
                         <li>
-                            <a class="social-link">
+                            <a class="social-link" href="https://www.facebook.com/sharer/sharer.php?">
                                 <i class="fa-brands fa-facebook-f"></i>
                             </a>
                         </li>
                         <li>
-                            <a class="social-link">
+                            <a class="social-link" href="https://www.youtube.com/">
                                 <i class="fa-brands fa-youtube"></i>
                             </a>
                         </li>
                         <li>
-                            <a class="social-link">
+                            <a class="social-link" href="https://www.instagram.com/">
                                 <i class="fa-brands fa-instagram"></i>
                             </a>
                         </li>
                         <li>
-                            <a class="social-link">
+                            <a class="social-link" href="http://linkedin.com/">
                                 <i class="fa-brands fa-linkedin-in"></i>
                             </a>
                         </li>
                         <li>
-                            <a class="social-link">
+                            <a class="social-link" href="https://twitter.com/">
                                 <i class="fa-brands fa-twitter"></i>
                             </a>
                         </li>

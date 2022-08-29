@@ -125,12 +125,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/insertrequired",[AddRequirementController::class,'index'])->name('addform');
     Route::post("/insertdata",[AddRequirementController::class,'storeRequirement'])->name('insertdata');
     Route::get("/edit/{id}",[AddRequirementController::class,'edit'])->name('edit');
-    Route::delete("/delete/{id}",[AddRequirementController::class,'destroy'])->name('delete');
+    Route::delete("/delete-Requirement/{id}",[AddRequirementController::class,'destroy'])->name('deleteRequirement'); 
     Route::post("/update/{id}",[AddRequirementController::class,'update'])->name('update');
     
     Route::post('/add-to-favorite',[FavoriteController::class,'store'])->name('add-to-favorite');
     Route::get('/display-favorites',[FavoriteController::class,'show'])->name('displayfavorites');
-    Route::delete("/delete/{id}",[FavoriteController::class,'destroy'])->name('delete');
+    Route::delete("/delete/{id}",[FavoriteController::class,'delete'])->name('delete');
     Route::get("/editprofile",[UserProfileController::class,'edit'])->name('editprofile');
     Route::post("/userupdateprofile",[UserProfileController::class,'update'])->name('userupdateprofile');
     Route::post("/updatepassword",[UserProfileController::class,'password'])->name('updatepassword');

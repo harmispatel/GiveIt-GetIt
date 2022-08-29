@@ -10,6 +10,8 @@ use App\Http\Requests\{StoreRequirement, Insertrequirement, EditValidation};
 //Models
 use App\Models\{Requirement, User, Category, Media, Favorite };
 
+use Illuminate\Support\Facades\URL;
+
 
 class GiveitController extends Controller
 {
@@ -64,7 +66,7 @@ class GiveitController extends Controller
     public function show($id)
     {
        // Reuirement Id View Details
-
+       $url = URL::current();
        $categoryId = Category::get();
         $mediaData = Media::get();
         $RequiredData = Requirement::find($id);
@@ -75,7 +77,7 @@ class GiveitController extends Controller
         // dd($favoriteData);
 
         $relatedData = Requirement::with(['categories','media'])->where('category_id',$cat_id)->limit(3)->get();
-        return view('fronted.giveitview',compact('RequiredData','categoryId','mediaData','relatedData','favoriteData'));
+        return view('fronted.giveitview',compact('RequiredData','categoryId','mediaData','relatedData','favoriteData','url'));
     }
 
     /**

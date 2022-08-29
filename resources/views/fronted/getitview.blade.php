@@ -3,7 +3,7 @@
 @section('title', 'Give It & Get It -ViewRequirement')
 
 @section('content')
-<div class="notiDiv"><div>
+<div id="notifDiv"></div>
     <div class="main">
         @if (session()->has('success'))
             <div class="alert alert-success success">
@@ -67,7 +67,36 @@
                                 <div class="price-box-header">
                                     <h3>₹{{ $RequiredData->price == null ? 00.0 : $RequiredData->price }}</h3>
                                     <div class="price-share">
-                                        <button class="btn"><i class="fa-solid fa-share-nodes"></i></button>
+                                        <button class="btn">  <i class="fa-solid fa-share-nodes" data-bs-toggle="modal" href="#exampleModalToggle" role="button"></i></button>
+                                        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                              <div class="modal-content">
+                                                <div class="modal-header">
+                                                  <h5 class="modal-title"  id="exampleModalToggleLabel">Share</h5>
+                                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="link-container">
+                                                        <input type="text" class="form-control" id="copy_{{$url}}" value="{{$url}}" />
+                                                        <button value="copy" class="btn copy-btn" onclick="copyToClipboard('copy_{{ $url}}')">Copy</button>
+                                                    </div>
+
+                                                    <div class="share-social">
+                                                        <a href="https://www.facebook.com/sharer/sharer.php?u={{url()->current()}}" role="button"><i class="fab fa-facebook-f fa-lg"></i></a>
+                                                    
+                                                        <a  href="https://twitter.com/intent/tweet?url={{url()->current()}}" role="button"><i class="fab fa-twitter fa-lg"></i></a></button>
+                                                    
+                                                        <a  href="https://www.instagram.com/?url={{url()->current()}}" role="button"><i class="fab fa-instagram fa-lg"></i></a>
+                                                    
+                                                        <a  href="https://wa.me/?text={{url()->current()}}" role="button"><i class="fab fa-whatsapp"></i></a>
+                                                    
+                                                        <a href="http://linkedin.com/?url={{url()->current()}}" role="button"><i class="fab fa-linkedin-in"></i></a>
+                                                    </div>
+                                                    
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
                                         @auth
 
                                             
@@ -84,14 +113,11 @@
                                           <i class="far fa-heart" aria-hidden="true"></i>
 
                                           @endif
-
                                                 </button>
-
-                                            
                                         @endauth
                                         @guest
                                             <button class="btn"><a href="{{ route('userlogin') }}"
-                                                    class="fa-solid fa-heart"></a></button>
+                                                    class="far fa-heart"></a></button>
                                         @endguest
                                     </div>
                                 </div>
@@ -130,14 +156,8 @@
             </div>
         </section>
     </div>
-
-
-
-
-
 @endsection
 @section('js')
-
     <script text type=text/javascript>
         var user_id = "{{ Auth::id() }}";
         $(document).ready(function() {
@@ -148,7 +168,6 @@
                     }
                 });
                 var requirement_id = $(this).data('requirementid');
-
                 $.ajax({
                     type: 'POST',
                     url: '/add-to-favorite',
@@ -158,24 +177,22 @@
                     },
                     success: function(response) {
                         if (response.action == 'add') {
-
+                            $('#notifDiv').fadeIn().css('background', 'green').text(response.message);
                             $('button[data-requirementid='+requirement_id+']').html(`<i class="fas fa-heart" aria-hidden="true"></i>`);
-// console.log(response.message);
-                            $('#notiDiv').fadeIn().css('background', 'green').text(response.message);
                         } else {
-                            // console.log(response.message);
-    
+                            $('#notifDiv').fadeIn().css('background', 'red').text(response.message);
                             $('button[data-requirementid='+requirement_id+']').html(`<i class="far fa-heart" aria-hidden="true"></i>`);
-                            $('#notiDiv').fadeIn().css('background', 'red').text(response.message);
-                            
                         }
-
                         setTimeout(() => {
-                            $('#notiDiv').fadeOut();
+                            $('#notifDiv').fadeOut();
                         }, 3000);
                     }
                 });
             });
         });
+        function copyToClipboard(id) {
+        document.getElementById(id).select();
+        document.execCommand('copy');
+    }
     </script>
 @endsection
