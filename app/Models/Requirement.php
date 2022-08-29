@@ -36,6 +36,7 @@ class Requirement extends Model
     {
         return $this->hasOne(Category::class, 'id', 'category_id');    
     }
+<<<<<<< HEAD
 
 
     public function medias(){
@@ -44,4 +45,9 @@ class Requirement extends Model
 
 
     
+=======
+    public function medias(){
+        return $this->hasOne(Media::class, 'id','media_id');
+    }
+>>>>>>> da40e7ba7566bc3dfdb5412f5fe2bf8b0912ebcb
    }

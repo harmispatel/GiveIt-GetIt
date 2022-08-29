@@ -23,15 +23,20 @@
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('aboutus*') ? 'active' : '' }}" href="aboutus">About</a>
                     </li>
-                    {{-- <li class="nav-item">
-                        <a class="nav-link {{ Request::is('donate*') ? 'active' : '' }}" href="donate">Donate</a>
-                    </li> --}}
+
                     @guest
+                    
                         <li class="nav-item">
                             <a class="nav-link {{ Request::is('userlogin*') ? 'active' : '' }}"
                                 href="{{ route('userlogin') }}">Login</a>
                         </li>
                     @else
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::is('display-favorites*') ? 'active' : '' }}" href="{{route('displayfavorites')}}">Wishlist</a>
+                    </li>
+             
+
+
                         <li><form method="POST" action="{{ route('userlogout') }}">
                             @csrf
                             <button type="submit" class="btn logout-btn" name="submit">Logout</button>

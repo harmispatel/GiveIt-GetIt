@@ -287,10 +287,10 @@ class AddRequirementController extends Controller
      */
     public function destroy($id)
     {
-        //Delete Requirement  
-
+        // Delete Requirement  
+        
         $data = Requirement::find($id)->delete();  
         
-        return redirect('editprofile')->with('messagedelete','Deleted RequiredData Successfully');
+        return back()->with('messagedelete','Deleted RequiredData Successfully');
     }
 }

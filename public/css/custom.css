@@ -735,7 +735,7 @@ p{
   color: #414042;
   margin: 0;
 }
-.product-price-box .price-box-header button{
+.price-box-header button{
   font-size: 20px;
   padding: 6px 12px !important;
   color: #000;
@@ -876,6 +876,51 @@ p{
   width: 100%;
   height: 400px !important;
 }
+.modal-title{
+  color: darkorange;
+  text-transform: uppercase;
+}
+
+
+
+
+
+/* share social */
+.price-share .modal-body{
+  padding: 20px 40px;
+}
+.share-social{
+  display:flex;
+  justify-content: space-between;
+  align-self: center;
+}
+
+.share-social a{
+  width: 50px;
+  height: 50px;
+  padding: 10px;
+  background-color:#48267c;
+  border-radius:50%;
+  color: #fff !important;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.share-social a i{
+  font-size:25px !important;
+}
+.link-container{
+  display: flex;
+  align-items: center;
+  margin-bottom:30px;
+}
+
+.link-container .copy-btn{
+  background-color: #48267c;
+  color:#fff !important;
+  padding: 3px 20px !important;
+}
+
 
 @media (max-width: 991px){
 
@@ -951,6 +996,7 @@ p{
   }
 
 }
+
  /* error  */
  .error{
   color: red;
@@ -969,20 +1015,39 @@ p{
   width: 350px;
   position: inherit;
   top: 80%;
-  left: 5%;
+  right: 5%;
   color: white;
   padding: 5px 20px;
 }
 
-#notiDiv {
-  z-index:10000;
-  display: none;
-  background-color: green;
-  font-weight: 450;
-  width: 350px;
-  position: inherit;
-  top: 80%;
-  left: 5%;
-  color: white;
-  padding: 5px 20px;
+/* .link-container{
+  width: 100%;
+  position: relative;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  border-radius: 40px;
+  background-color: #fff;
+  overflow: hidden;
+  padding: 0 10px;
+} */
+
+/* .link{
+  width: 80%;
+  height: 100%;
+  line-height: 40px;
+  background: #6c758f;
+  color: #000;
 }
+.copy-btn{
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+  background:#6c758f  ;
+  color: #fff;
+  border: none;
+  height: 100%;
+  width: 30%;
+  text-transform: capitalize;
+  font-size: 16px;
+} */

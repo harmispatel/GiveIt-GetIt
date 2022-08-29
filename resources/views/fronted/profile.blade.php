@@ -26,6 +26,12 @@
             {{ session()->get('mistake') }}
         </div>
     @endif
+    
+    @if (session()->has('messagedelete'))
+    <div class="alert alert-warning messagedelete ">
+        {{ session()->get('messagedelete') }}
+    </div>
+@endif
         <div class="donation-info">
             <div class="container">
                 <div class="row justify-content-center">
@@ -82,7 +88,6 @@
                                             <button type="submit" class="btn donate-bt">Update</button>
                                             <a class="btn donate-bt update">Update Password</a>
                                             {{-- <a href="{{route('changepassword')}}"> <i class="fa fa-key"style="cursor: pointer;"  title="Change Password"></i></a> --}}
-                                            <a href="{{route('displayfavorites')}}" class="btn donate-bt">Favorite</a>
                                             <hr>
                                         </div>
                                     </div>
@@ -160,14 +165,15 @@
                                                     <div class="d-flex">
                                                         <a class="btn" href="{{ route('edit', $item['id']) }}"><i
                                                                 class="fa-solid fa-pen"></i></a>
-                                                        <form method="POST" action="{{ route('delete', $item['id']) }}">
+                                                                <i class="fa fa-trash text-danger deleteBtn" data-toggle="modal" style="cursor: pointer;" data-target="#exampleModal" data-target-id="{{route('deleteRequirement',$item['id'])}}" title="Delete"></i>
+                                                        {{-- <form method="POST" action="{{ route('delete', $item['id']) }}">
                                                             @csrf
                                                             <input name="_method" type="hidden" value="DELETE">
                                                             <button type="submit" class="btn  show_confirm ml-2"
                                                                 data-toggle="tooltip"
                                                                 title='Delete'style=" color: #ff0000 "><i
                                                                     class="fa-solid fa-trash-can"></i></button>
-                                                        </form>
+                                                        </form> --}}
                                                     </div>
                                                 </td>
                                             </tr>
@@ -185,6 +191,34 @@
 
                                     }
                                 </style>
+                                {{-- model --}}
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Delete Requirement</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">  
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure to delete this requirement?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <form action="{{route('deleteRequirement',$item['id'])}}" id="deleteForm" method="POST" class="d-inline">  
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button class="btn btn-danger" type="submit">Delete</button>
+                                                        
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                {{--End model --}}
 
                                 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
                                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -210,7 +244,7 @@
                                             });
                                     });
                                     setTimeout(() => {
-                                        $('.updatepassword, .mistake').remove();
+                                        $('.updatepassword, .mistake, .messagedelete').remove();
                                     }, 3500);
                                 </script>
 

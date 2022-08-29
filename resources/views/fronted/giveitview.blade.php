@@ -8,7 +8,8 @@
     <div class="main">
         @if (session()->has('success'))
             <div class="alert alert-success success">
-                {{ session()->get('success') }}
+                
+                {{-- {{ session()->get('success') }} --}}
             </div>
         @endif
         @if (session()->has('warning'))
@@ -39,10 +40,6 @@
                             <h2>Related Product</h2>
                             @foreach ($relatedData as $item)
                                 <div class="releted_product_inr">
-                                    {{-- @php
-                             echo"<pre>"; print_r($relatedData->toArray());exit;   
-                            @endphp --}}
-
                                     <div class="product-img">
                                         <img src="{{ $item->media == null ? asset('/img/requirement/Noimage.jpg') : asset($item->media['path']) }}"
                                             class="w-100">
@@ -53,7 +50,7 @@
                                     </div>
                                 </div>
                             @endforeach
-
+       
                         </div>
                     </div>
                     <div class="col-md-5">
@@ -62,7 +59,37 @@
                                 <div class="price-box-header">
                                     <h3>₹{{ $RequiredData->price == null ? 00.0 : $RequiredData->price }}</h3>
                                     <div class="price-share">
-                                        <button class="btn"><i class="fa-solid fa-share-nodes"></i></button>
+                                        <button class="btn">  <i class="fa-solid fa-share-nodes" data-bs-toggle="modal" href="#exampleModalToggle" role="button"></i></button>
+                                        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                              <div class="modal-content">
+                                                <div class="modal-header">
+                                                  <h5 class="modal-title"  id="exampleModalToggleLabel">Share</h5>
+                                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="link-container">
+                                                        <input type="text" class="form-control" id="copy_{{$url}}" value="{{$url}}" />
+                                                        <button value="copy" class="btn copy-btn" onclick="copyToClipboard('copy_{{ $url}}')">Copy</button>
+                                                    </div>
+
+                                                    <div class="share-social">
+                                                        <a href="https://www.facebook.com/sharer/sharer.php?u={{url()->current()}}" role="button"><i class="fab fa-facebook-f fa-lg"></i></a>
+                                                    
+                                                        <a  href="https://twitter.com/intent/tweet?url={{url()->current()}}" role="button"><i class="fab fa-twitter fa-lg"></i></a></button>
+                                                    
+                                                        <a  href="https://www.instagram.com/?url={{url()->current()}}" role="button"><i class="fab fa-instagram fa-lg"></i></a>
+                                                    
+                                                        <a  href="https://wa.me/?text={{url()->current()}}" role="button"><i class="fab fa-whatsapp"></i></a>
+                                                    
+                                                        <a href="http://linkedin.com/?url={{url()->current()}}" role="button"><i class="fab fa-linkedin-in"></i></a>
+                                                    </div>
+                                                    
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          {{-- <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Open first modal</a> --}}
                                         @auth
                                           
                                                 @php $countWishlist = 0 @endphp
@@ -83,8 +110,8 @@
                                  
                                         @endauth
                                         @guest
-                                            <button class="btn"><a href="{{ route('userlogin') }}"
-                                                    class="fa-solid fa-heart"></a></button>
+                                            <button class="btn"><a href="{{ route('userlogin')}}"
+                                                    class="far fa-heart"></a></button>
                                         @endguest
                                     </div>
                                 </div>
@@ -156,26 +183,19 @@
                             
                         }
 
-                        setTimeout(() =>{
-                            $('#notifDiv').fadeOut();
-                        }, 3000);
+                        // setTimeout(() =>{
+                        //     $('#notifDiv').fadeOut();
+                        // }, 3000);
                     }
                 });
             });
         });
-
-        // $('#favorite').on('click',function(){
-        //     var url = $(this).attr("data-target-id")
-        //        alert(url);
-        // $("#deleteForm").attr('action', url);
-
-        // });
-
-
-
-
-        setTimeout(() => {
-            $('.success, .warning ').remove();
-        }, 3500);
+        // setTimeout(() => {
+        //     $('.success, .warning ').remove();
+        // }, 3500);
+        function copyToClipboard(id) {
+        document.getElementById(id).select();
+        document.execCommand('copy');
+    }
     </script>
 @endsection
