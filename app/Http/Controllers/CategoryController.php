@@ -9,7 +9,7 @@ use App\Http\Requests\CategoryRequest;
 // Models
 use App\Models\Category;
 use App\Models\Requirement;
-
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
@@ -22,8 +22,13 @@ class CategoryController extends Controller
     public function index()
     {   
         // Show Category List
+        try{
 
-        $categoryData = Category::paginate(5);
+            $categoryData = Category::paginate(10);
+        }catch(Exception $e){
+            
+            return back()->with('mistake','An error occurred while you are trying to show Category.! Please try again.');
+        }
         return view('categories')->with('categories',$categoryData);
         
     }
@@ -48,11 +53,17 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         // Add new Category
+        try{
 
-        $categoryObj = new Category();
-        $categoryObj->name = $request->categoryName;
-        $categoryObj->status = $request->status;
-        $categoryObj->save();
+            $categoryObj = new Category();
+            $categoryObj->name = $request->categoryName;
+            $categoryObj->status = 1;
+            $categoryObj->save();
+
+        }catch(Exception $e){
+
+            return back()->with('mistake','An error occurred while you are trying to Add new Category.! Please try again.');
+        }
         
         return redirect()->route('category.index')->with('message','Category added successfully!');
 
@@ -78,9 +89,14 @@ class CategoryController extends Controller
     public function edit($id)
     {   
         // Open Edit Category Form
+        try{
 
-        $editCategoryData = Category::find($id);
-        $category = Category::all();
+            $editCategoryData = Category::find($id);
+            $category = Category::all();
+
+        }catch(Exception $e){
+            return back()->with('mistake','An error occurred while you are trying to open edit Category.! Please try again.');
+        }
         return view('editCategory',compact('editCategoryData','category'));
 
     }
@@ -95,11 +111,16 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, $id)
     {   
         // Update Category
+        try{
 
-        $editCategory = Category::find($id);
-        $editCategory->name = $request->categoryName;
-        $editCategory->status = $request->status;
-        $editCategory->save();
+            $editCategory = Category::find($id);
+            $editCategory->name = $request->categoryName;
+            $editCategory->status = $request->status;
+            $editCategory->save();
+
+        }catch(Exception $e){
+            return back()->with('mistake','An error occurred while you are trying to update Category.! Please try again.');
+        }
         return redirect()->route('category.index')->with('message','Category updated successfully!');
 
     }
@@ -113,18 +134,26 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         // Delete Category
-        $RequirementData = Requirement::all();
-        $data = count(Requirement::where('category_id',$id)->get());
-        
-        if($data > 0)
-        {
-            return redirect()->back()->with('msg','This id is already exist in Requirement table so, You can not delete this Record!');
-            
-        }else{
+        try{
 
-            $delete = Category::find($id)->delete();
-            return redirect()->route('category.index')->with('message','Category deleted successfully!');
+            $RequirementData = Requirement::all();
+            $data = count(Requirement::where('category_id',$id)->get());
+
+            if($data > 0)
+            {
+                return redirect()->back()->with('msg','This id has exist in Requirement table so, You can not delete this Record!');
+                
+            }else{
+    
+                $delete = Category::find($id)->delete();
+            }
+            
+        }catch(Exception $e){
+            return back()->with('mistake','An error occurred while you are trying to delete Category.! Please try again.');
         }
+
+        return redirect()->route('category.index')->with('message','Category deleted successfully!');
+        
         
         // $query = Category::query()->find($id);
         // $category = $query->with('requirement',function($q){
@@ -138,21 +167,27 @@ class CategoryController extends Controller
     
     public function multipleDelete(Request $request){
         
-        $ids = $request->ids;
-        $RequirementData = Requirement::all();
-        $data = count(Requirement::where('category_id',$ids)->get());
-        if($data > 0)
-        {
-            return redirect()->back()->with('msg','This id is already exist in Requirement table so, You can not delete this Record!');
+        try{
+
+            $ids = $request->ids;
+            $RequirementData = Requirement::all();
+            $data = count(Requirement::where('category_id',$ids)->get());
+            if($data > 0)
+            {
+                return redirect()->back()->with('msg','This id has exist in Requirement table so, You can not delete this Record!');
+                
+            }else{
+    
+                Category::whereIn('id',$ids)->delete();
+                
+            }
             
-        }else{
+        }catch(Exception $e){
 
-            Category::whereIn('id',$ids)->delete();
-            return redirect()->route('category.index')->with('message','Category deleted successfully!');
-
-            // $delete = Category::find($id)->delete();
-            // return redirect()->route('category.index')->with('message','Category deleted successfully!');
+            return back()->with('mistake','An error occurred while you are trying to delete Category.! Please try again.');
         }
+
+        return redirect()->route('category.index')->with('message','Category deleted successfully!');
         
     }
 }

@@ -6,6 +6,13 @@
 
 <div class="content-wrapper">
     <section class="content">
+        {{-- try...catch message  --}}
+        @if (session()->has('mistake'))
+            <div class="alert alert-warning mistake ">
+                {{ session()->get('mistake') }}
+            </div>
+        @endif
+        {{-- End try Catch --}}
         <div class="container-fluid">
             <div class="row">
                 <div class="col">
@@ -61,7 +68,7 @@
                                     <select class="form-control form-control-md" name="user_type" value="{{old('user_type')}}">
                                         <option value="#">Select User</option>
                                         <option value="1">Admin</option>
-                                        <option value="0">Donor</option>   
+                                        <option value="0">User</option>   
                                         {{-- <option value="3">Admin</option>    --}}
                                     </select>
                                     @if ($errors->has('user_type'))

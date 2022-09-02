@@ -156,7 +156,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
         {{-- Ajax Call: Status --}}
+
         <script type="text/javascript">
+       
 
                 function requirements(){
                     var status = $('#status').val();
@@ -176,61 +178,181 @@
                         },
                         success: function(data) {
                         $('#tableBody').html('');
-                            
-                            $.each(data.requirements, function( key, value ) 
-                            {   
-                                var img = app_url+value?.medias?.path;
-                                var imges = value?.medias?.path;
-                                var noimg = app_url+'/img/requirement/Noimage.jpg';
 
-                                $("#tableBody").append('<tr>');
-                                    if (imges == null || img == undefined) {
+                            
+                        $.each(data.requirements, function( key, value ) 
+                        {   
+                            var img = app_url+value?.medias?.path;
+                            var imges = value?.medias?.path;
+                            var noimg = app_url+'/img/requirement/Noimage.jpg';
+
+                            $("#tableBody").append('<tr>');
+                                if (imges == null || img == undefined) {
+                                
+                                    $("#tableBody").append('<td><img width="100px" src="'+noimg+'"></td>');
+                                }
+                                else{
                                     
-                                        $("#tableBody").append('<td><img width="100px" src="'+noimg+'"></td>');
-                                    }
-                                    else{
-                                        
-                                        $("#tableBody").append('<td><img width="100px" src="'+img+'"></td>');
-                                    
-                                    }
-                                    $("#tableBody").append('<td>'+value.category.name+'</td>');
-                                    $("#tableBody").append('<td>'+value['quantity']+'</td>');
-                                    $("#tableBody").append(
-                                                            
-                                                        `
-                                                            <td>
-                                                                <span class="${value.type == '1' ? 'badge badge-success':'badge badge-danger  '}">
-                                                                    ${value.type == '1' ? 'Giveit':'Getit'}
-                                                                </span>
-                                                        </td>
-                                                        `
-                                                            );                       
-                                    $("#tableBody").append(
-                                                        `
-                                                            <td>
-                                                                <span class="${value.status == 1 ? 'badge badge-success' : 'badge badge-danger'}">
-                                                                    ${value.status == '1' ? 'Pending':'Completed'}
-                                                                </span>
-                                                            </td>
-                                                        `
-                                                    );
-                                    
-                                    $("#tableBody").append(
-                                                        `
-                                                        <td class="text-right">
-                                                            <a href=""><i class="fas fa-edit "></i></a>&nbsp;&nbsp;
-                                                            <a href=""><i class="fas fa-trash text-danger deleteBtn"></i><a>
-                                                        </td>
-                                                        `
+                                    $("#tableBody").append('<td><img width="100px" src="'+img+'"></td>');
+                                
+                                }
+                            
+                            
+                                $("#tableBody").append('<td>'+value.category.name+'</td>');
+                                $("#tableBody").append('<td>'+value['quantity']+'</td>');
+                                $("#tableBody").append(
                                                         
-                                                    );
-                                $("#tableBody").append('</tr>');
-                            });
-                        }
+                                                    `
+                                                        <td>
+                                                            <span class="${value.type == '1' ? 'badge badge-success':'badge badge-danger  '}">
+                                                                ${value.type == '1' ? 'Giveit':'Getit'}
+                                                            </span>
+                                                    </td>
+                                                    `
+                                                        );                       
+                                $("#tableBody").append(
+                                                    `
+                                                        <td>
+                                                            <span class="${value.status == 1 ? 'badge badge-success' : 'badge badge-danger'}">
+                                                                ${value.status == '1' ? 'Pending':'Completed'}
+                                                            </span>
+                                                        </td>
+                                                    `
+                                                );
+                                
+                                $("#tableBody").append(
+                                                    `
+                                                    <td class="text-right">
+                                                        <a href=""><i class="fas fa-edit "></i></a>&nbsp;&nbsp;
+                                                        <a href=""><i class="fas fa-trash text-danger deleteBtn"></i><a>
+                                                    </td>
+                                                    `
+                                                    
+                                                );
+                            $("#tableBody").append('</tr>');
+                        });
+                    }
 
                     });
                 }
-        </script>  
+
+           
+   
+        
+        </script>
+
+
+    {{-- <script type="text/javascript">
+        $(document).ready(function() {
+
+            var app_url = '{{url('')}}';
+            console.log('app url : ', app_url)
+
+            $('#status').on('change', function() {
+                var status = $(this).val();
+                
+            
+                
+
+                $.ajax({
+                    url: "{{ url('filterStatus') }}",
+                    type: "POST",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        'filterStatus': status,
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        $('#tableBody').html('');
+
+                        console.log(data.requirements.length);
+                    
+                        $.each(data.requirements, function( key, value ) 
+                        {   
+
+                            var img = app_url+value?.medias?.path;
+                            var imges = value?.medias?.path;
+                            var noimg = app_url+'/img/requirement/Noimage.jpg';
+
+                            $("#tableBody").append('<tr>');
+                                if (imges == null || img == undefined) {
+                                
+                                    $("#tableBody").append('<td><img width="100px" src="'+noimg+'"></td>');
+                                }
+                                else{
+                                    
+                                    $("#tableBody").append('<td><img width="100px" src="'+img+'"></td>');
+                                
+                                }
+                            
+                            
+                                $("#tableBody").append('<td>'+value.category.name+'</td>');
+                                $("#tableBody").append('<td>'+value['quantity']+'</td>');
+                                $("#tableBody").append(
+                                                        
+                                                    `
+                                                        <td>
+                                                            <span class="${value.type == '1' ? 'badge badge-success':'badge badge-danger  '}">
+                                                                ${value.type == '1' ? 'Giveit':'Getit'}
+                                                            </span>
+                                                    </td>
+                                                    `
+                                                        );                       
+                                $("#tableBody").append(
+                                                    `
+                                                        <td>
+                                                            <span class="${value.status == 1 ? 'badge badge-success' : 'badge badge-danger'}">
+                                                                ${value.status == '1' ? 'Pending':'Completed'}
+                                                            </span>
+                                                        </td>
+                                                    `
+                                                );
+                                
+                                $("#tableBody").append(
+                                                    `
+                                                    <td class="text-right">
+                                                        <a href=""><i class="fas fa-edit "></i></a>&nbsp;&nbsp;
+                                                        <a href=""><i class="fas fa-trash text-danger deleteBtn"></i><a>
+                                                    </td>
+                                                    `
+                                                    
+                                                );
+                            $("#tableBody").append('</tr>');
+                        });
+                    }
+                });
+
+            });
+
+        });
+    </script> --}}
+        {{-- Ajax Call: Seraching --}}
+        {{-- <script type="text/javascript">
+            $(document).ready(function() {
+                $('#search').on('keyup', function() {
+                    var searchString = $(this).val();
+                   
+                    $.ajax({
+                        url: "{{ url('search') }}",
+                        type: "POST",
+                        dataType: 'json',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            'searchString': searchString
+                        },
+                        success: function(data) {
+                            console.log(data);
+                            $('#tableBody').html('');
+                            $('#tableBody').append( data.output);
+
+                        }
+                    });
+                });
+            });
+        </script> --}}
+
+
+        </body>       
     </html>        
 @endsection
         

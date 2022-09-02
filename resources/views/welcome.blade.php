@@ -50,7 +50,7 @@
             <div class="small-box bg-info">
               <div class="inner">
                 <h3>150</h3>
-                <p>Donor</p>
+                <p>User</p>
               </div>
               <div class="icon">
                 <i class="fas fa-hand-holding-usd"></i>

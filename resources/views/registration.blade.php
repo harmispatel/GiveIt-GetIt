@@ -122,7 +122,7 @@
                                 </form>
                                 <hr>                            
                                 <div>
-                                <p>If You Have An Account ? <a href="login">Login Now</a></p>
+                                <p>If You Have An Account ? <a href="{{route('loginform')}}">Login Now</a></p>
                                 </div>
                         </div>
                     </div>

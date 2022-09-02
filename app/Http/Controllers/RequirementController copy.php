@@ -295,6 +295,7 @@ class RequirementController extends Controller
             $editRequirement->requirements = $request->requirement;
             $editRequirement->quantity = $request->quantity;
             $editRequirement->status = $request->status;
+            // $editRequirement->is_active = $request->is_active;
             
             // type: Giveit, Getit
             $editRequirement->type = $request->type;
@@ -361,38 +362,214 @@ class RequirementController extends Controller
         return redirect()->route('requirement.index')->with('message','Requirement deleted successfully!');     
     }
     
-    // AJAX : Filter
+    // AJAX : Change Status
     public function changeStatus(Request $request)
     {
-        // Ajax request for filter
-        $requirementStatus = $request->filterStatus;
-        $requirementSearch = $request->filterSearch;
-
-        // Get Requirement Table
-        $requirement = Requirement::query();
-        
-        // Relationship : Get data form category and medias
-        $requirement->with(['category','medias']);
-                        
-        // Filter Status
-        $requirement = $requirement->when(!empty($requirementStatus), function() use($requirement,$requirementStatus) {
-            $requirement->where('status',$requirementStatus);
-        });
-
-        // Filter Search
-        $requirement = $requirement->when(!empty($requirementSearch), function() use($requirement,$requirementSearch) {
-
-            $requirement = $requirement->whereHas('category',function($query) use($requirementSearch) {
-                $query->where('name', 'LIKE',"%".$requirementSearch."%");
-                
-            })->orWhere('quantity', 'LIKE',"%".$requirementSearch."%");
             
-        })->get();
-         
-        // JSON Response
-        return response()->json([
-                    'requirements' => $requirement
-                ]);
+            
+                
+                $requirementStatus = $request->filterStatus;
+                $requirementSearch = $request->filterSearch;
+                $requirement = Requirement::query();
+                  
+                $requirement->with(['category','medias']);
+                                
+                $requirement = $requirement->when(!empty($requirementStatus), function() use($requirement,$requirementStatus) {
+                    $requirement->where('status',$requirementStatus);
+                })->get();
+
+                if ($request->filterSearch != "") {
+                   
+                    $requirement = $requirement->whereHas('category',function($query) use($requirementSearch) {
+                        $query->where('name', 'LIKE',$requirementSearch."%");
+                        
+                    })->orWhere('quantity', 'LIKE',$requirementSearch."%")->get(); 
+                }
+                // echo"<pre>";
+                // print_r($requirement->toArray());
+                // exit;
+           
+            return response()->json([
+                        'requirements' => $requirement
+                    ]);
+            
+    }
+
+
+    // public function changeStatus(Request $request)
+    //     {
+            
+    //         $query = Requirement::query();
+    //         $mediaQuery = Media::query();
+
+    //         if ($request->ajax()) {
+                
+    //             // If Status is Empty
+    //             if ($request->filterStatus == "" ){
+                    
+    //                 // if ($request->filterIsActive == "" ){
+
+    //                     // If Status and IsActive is Empty
+    //                     // $requirements = Requirement::query();
+    //                     // $requirements = $query->with('category', function($query) {
+    //                     //             $query->select('id', 'name');
+    //                     //         })
+    //                     //         ->get();
+                        
+    //                     //         // $requirements = Media::query();
+    //                     //         // $requirements = $mediaQuery->with('media', function($query) {
+    //                     //         //     $query->select('id', 'path');
+    //                     //         // })
+    //                     //         // ->get();
+                        
+    //                     // return response()->json([
+    //                     //     'requirements' => $requirements,
+    //                     // ]);
+    //                 // }else{
+
+    //                     // If Status is Empty and IsActive is not Empty
+    //                     $requirements = Requirement::query();
+    //                     $requirements = $query->with('category', function($query) {
+    //                                 $query->select('id', 'name');
+    //                             })
+    //                             // ->where('is_active',$request->filterIsActive)
+    //                             ->get();
+                        
+                                
+    //                             // $requirements = Media::query();
+    //                             // $requirements = $mediaQuery->with('media', function($query) {
+    //                             //     $query->select('id', 'path');
+    //                             // })
+    //                             // ->get();
+
+    //                     return response()->json([
+    //                         'requirements' => $requirements,
+    //                     ]);
+    //                 // }
+
+                    
+    //             }else{
+
+    //                     // If Status is not Empty
+    //                     $requirements = Requirement::query();
+    //                     $requirements = $query->with('category', function($query) {
+    //                                     $query->select('id', 'name');
+    //                                 })
+    //                                 ->where('status', $request->filterStatus);
+                                    
+    //                                 // $requirements = Media::query();
+    //                                 // $requirements = $mediaQuery->with('media', function($query) {
+    //                                 //     $query->select('id', 'path');
+    //                                 // })
+    //                                 // ->get();
+
+    //                     // If Status is not Empty and IsActive is Not Empty
+    //                     // if ($request->filterIsActive != "" ) {
+                            
+    //                     //     $requirement = $query->with('category', function($query) {
+    //                     //                         $query->select('id', 'name');
+    //                     //                     })
+    //                     //                     ->where('status', $request->filterStatus)
+    //                     //                     ->where('is_active',$request->filterIsActive)
+    //                     //                     ->get();
+
+    //                     //                     // $requirements = Media::query();
+    //                     //                     // $requirements = $mediaQuery->with('media', function($query) {
+    //                     //                     //     $query->select('id', 'path');
+    //                     //                     // })
+    //                     //                     // ->get();
+                        
+    //                     // }else{
+                            
+    //                         // If Status is not Empty and IsActive is Empty
+    //                         $requirement = $query->with('category', function($query) {
+    //                                         $query->select('id', 'name');
+    //                                     })
+    //                                     ->where('status', $request->filterStatus)
+    //                                     // ->where('is_active',$request->filterIsActive)
+    //                                     ->get();
+
+    //                                     // $requirements = Media::query();
+    //                                     // $requirements = $mediaQuery->with('media', function($query) {
+    //                                     //     $query->select('id', 'path');
+    //                                     // })
+    //                                     // ->get();
+
+    //                     // }
+
+    //                     return response()->json([
+    //                     'requirements' => $requirement
+    //                     ]);
+    //                 }
+                
+    //         }
+    //         else{
+    //             return response()->json(['errors' => $request->errors()]);
+    //             // return view('requirements',compact('category','requirements'));
+    //         }
+    //     }
+
+
+    // AJAX call for Searching...
+    public function searching(Request $request)
+    {
     
+        if($request->ajax()){
+
+            $search = Requirement::query()->with(['category','media']);
+           
+            // Searching using relation
+            if (!empty($request->searchString)) {
+                $search->whereHas('category',function($query) use($request) {
+                        $query->where('name', 'LIKE','%'.$request->searchString."%");
+                                                
+                            })->orWhere('quantity', 'LIKE','%'.$request->searchString."%"); 
+            }
+    
+            if (!empty($request->filterStatus)) {
+                
+                $search->where('status',function ($query) use($request) {
+                        $query->where('status', $request->filterStatus);
+                });
+            }
+
+            $datas = $search->get();
+            
+            $output="";
+            if($datas)
+            {
+                $app_url = url('');
+
+                foreach ($datas as $key => $product) {
+
+                    $img = $app_url.$product?->medias?->path;
+                    $imges = $product->medias;
+                    $noimg = $app_url.'/img/requirement/Noimage.jpg';
+                    
+                    $output.='<tr>';
+                                if ($imges == null || $img == '') {
+                                    $output.='<td><img width="100px" src="'.$noimg.'">'.'</td>';
+                                }else{
+                                    $output.='<td><img width="100px" src="'.$img.'">'.'</td>';
+                                }
+                        $output.='<td>'.$product->category->name.'</td>'.
+                                '<td>'.$product->quantity.'</td>'.
+                                '<td><span class="'.($product->type == '1' ? 'badge badge-danger' : 'badge badge-success').'">'
+                                        .($product->type == '1' ? 'Getit' : 'Giveit').
+                                '</td>'.
+                                '<td><span class="'.($product->status == '1' ? 'badge badge-success' : 'badge badge-danger').'">'
+                                        .($product->status == '1' ? 'Pending' : 'Completed').
+                                    '<span>
+                                </td>'.
+                                
+                                '<td class="text-right"><a href=""><i class="fas fa-edit"></i></a> <a href=""><i class="fas fa-trash text-danger"></i><a></td>'.
+                            '</tr>';
+                }
+                    
+                return Response()->json([
+                    'output' => $output,
+                ]);
+            }
+        }
     }
 }

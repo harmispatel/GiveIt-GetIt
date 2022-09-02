@@ -47,10 +47,10 @@ use Illuminate\Support\Facades\Auth;
 
 Route::group(['middleware' => ['guest']], function () {
 
-    Route::get('/login',[loginController::class,'index'])->name('loginform');
-    Route::post('/login',[loginController::class,'check'])->name('login');
-    Route::get('/registration',[RegistrationController::class,'index'])->name('registrationForm');
-    Route::post('/registration',[RegistrationController::class,'store'])->name('registration');
+    Route::get('/admin/login',[loginController::class,'index'])->name('loginform');
+    Route::post('/admin/login',[loginController::class,'check'])->name('login');
+    Route::get('/admin/registration',[RegistrationController::class,'index'])->name('registrationForm');
+    Route::post('/admin/registration',[RegistrationController::class,'store'])->name('registration');
 
     //Forgot Password
     Route::get('/forgotPassword',[AdminForgotPasswordController::class,'index'])->name('forgotPassword');
@@ -63,7 +63,7 @@ Route::group(['middleware' => ['guest']], function () {
 
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::view('home1','welcome');
+    Route::view('/admin/dashboard','welcome');
     
     // Logout Route
     Route::post("/logout",[loginController::class,'logout'])->name('logout')->middleware('auth');
@@ -76,17 +76,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/requirement',RequirementController::class);
 
     // Filter Route
-    Route::post('/filterStatus',[RequirementController::class,'changeStatus']);
-    Route::post('/filterIsActive',[RequirementController::class,'changeIsActive']);
-    Route::post('/search',[RequirementController::class,'searching']);
+    Route::post('/filter',[RequirementController::class,'changeStatus']);
+    // Route::post('/filterIsActive',[RequirementController::class,'changeIsActive']);
+    // Route::post('/search',[RequirementController::class,'searching']);
 
     // Profile Route
     Route::resource('/adminProfile',AdminProfileController::class);
 
      
 });
-
-
 
 
 
@@ -101,7 +99,8 @@ Route::get("/register",[RegisterController::class, 'show'])->name('register');
 Route::post("/insert", [RegisterController::class, 'store'])->name('insert');
 
 
-Route::get("/userlogin",[UserController::class,'home'])->name('userlogin')->middleware('guest');
+Route::get("/userlogin",[UserController::class,'home'])->name('userlogin')->middleware(['guest']);
+
 Route::post("/userget",[UserController::class,'check'])->name('useget');
 
 Route::get('/forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
@@ -137,29 +136,3 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post("/updatepassword",[UserProfileController::class,'password'])->name('updatepassword');
 });
 
-
-Route::group(['middleware' => ['guest']], function () {
-    Route::get('/login',[LoginController::class,'index'])->name('loginform');
-    Route::post('/login',[LoginController::class,'check'])->name('login');
-    Route::get('/registration',[RegistrationController::class,'index'])->name('registrationForm');
-    Route::post('/registration',[RegistrationController::class,'store'])->name('registration');
-    
-    
-});
-
-Route::group(['middleware' => ['auth']], function () {
-    
-    Route::post("/logout",[loginController::class,'logout'])->name('logout')->middleware('auth');
-    Route::get('/logout',[LoginController::class,'log']);
-    Route::resource('/user',UserController::class);
-    Route::resource('/category',CategoryController::class);
-    Route::resource('/requirement',RequirementController::class);
-    // Route::view('/home','welcome');
-    // Route::get('/filterStatus',[RequirementController::class,'filterStatus'])->name('filterStatus');
-    Route::post('/filterStatus',[RequirementController::class,'changeStatus']);
-    Route::post('/filterIsActive',[RequirementController::class,'changeIsActive']);
-    Route::post('/search',[RequirementController::class,'searching']);
-    // Route::get('/search',[RequirementController::class,'searchCategory']);
-    
-    
-});

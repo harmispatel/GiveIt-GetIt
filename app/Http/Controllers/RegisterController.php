@@ -25,9 +25,10 @@ class RegisterController extends Controller
          return view('fronted.Register');
     }
    
-        public function store(RegisterValidation $request)
+        public function store(Request $request)
         {
             // Insert Data user Fronted side
+        
             try{
                 $pass = bcrypt($request->password);
                 $insertdata = new User();

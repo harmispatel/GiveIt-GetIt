@@ -9,7 +9,7 @@ use App\Http\Requests\{UserRequest,EditUserRequest,loginValidation};
 
 // Models
 use App\Models\User;
-
+use Exception;
 // Facades
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +25,13 @@ class UserController extends Controller
     public function index()
     {
         // Open user list
-        $users = User::all()->where('user_type','0');
+        try{
+
+            $users = User::where('user_type','0')->paginate(10);
+            
+        }catch(Exception $e){
+            return back()->with('mistake','An error occurred while you are trying to add new User.! Please try again.');
+        }
         return view('userList')->with('users',$users);
         
         // $users = User::all();
@@ -54,17 +60,22 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         // Insert Create User Data
+        try{
+            
+            $createUser = new User();
+            $createUser->name = $request->name;
+            $createUser->email = $request->email;
+            $createUser->mobile = $request->mobile;
+            $createUser->address = $request->address;
+            $createUser->user_type = $request->user_type;
+            $createUser->password = $request->password;
+            $createUser->status = $request->status;
+            $createUser->save();
+        }catch(Exception $e){
 
-        $createUser = new User();
-        $createUser->name = $request->name;
-        $createUser->email = $request->email;
-        $createUser->mobile = $request->mobile;
-        $createUser->address = $request->address;
-        $createUser->user_type = $request->user_type;
-        $createUser->password = $request->password;
-        $createUser->status = $request->status;
-        $createUser->save();
+            return back()->with('mistake','An error occurred while you are trying to add new User.! Please try again.');
 
+        }
         return redirect()->route('user.index')->with('message','User added successfully!');
 
     }
@@ -106,16 +117,21 @@ class UserController extends Controller
     public function update(EditUserRequest $request, $id)
     {
         // Update User
+        try{
 
-        $editUser = User::find($id);
-        $editUser->name = $request->name;
-        $editUser->email = $request->email;
-        $editUser->mobile = $request->mobile;
-        $editUser->address = $request->address;
-        $editUser->user_type = $request->user_type;
-        $editUser->status = $request->status;
-        
-        $editUser->save();
+            $editUser = User::find($id);
+            $editUser->name = $request->name;
+            $editUser->email = $request->email;
+            $editUser->mobile = $request->mobile;
+            $editUser->address = $request->address;
+            $editUser->user_type = $request->user_type;
+            $editUser->status = $request->status;
+            
+            $editUser->save();
+        }catch(Exception $e){
+            
+            return back()->with('mistake','An error occurred while you are trying to update new User.! Please try again.');
+        }
         return redirect()->route('user.index')->with('message','User updated successfully!');
         
         
@@ -130,8 +146,14 @@ class UserController extends Controller
  
     public function destroy($id)
     {
-        // Delete User  
-        $delete = User::find($id)->delete();
+        // Delete User 
+        try {
+            
+            $delete = User::find($id)->delete();
+        } catch (Exception $e) {
+
+            return back()->with('mistake','An error occurred while you are trying to delete User.! Please try again.');
+        } 
         return redirect()->route('user.index')->with('msg','User deleted successfully!'); 
     }
   
