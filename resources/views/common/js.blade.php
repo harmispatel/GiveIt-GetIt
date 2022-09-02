@@ -32,17 +32,21 @@
 {{-- <script src="{{ asset ('js/adminlte.min.js')}}"></script> --}}
 
 <!-- AdminLTE for demo purposes -->
-<script src="{{ asset ('js/demo.js')}}"></script>  
+{{-- <script src="{{ asset ('js/demo.js')}}"></script>   --}}
+
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset ('js/pages/dashboard.js')}}"></script>
 <!-- jquery-validation -->
 <script src="{{ asset ('plugins/jquery-validation/jquery.validate.min.js')}}"></script>
 <script src="{{ asset ('plugins/jquery-validation/additional-methods.min.js')}}"></script>
+
 <!-- AdminLTE App -->
 <script src="{{ asset ('js/adminlte.min.js')}}"></script>
 {{-- <script src="{{ asset ('js/dashboard.js')}}"></script> --}}
+
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset ('js/demo.js')}}"></script>
+
 {{-- alert --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
 

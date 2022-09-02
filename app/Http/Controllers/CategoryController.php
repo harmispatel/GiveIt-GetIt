@@ -23,7 +23,7 @@ class CategoryController extends Controller
     {   
         // Show Category List
 
-        $categoryData = Category::all();
+        $categoryData = Category::paginate(5);
         return view('categories')->with('categories',$categoryData);
         
     }

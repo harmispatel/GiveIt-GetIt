@@ -23,42 +23,28 @@
                                     {{-- <button class="btn btn-primary" type="submit">Search</button> --}}
                                 {{-- </form> --}}
                             </div>
-                            {{-- <button type="button" class="btn btn-primary">
-                                <i class="fas fa-search"></i>
-                            </button> --}}
                         </div>
                     </div>
+
+                    {{-- Status --}}
                     <div class="col col-md-4">
-                        
-                            <div class="form-group">
-                                <select id="status" class="form-control form-control-md" name="filterStatus">
-                                    <option value="">All Status</option>
-                                    <option value="1">Pending</option>
-                                    <option value="2">Completed</option>
-                                </select>
-                            </div>
-                        
+                        <div class="form-group">
+                            <select id="status" class="form-control form-control-md" name="filterStatus">
+                                <option value="">All Status</option>
+                                <option value="1">Pending</option>
+                                <option value="2">Completed</option>
+                            </select>
+                        </div>
                     </div>
+
+                    {{-- Add Requirement --}}
                     <div class="col col-md-4 ">
                         <div class="text-right mr-3 mb-2">
                             <a href="{{ route('requirement.create') }}" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Add Requirement</a>
                         </div>
                     </div>  
-                    {{-- <div class="col col-md-3">
-                       
-                        <div class="form-group">
-                            <select id="isActive" class="form-control form-control-md" name="filterIsActive" onchange="isActive()">
-                                <option value="">Is Active?</option>
-                                <option value="1">Active</option>
-                                <option value="2">In Active</option>
-                            </select>
-                        </div>
-                    
-                    </div> --}}
                 </div>
             </div>
-
-            
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
@@ -81,6 +67,7 @@
                                                 <th colspan="2" class="text-right">Actions</th>
                                             </tr>
                                         </thead>
+                                    
                                         <tbody id="tableBody">
                                             {{-- Forelse --}}
                                             @forelse ($requirementsData as $requirement) 
@@ -185,7 +172,6 @@
                         data: {
                             "_token": "{{ csrf_token() }}",
                             'filterStatus': status,
-                            
                         },
                         success: function(data) {
                             console.log(data);
@@ -195,38 +181,46 @@
                            
                             $.each(data.requirements, function( key, value ) 
                             {   
-                                // <img src="{{ $requirement->media == null ? asset('/img/requirement/Noimage.jpg') : asset($requirement->media['path']) }}" alt="Image" width="100">
 
                                 var img = app_url+value?.medias?.path;
+                                var imges = value?.medias?.path;
+                                var noimg = app_url+'/img/requirement/Noimage.jpg';
+
                                 $("#tableBody").append('<tr>');
+                                    if (imges == null || img == undefined) {
+                                    
+                                        $("#tableBody").append('<td><img width="100px" src="'+noimg+'"></td>');
+                                    }
+                                    else{
+                                        
+                                        $("#tableBody").append('<td><img width="100px" src="'+img+'"></td>');
+                                    
+                                    }
                                 
-                                $("#tableBody").append('<td><img width="100px" src="'+img+'"></td>');
                                 
-                                // $("#tableBody").append(`<td><img width="100px" src="http://127.0.0.1:8000${'asset(value.medias.path)'}"></td>`);
-                                $("#tableBody").append('<td>'+value.category.name+'</td>');
-                                // $("#tableBody").append('<td>'+value.requirements+'</td>');
-                                $("#tableBody").append('<td>'+value['quantity']+'</td>');
-                                $("#tableBody").append(
-                                                        
-                                                    `
-                                                        <td>
-                                                            <span class="${value.type == '1' ? 'badge badge-success':'badge badge-danger  '}">
-                                                                ${value.type == '1' ? 'Giveit':'Getit'}
-                                                            </span>
-                                                       </td>
-                                                    `
-                                                        );                       
-                                $("#tableBody").append(
-                                                    `
-                                                        <td>
-                                                            <span class="${value.status == 1 ? 'badge badge-success' : 'badge badge-danger'}">
-                                                                ${value.status == '1' ? 'Pending':'Completed'}
-                                                            </span>
+                                    $("#tableBody").append('<td>'+value.category.name+'</td>');
+                                    $("#tableBody").append('<td>'+value['quantity']+'</td>');
+                                    $("#tableBody").append(
+                                                            
+                                                        `
+                                                            <td>
+                                                                <span class="${value.type == '1' ? 'badge badge-success':'badge badge-danger  '}">
+                                                                    ${value.type == '1' ? 'Giveit':'Getit'}
+                                                                </span>
                                                         </td>
-                                                    `
-                                                );
-                                
-                                $("#tableBody").append(
+                                                        `
+                                                            );                       
+                                    $("#tableBody").append(
+                                                        `
+                                                            <td>
+                                                                <span class="${value.status == 1 ? 'badge badge-success' : 'badge badge-danger'}">
+                                                                    ${value.status == '1' ? 'Pending':'Completed'}
+                                                                </span>
+                                                            </td>
+                                                        `
+                                                    );
+                                    
+                                    $("#tableBody").append(
                                                         `
                                                         <td class="text-right">
                                                             <a href=""><i class="fas fa-edit "></i></a>&nbsp;&nbsp;
@@ -243,143 +237,7 @@
                 });
    
             });
-
-
-            
         </script>
-
-        {{-- Ajax Call: Is_active --}}
-        {{-- <script type="text/javascript">
-            function isActive(){
-                var isActive = $('#isActive').val();
-                var status = $('#status').val();
-
-                // alert(isActive);
-                // alert(status);
-
-                $.ajax({
-                    url: "{{ url('filterIsActive') }}",
-                    type: "POST",
-                    data: {
-                            "_token": "{{ csrf_token() }}",
-                            'filterIsActive': isActive,
-                            'filterStatus': status
-                        },
-                    success: function(data) {
-                        console.log(data);
-                        $('#tableBody').html('');
-                        $.each( data.datas, function( key, value)
-                        {
-                            $("#tableBody").append('<tr>');
-                                // $("#tableBody").append('<td>'+value.['media']+'</td>');
-                                // <img src="{{ $requirement->media == null ? asset('/img/requirement/Noimage.jpg') : asset($requirement->media['path']) }}" alt="Image" width="100">
-                                // $("#tableBody").append('<td><img src="'+ value->media->path == null ? asset('/img/requirement/Noimage.jpg') : asset(value->media['path']) +'"></td>');
-                                $("#tableBody").append('<td>'+value.category.name+'</td>');
-                                $("#tableBody").append('<td>'+value.category.name+'</td>');
-                                // $("#tableBody").append('<td>'+value.requirements+'</td>');
-                                $("#tableBody").append('<td>'+value['quantity']+'</td>');
-                                $("#tableBody").append(
-                                                    `
-                                                        <td>
-                                                            <span class="${value.type == '1' ? 'badge badge-success':'badge badge-danger  '}">
-                                                                ${value.type == '1' ? 'Giveit':'Getit'}
-                                                            </span>
-                                                       </td>
-                                                    `
-                                                        );
-                                $("#tableBody").append(
-                                                    `
-                                                        <td>
-                                                            <span class="${value.status == 1 ? 'badge badge-success' : 'badge badge-danger'}">
-                                                                ${value.status == '1' ? 'Pending':'Completed'}
-                                                            </span>
-                                                        </td>
-                                                    `
-                                                );
-                                $("#tableBody").append(
-                                                        `
-                                                            <td>
-                                                                <span class="${value.is_active == 1 ? 'badge badge-success' : 'badge badge-danger'}">
-                                                                    ${value.is_active == '1' ? 'Active':'InActive'}
-                                                                </span>
-                                                            </td>
-                                                        `
-                                                    );
-                                                    
-                                $("#tableBody").append(
-                                    // '<td><a href=""><i class="fas fa-edit"></i></a> <a href=""><i class="fas fa-trash text-danger"></i><a></td>'
-                                                        `
-                                                            <td>
-                                                                <a href=""><i class="fas fa-edit "></i></a>&nbsp;&nbsp; 
-                                                                <a href=""><i class="fas fa-trash text-danger deleteBtn"></i><a>
-                                                            </td>
-                                                        `
-                                                    );
-                            $("#tableBody").append('</tr>');
-                        });
-                    }
-                });
-                
-            }
-        </script> --}}
-    
-        {{-- Ajax Call: Is_active --}}
-        {{-- <script type="text/javascript">
-            $(document).ready(function() {
-                $('#isActive').on('change', function() {
-                    var isActive = $(this).val();
-                    var status = $('#status').val();
-
-                    $.ajax({
-                        url: "{{ url('filterIsActive') }}",
-                        type: "POST",
-                        data: {
-                            "_token": "{{ csrf_token() }}",
-                            'filterIsActive': isActive,
-                            'filterStatus': status
-                        },
-                        success: function(data) {
-                            console.log(data);
-                            $('#tableBody').html('');
-                            // $('#status').val();
-
-                            $.each( data.datas, function( key, value ) 
-                            {   
-                                
-                                $("#tableBody").append('<tr>');
-                                $("#tableBody").append('<td>'+value.['media']+'</td>');
-                                $("#tableBody").append('<td>'+value.category.name+'</td>');
-                                // $("#tableBody").append('<td>'+value.requirements+'</td>');
-                                $("#tableBody").append('<td>'+value['quantity']+'</td>');
-                                $("#tableBody").append('<td>'+(value.type == '0' ? 'Getit':'Giveit')+'</td>');
-                                $("#tableBody").append(
-                                                    `
-                                                        <td>
-                                                            <span class="${value.status == 0 ? 'badge badge-danger' : 'badge badge-success'}">
-                                                                ${value.status == '0' ? 'Pending':'Completed'}
-                                                            </span>
-                                                        </td>
-                                                    `
-                                                );
-                                $("#tableBody").append(
-                                                        `
-                                                            <td>
-                                                                <span class="${value.is_active == 0 ? 'badge badge-danger' : 'badge badge-success'}">
-                                                                    ${value.is_active == '0' ? 'InActive':'Active'}
-                                                                </span>
-                                                            </td>
-                                                        `
-                                                    );
-                                                    
-                                $("#tableBody").append('<td><a href=""><i class="fas fa-edit"></i></a> <a href=""><i class="fas fa-trash"></i><a></td>');
-                                $("#tableBody").append('</tr>');
-                                               
-                            });
-                        }
-                    });
-                });
-            });
-        </script> --}}
 
         {{-- Ajax Call: Seraching --}}
         <script type="text/javascript">
@@ -387,7 +245,6 @@
                 $('#search').on('keyup', function() {
                     var searchString = $(this).val();
                    
-                    // alert(searchString);
                     $.ajax({
                         url: "{{ url('search') }}",
                         type: "POST",
@@ -397,9 +254,10 @@
                             'searchString': searchString
                         },
                         success: function(data) {
-                            // console.log($data);
+                            console.log(data);
                             $('#tableBody').html('');
                             $('#tableBody').append( data.output);
+
                         }
                     });
                 });

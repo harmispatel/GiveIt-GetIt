@@ -101,8 +101,20 @@
                                                     <input class="btn btn-danger text-right" type="submit" value="Delete">
                                                 </div>
                                             </table>
-
+                                            
                                         </form>
+                                        
+                                        <span class="mb-3">
+                                            {{ $categories->links() }}
+                                            
+                                        </span>
+                                        <style>
+                                            .w-5 {
+                                                display: none;
+                                            }
+                                        </style>
+                                        
+                                        
                                         {{-- model --}}
                                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
@@ -152,6 +164,4 @@
     </body>
 
     </html>
-
-
 @endsection

@@ -3,7 +3,6 @@
 @section('title', 'Add Requirement')
 
 @section('content')
-
   
       <div class="content-wrapper">
         <section class="content">
@@ -15,7 +14,7 @@
                     Add Requirement
                   </div>
                   <div class="card-body">
-                    <form action="{{route('requirement.store')}}" method="POST" enctype="multipart/form-data" >
+                    <form action="{{route('requirement.store')}}" id="formId" method="POST" enctype="multipart/form-data" >
                       @csrf
 
                       {{-- Type --}}
@@ -24,7 +23,8 @@
                         <select class="form-control form-control-md" name="type" value="{{old('type')}}" id="type" onchange="UserType()">
                           <option value="#">Select Type</option>
                           <option value="1">Giveit</option>
-                          <option value="2">Getit</option>    
+                          <option value="2">Getit</option>
+                              
                         </select>
                       </div>
 
@@ -123,6 +123,9 @@
                       <div class="form-group purple-border">
                         <label for="address">Requirement</label>
                           <textarea class="ckeditor form-control" name="requirement" id="exampleFormControlTextarea4" rows="3" placeholder="Enter Requirement" value="{{old('requirement')}}"></textarea>
+                          @if ($errors->has('requirement'))
+                              <p class="alert alert-danger">{{$errors->first('requirement')}}</p>                                    
+                            @endif
                       </div>
                                   
                       {{-- Person --}}
@@ -134,10 +137,8 @@
                             @endif
                       </div>  
 
-                      
-
                       {{-- Status --}}
-                        <div class="form-group"><b> Status : </b>
+                        {{-- <div class="form-group"><b> Status : </b>
                           <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="status" id="inlineRadio1" value="2">
                               <label class="form-check-label" for="inlineRadio1">Completed</label>
@@ -146,16 +147,16 @@
                             <input class="form-check-input" type="radio" name="status" id="inlineRadio2" value="1">
                               <label class="form-check-label" for="inlineRadio2">Pending</label>
                           </div>
-                        </div>
+                        </div> --}}
 
                       {{-- Is Active? --}}
-                      <div class="form-group">
+                      {{-- <div class="form-group">
                         <label for="is_active">Is Active</label>
                           <select name="is_active" id="status" class="form-control">
                             <option value="2">Active</option>
                             <option value="1">Inactive</option>
                           </select>
-                      </div>
+                      </div> --}}
                               
                       <button type="submit" class="btn btn-primary">  Add </button>
                       <a class="btn btn-dark" href="{{route('requirement.index')}}"> Back </a>
@@ -257,7 +258,48 @@
 
 
             // Validation
+            $(document).ready(function() {
+              $("#formId").validate({
+                  ignore: [],
+                  rules: {
+                      requirement: {
+                          required: function() {
+                              CKEDITOR.instances.requirement.updateElement();
+                          }
+                      },
+                      quantity: {
+                          required: true,
+                          min: 1,
+                          number: true
+                      },
+                      type: {
+                          required: true,
+                      },
+                      // media: {
+                      //     // required: true,
+                      //     accept: "jpg|jpeg|png|gif|svg",
+                      //     filesize: 1048576
+                      // }, 
 
+
+                  },
+                  messages: {
+                      requirement: {
+                          required: "reuirement is required"
+                      },
+                      quantity: {
+                          required: "Person is required",
+                          min: "Select at least one person",
+                          number: "Number is not valid"
+                      },
+                      type:{
+                          required: "Select at least one type",
+
+                      }
+                  }
+
+              });
+        });
       </script>
     
 @endsection

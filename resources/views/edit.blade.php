@@ -72,9 +72,9 @@
                           <label for="user_type ">user_type</label>
                             <select class="form-control form-control-md" name="user_type" >
                               <option value="#">Select Role</option>
-                              <option value="1" {{ $edituser->user_type == 1 ? 'selected' : '' }}>Trust</option>
-                              <option value="2" {{ $edituser->user_type == 2 ? 'selected' : '' }}>Donor</option>
-                              <option value="3" {{ $edituser->user_type == 3 ? 'selected' : '' }}>Admin</option>
+                              <option value="1" {{ $edituser->user_type == 1 ? 'selected' : '' }}>Admin</option>
+                              <option value="0" {{ $edituser->user_type == 0 ? 'selected' : '' }}>User</option>
+                              {{-- <option value="3" {{ $edituser->user_type == 3 ? 'selected' : '' }}>Admin</option> --}}
                             </select>
                           </div>
 

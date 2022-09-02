@@ -53,10 +53,19 @@ Route::group(['middleware' => ['guest']], function () {
     Route::post('/registration', [RegistrationController::class,'store'])->name('registration');
     
     //Forgot Password
+<<<<<<< HEAD
     Route::get('/forgotPassword', [AdminForgotPasswordController::class,'index'])->name('forgotPassword');
     Route::post('/forgotPassword', [AdminForgotPasswordController::class,'submitForm'])->name('submitForm');
     Route::get('/resetPassword/{token}', [AdminForgotPasswordController::class,'resetPasswordForm'])->name('getResetPassword');
     Route::post('/postResetPassword/{token}', [AdminForgotPasswordController::class,'submitResetPasswordForm'])->name('postResetPassword');
+=======
+    Route::get('/forgotPassword',[AdminForgotPasswordController::class,'index'])->name('forgotPassword');
+    Route::post('/forgotPassword',[AdminForgotPasswordController::class,'submitForm'])->name('submitForm');
+    // Route::get('/resetPassword/{token}',[AdminForgotPasswordController::class,'resetPasswordForm'])->name('getResetPassword');
+    Route::get('/resetPwd/{token}',[AdminForgotPasswordController::class,'resetPasswordForm'])->name('resetpassword');
+    Route::post('/postResetPassword',[AdminForgotPasswordController::class,'submitResetPasswordForm'])->name('postResetPassword');
+
+>>>>>>> 11e206b8a8620eac77a192db59faa34cb45c3786
 });
 
 Route::group(['middleware' => ['auth']], function () {

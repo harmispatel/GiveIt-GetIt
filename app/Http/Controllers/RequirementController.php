@@ -10,7 +10,7 @@ use App\Models\{Category, User, Requirement, Media};
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-
+use Mockery\Undefined;
 
 // Admin Side
 
@@ -53,7 +53,15 @@ class RequirementController extends Controller
      */
     public function store(Request $request)
     {   
-        
+        // Validate Request
+        $request->validate([
+            'media' => 'required',
+            'category_id' => 'required',
+            'requirement' => 'required',
+            'quantity' => 'required | numeric | min:1',
+            'type' => 'required',
+        ]);
+
         // Insert new Requirement 
         $cat_name = $request->Addcategory;
         $user = auth()->User();
@@ -109,7 +117,7 @@ class RequirementController extends Controller
         $requirementObj->quantity = $request->quantity;
         $requirementObj->user_id = $user_id;
         $requirementObj->media_id = $mediaObj->id;
-        $requirementObj->status = $request->status;
+        $requirementObj->status = 1;
         // $requirementObj->is_active = $request->is_active;
 
         // type: Giveit, Getit
@@ -194,7 +202,7 @@ class RequirementController extends Controller
             
             $editRequirement = Requirement::find($id);
             
-            // Update media
+            // Update Image
             $mediaObj = new Media();        
             if ($request->has('media')) {
                 
@@ -214,7 +222,7 @@ class RequirementController extends Controller
                 $mediaObj->save();
                 $editRequirement->media_id = $mediaObj->id;
             } else {
-                 // Update media
+                 // Update Image
                 $mediaObj = new Media();        
                 if ($request->has('media')) {
                     
@@ -308,112 +316,37 @@ class RequirementController extends Controller
         // Delete Requirement
         $requirementData = Requirement::find($id);
         $deletemediaId = $requirementData->media_id;
-        
         $delete = Requirement::find($id)->delete();
+        
+        // Find & Delete Id in Media Table
         $deleteId = Media::find($deletemediaId)->delete();
         return redirect()->route('requirement.index')->with('message','Requirement deleted successfully!');     
     }
     
-    // ----------------
+    // AJAX : Change Status
     public function changeStatus(Request $request)
         {
-            
             $query = Requirement::query();
-            
-
             if ($request->ajax()) {
                 
                 // If Status is Empty
                 if ($request->filterStatus == "" ){
                     
-
-                        // If Status is Empty and IsActive is not Empty
-                        $requirements = Requirement::query();
+                        // If Status is Empty 
                         $requirements = $query->with(['category','medias'])
-                                                // ->with('medias',function($q){
-                                                //     $q->select('id','path');
-                                                // })
-                                ->get();
+                                                ->get();
                         
                 }else{
 
-                            // If Status is not Empty and IsActive is Empty
-                            $requirements = $query->with(['category','medias'])
-                                                    // $requirements = $query->with(['category','medias'], function($query) {
-                                                    //     $query->select('id', 'name');
-                                                    // })
-                                                    // ->with('medias',function($q){
-                                                    //     $q->select('id','path');
-                                                    // })
-                                                    ->where('status', $request->filterStatus)
-                                                    // ->where('is_active',$request->filterIsActive)
-                                                    ->get();
-                            // echo"<pre>";print_r($requirements->toArray());exit;
-                            // dd($requirements);
-                                  
-                            
-                            // $requirements = $mediaQuery->with('medias',function($q){
-                            //             $q->select('id','path');
-                            //             })
-                            //             ->get();
-                            
-                            
-
+                        // If Status is not Empty 
+                        $requirements = $query->with(['category','medias'])
+                                                ->where('status', $request->filterStatus)
+                                                ->get();
+                              
                     }
 
-                    // echo"<pre>";
-                    // print_r($requirements->toArray());
-                    // exit;
-
-                    // $html = "";
-
-                    // foreach ($requirements as $value) {
-                       
-                    
-                    // $html .= "<tr>";
-
-                    
-                                
-
-                    //             // $html .= '<td><img width="100px" src="'. asset($value->medias->path) .'"></td>';
-                              
-                    //             $html .= '<td>'.$value->category->name.'</td>';
-                    //             $html .= '<td>'.$value->requirements.'</td>';
-                    //             $html .= '<td>'.$value->quantity.'</td>';
-                    //             // $html .= 
-                                                        
-                                                    
-                    //             //                      "<td>
-                    //             //                             <span class=".${$value->type == '1' ? 'badge badge-success':'badge badge-danger'}.">"
-                    //             //                                 .${$value->type == '1' ? 'Giveit':'Getit'}.
-                    //             //                             "</span>
-                    //             //                        </td>";
-                                                    
-                                                                        
-                    //             // $html .= 
-                                                
-                    //             //                         "<td>
-                    //             //                             <span class=".${$value->status == 1 ? 'badge badge-success' : 'badge badge-danger'}.">"
-                    //             //                                 .${$value->status == '1' ? 'Pending':'Completed'}.
-                    //             //                             "</span>
-                    //             //                         </td>";
-                                                    
-                                              
-                    //             // $html .= 
-                                                        
-                    //             //                         '<td class="text-right">
-                    //             //                             <a href=""><i class="fas fa-edit "></i></a>&nbsp;&nbsp;
-                    //             //                             <a href=""><i class="fas fa-trash text-danger deleteBtn"></i><a>
-                    //             //                         </td>';
-                                                        
-                                                        
-                                                
-                    //             $html .= "</tr>";
-                    // }
-                    
                     return response()->json([
-                    'requirements' => $requirements
-                    
+                        'requirements' => $requirements
                     ]);
                 
             }
@@ -537,232 +470,67 @@ class RequirementController extends Controller
     //         }
     //     }
 
-//-----------------
-    // AJAX call for Status
-        // public function changeStatus(Request $request)
-        // {
-            
-        //     $query = Requirement::query();
-            
-        //     if ($request->ajax()) {
-                
-        //         // If Status is Empty
-        //         if ($request->filterStatus == "" ){
-                    
-        //             if ($request->filterIsActive == "" ){
-
-        //                 // If Status and IsActive is Empty
-        //                 $requirements = Requirement::query();
-        //                 $requirements = $query->with('category', function($query) {
-        //                             $query->select('id', 'name');
-        //                         })
-        //                         ->get();
-                        
-        //                 return response()->json([
-        //                     'requirements' => $requirements,
-        //                 ]);
-        //             }else{
-
-        //                 // If Status is Empty and IsActive is not Empty
-        //                 $requirements = Requirement::query();
-        //                 $requirements = $query->with('category', function($query) {
-        //                             $query->select('id', 'name');
-        //                         })
-        //                         ->where('is_active',$request->filterIsActive)
-        //                         ->get();
-
-        //                 return response()->json([
-        //                     'requirements' => $requirements,
-        //                 ]);
-        //             }
-
-                    
-        //         }else{
-
-        //                 // If Status is not Empty
-        //                 $requirements = Requirement::query();
-        //                 $requirements = $query->with('category', function($query) {
-        //                                 $query->select('id', 'name');
-        //                             })
-        //                             ->where('status', $request->filterStatus);
-                        
-        //                 // If Status is not Empty and IsActive is Not Empty
-        //                 if ($request->filterIsActive != "" ) {
-                            
-        //                     $requirement = $query->with('category', function($query) {
-        //                                         $query->select('id', 'name');
-        //                                     })
-        //                                     ->where('status', $request->filterStatus)
-        //                                     ->where('is_active',$request->filterIsActive)
-        //                                     ->get();
-                        
-        //                 }else{
-                            
-        //                     // If Status is not Empty and IsActive is Empty
-        //                     $requirement = $query->with('category', function($query) {
-        //                                     $query->select('id', 'name');
-        //                                 })
-        //                                 ->where('status', $request->filterStatus)
-        //                                 // ->where('is_active',$request->filterIsActive)
-        //                                 ->get();
-
-        //                 }
-
-        //                 return response()->json([
-        //                 'requirements' => $requirement
-        //                 ]);
-        //             }
-                
-        //     }
-        //     else{
-        //         return response()->json(['errors' => $request->errors()]);
-        //         // return view('requirements',compact('category','requirements'));
-        //     }
-        // }
-    
-    // AJAX call for IsActive
-        // public function changeIsActive(Request $request)
-        // {
-            
-        //     $isActiveQuery = Requirement::query();
-
-        //     if($request->ajax()){
-
-        //         // If IsActive is Empty
-        //         if ($request->filterIsActive == "") {
-
-        //             // If IsActive Is Empty and Status is Empty
-        //             if ($request->filterStatus == "") {
-        //                 $datas = Requirement::query();
-        //                 $datas = $isActiveQuery->with('category', function($isActiveQuery){
-        //                         $isActiveQuery->select('id','name');
-        //                     })
-        //                     ->get();
-
-        //                     return response()->json([
-        //                         'datas' => $datas
-        //                     ]);
-        //             }else{
-
-        //                 // If IsActive is Empty and Satus is not Empty
-        //                 $datas = Requirement::query();
-        //                  $datas = $isActiveQuery->with('category', function($isActiveQuery){
-        //                         $isActiveQuery->select('id','name');
-        //                     })
-        //                     ->where('status',$request->filterStatus)
-        //                     ->get();
-
-        //                 return response()->json([
-        //                     'datas' => $datas
-        //                 ]);
-
-        //             }
-
-                     
-        //         }else{
-                    
-        //             // If IsActive is not Empty and Status is not Empty
-        //             if ($request->filterStatus != "" ) {
-                        
-        //                 $data = $isActiveQuery->with('category', function($isActiveQuery){
-        //                                     $isActiveQuery->select('id','name');
-        //                                 })
-        //                                 ->where('is_active', $request->filterIsActive)
-        //                                 ->where('status',$request->filterStatus)
-        //                                 ->get();
-        //             }else{
-
-        //                 // If IsActive is not Empty and Status is Empty
-        //                 $data = $isActiveQuery->with('category', function($isActiveQuery){
-        //                                     $isActiveQuery->select('id','name');
-        //                                 })
-        //                                 ->where('is_active', $request->filterIsActive)
-        //                                 ->get();
-        //             }
-
-        //             return response()->json([
-        //                 'datas' => $data
-        //             ]); 
-        //         }
-                 
-        //     }
-        //     else{
-
-        //         return response()->json(['errors' => $request->errors()]);
-
-        //     }
-        // }
 
     // AJAX call for Searching...
-        public function searching(Request $request)
-        {
-        
-            if($request->ajax()){
+    public function searching(Request $request)
+    {
+    
+        if($request->ajax()){
 
-                $search = Requirement::query()->with('category', function($query){
-                            $query->select('id','name');
-                    
+            $search = Requirement::query()->with(['category','media']);
+           
+            // Searching using relation
+            if (!empty($request->searchString)) {
+                $search->whereHas('category',function($query) use($request) {
+                        $query->where('name', 'LIKE','%'.$request->searchString."%");
+                                                
+                            })->orWhere('quantity', 'LIKE','%'.$request->searchString."%"); 
+            }
+    
+            if (!empty($request->filterStatus)) {
+                
+                $search->where('status',function ($query) use($request) {
+                        $query->where('status', $request->filterStatus);
                 });
+            }
 
-                // Searching using relation
-                if (!empty($request->searchString)) {
-                    $search->whereHas('category',function($query) use($request) {
-                            $query->where('name', 'LIKE','%'.$request->searchString."%");
-                                                    
-                            })
-                            ->orWhere('quantity', 'LIKE','%'.$request->searchString."%");
-                            // ->orWhere('type', 'LIKE','%'.$request->searchString."%"); 
-                }
-                // ->where('status',$request->filterStatus)
-                // ->orWhere('is_active',$request->filterIsActive);
-        
-                if (!empty($request->filterStatus)) {
+            $datas = $search->get();
+            
+            $output="";
+            if($datas)
+            {
+                $app_url = url('');
+
+                foreach ($datas as $key => $product) {
+
+                    $img = $app_url.$product?->medias?->path;
+                    $imges = $product->medias;
+                    $noimg = $app_url.'/img/requirement/Noimage.jpg';
                     
-                    $search->where('status',function ($query) use($request) {
-                            $query->where('status', $request->filterStatus);
-                    });
-                }
-
-                if (!empty($request->filterIsActive)) {      
-                    $search->where('is_active',function ($query) use($request) {
-                        $query->where('is-active', $request->filterIsActive);
-                    });
-                }    
-                $datas = $search->get();
-        
-                $output="";
-                if($datas)
-                {
-
-                    foreach ($datas as $key => $product) {
-                        $output.='<tr>'.
-                                    '<td>'.$product->category->name.'</td>'.
-                                    '<td>'.$product->category->name.'</td>'.
-                                    // '<td>'.$product->requirements.'</td>'.
-                                    '<td>'.$product->quantity.'</td>'.
-
-                                    '<td><span class="'.($product->type == '0' ? 'badge badge-danger' : 'badge badge-success').'">'
-                                            .($product->type == '0' ? 'Getit' : 'Giveit').
-                                        '<span>
-                                    </td>'.
-                                    '<td><span class="'.($product->status == '1' ? 'badge badge-success' : 'badge badge-danger').'">'
-                                            .($product->status == '1' ? 'Pending' : 'Completed').
-                                        '<span>
-                                    </td>'.
-                                    // '<td><span class="'.($product->is_active == '0' ? 'badge badge-danger' : 'badge badge-success').'">'
-                                    //     .($product->is_active == '0' ? 'In Active' : 'Active') .
-                                    // '</td>'.
-                                    '<td class="text-right"><a href=""><i class="fas fa-edit"></i></a> <a href=""><i class="fas fa-trash text-danger"></i><a></td>'.
-                                '</tr>';
-                    }
-                        
-                    return Response()->json([
-                        'output' => $output,
-                    ]);
+                    $output.='<tr>';
+                                if ($imges == null || $img == '') {
+                                    $output.='<td><img width="100px" src="'.$noimg.'">'.'</td>';
+                                }else{
+                                    $output.='<td><img width="100px" src="'.$img.'">'.'</td>';
+                                }
+                        $output.='<td>'.$product->category->name.'</td>'.
+                                '<td>'.$product->quantity.'</td>'.
+                                '<td><span class="'.($product->type == '1' ? 'badge badge-danger' : 'badge badge-success').'">'
+                                        .($product->type == '1' ? 'Getit' : 'Giveit').
+                                '</td>'.
+                                '<td><span class="'.($product->status == '1' ? 'badge badge-success' : 'badge badge-danger').'">'
+                                        .($product->status == '1' ? 'Pending' : 'Completed').
+                                    '<span>
+                                </td>'.
                                 
+                                '<td class="text-right"><a href=""><i class="fas fa-edit"></i></a> <a href=""><i class="fas fa-trash text-danger"></i><a></td>'.
+                            '</tr>';
                 }
+                    
+                return Response()->json([
+                    'output' => $output,
+                ]);
             }
         }
-
-
+    }
 }
