@@ -13,6 +13,8 @@ use App\Models\User;
 // Facades
 use Illuminate\Support\Facades\Auth;
 
+// Mail
+use Mail;
 
 // Admin Side
 class UserController extends Controller
@@ -25,12 +27,9 @@ class UserController extends Controller
     public function index()
     {
         // Open user list
-        $users = User::all()->where('user_type','0');
-        return view('userList')->with('users',$users);
-        
-        // $users = User::all();
-        // return view('userList')->with('users',$users);
-       
+
+        $users = User::all()->where('user_type', '0');
+        return view('userList')->with('users', $users);
     }
 
     /**
@@ -65,8 +64,7 @@ class UserController extends Controller
         $createUser->status = $request->status;
         $createUser->save();
 
-        return redirect()->route('user.index')->with('message','User added successfully!');
-
+        return redirect()->route('user.index')->with('message', 'User added successfully!');
     }
 
     /**
@@ -78,7 +76,6 @@ class UserController extends Controller
     public function show()
     {
         //
-      
     }
 
     /**
@@ -88,12 +85,11 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
-        // Open User Edit Form 
+    {
+        // Open User Edit Form
 
         $editUser = User::find($id);
-      
-        return view('edit')->with('edituser',$editUser);
+        return view('edit')->with('edituser', $editUser);
     }
 
     /**
@@ -106,7 +102,6 @@ class UserController extends Controller
     public function update(EditUserRequest $request, $id)
     {
         // Update User
-
         $editUser = User::find($id);
         $editUser->name = $request->name;
         $editUser->email = $request->email;
@@ -114,11 +109,9 @@ class UserController extends Controller
         $editUser->address = $request->address;
         $editUser->user_type = $request->user_type;
         $editUser->status = $request->status;
-        
+
         $editUser->save();
-        return redirect()->route('user.index')->with('message','User updated successfully!');
-        
-        
+        return redirect()->route('user.index')->with('message', 'User updated successfully!');
     }
 
     /**
@@ -127,50 +120,65 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
- 
+
     public function destroy($id)
     {
-        // Delete User  
+        // Delete User
+
         $delete = User::find($id)->delete();
-        return redirect()->route('user.index')->with('msg','User deleted successfully!'); 
-    }
-  
-
-   //frontend side login
-     
-    public function home()
-    { 
-        //open fronted side login page
-
-        return view('fronted.login');
-        
-    }
-
-
-   public function check(loginValidation $request)
-   {
-        
-        // User Authentication 
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials))
-         {             
-            return redirect('welcome')->with('userlogin','login successfully'); 
-        } else {
-            
-            return redirect('userlogin')->with('loginwrong','Please check EmailId and Password');
-        }
+        return redirect()->route('user.index')->with('msg', 'User deleted successfully!');
     }
 
     
-    public function userLogout(Request $request) 
+
+   /**
+     * Display a listing of frontend side login.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function home()
+    {
+        // Open fronted side login page
+        return view('fronted.login');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\loginValidation  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function usercheck(loginValidation $request)
+    {
+        
+        
+        $credentials = $request->only('email', 'password');
+        $verify = User::Where('email', $request->email)
+        ->WhereNotNull('email_verified_at')
+        ->first();
+
+        if (!empty($verify) || $verify != '') {
+              
+            if(Auth::attempt($credentials)){
+
+                return redirect('welcome')->with('userlogin', 'login successfully');
+            }else{
+                return redirect('userlogin')->with('mistake', 'Please Not Verify Email');
+            }
+            
+                // echo"hii";exit;
+            
+        } else {
+            // echo "hello";exit;
+            return redirect('userlogin')->with('mistake', 'Please Not Verify Email');
+        }
+    }
+
+    public function userLogout(Request $request)
     {
         //logout user fronted side
-        
         auth()->logout();
-        return redirect('userlogin')->with('logout','You are logout');
-        
-  
+        return redirect('userlogin')->with('logout', 'You are logout');
     }
 }
-
-

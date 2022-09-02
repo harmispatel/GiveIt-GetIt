@@ -24,7 +24,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->boolean('status');
             $table->string('token')->after('status')->nullable(); 
-            $table->timestamps();
+            $table->string('email_token')->after('token')->nullable()->change();
+            // $table->timestamps();
             $table->softDeletes();
         });
     }

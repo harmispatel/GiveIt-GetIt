@@ -25,7 +25,7 @@ class LoginValidationRequest extends FormRequest
     {
         return [
             'email' => 'required',
-            'password' => 'required | min:3'
+            'password' => 'required | min:6'
         ];
     }
 }

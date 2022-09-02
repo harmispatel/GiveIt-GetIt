@@ -105,9 +105,8 @@
 	        })
 	        .done(function(data)
 	        {
-                if(data.html == " "){
+                if(data.html == ''){
                     $('.ajax-load').html();
-	                
 	            }
 	            $('.ajax-load').hide();
 	            $("#post-data").append(data.html);

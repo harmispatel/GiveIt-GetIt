@@ -15,7 +15,7 @@
                                 <h3>Register</h3>
                             </div>
                             <hr>
-                            <form action="{{ route('insert') }}" id="regiter" method="post">
+                            <form action="{{ route('Regitser.insertdata') }}" id="regiter" method="post">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-12">
