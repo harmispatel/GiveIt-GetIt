@@ -43,20 +43,25 @@ class ForgotPasswordController extends Controller
             ]);
 
 
+        try {
+            Mail::send(
+                'fronted.email',
+                ['token' => $token],
+    
+                function ($message) use ($request) {
+                    $message->from('harmistest4@gmail.com');
+                    $message->to($request['email']);
+                    $message->subject('Reset Password');
+                }
+            );
 
-        Mail::send(
-            'fronted.email',
-            ['token' => $token],
+            $user = User::where('email', $request->email)
+            ->update(['token' => $token]);
+        } catch (\Throwable $th) {
+            return back()->with('error', 'Failed to send an Email');
+        }
 
-            function ($message) use ($request) {
-                $message->from('harmistest4@gmail.com');
-                $message->to($request['email']);
-                $message->subject('Reset Password');
-            }
-        );
-
-        $user = User::where('email', $request->email)
-             ->update(['token' => $token]);
+        
 
         return back()->with('message', 'We have e-mailed your password reset link!');
     }

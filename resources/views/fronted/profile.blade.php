@@ -154,8 +154,10 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($required as $item)
+                                                {{-- @php
+                                                dd($item);
+                                                @endphp --}}
                                             <tr>
-
                                                 <input type="hidden" class="serdelete_val_id"
                                                     value="{{ $item['id'] }}">
                                                 <td>{{ $item->categories['name'] }}</td>
@@ -166,14 +168,7 @@
                                                         <a class="btn" href="{{ route('edit', $item['id']) }}"><i
                                                                 class="fa-solid fa-pen"></i></a>
                                                                 <i class="fa fa-trash text-danger deleteBtn" data-toggle="modal" style="cursor: pointer;" data-target="#exampleModal" data-target-id="{{route('deleteRequirement',$item['id'])}}" title="Delete"></i>
-                                                        {{-- <form method="POST" action="{{ route('delete', $item['id']) }}">
-                                                            @csrf
-                                                            <input name="_method" type="hidden" value="DELETE">
-                                                            <button type="submit" class="btn  show_confirm ml-2"
-                                                                data-toggle="tooltip"
-                                                                title='Delete'style=" color: #ff0000 "><i
-                                                                    class="fa-solid fa-trash-can"></i></button>
-                                                        </form> --}}
+                                                     
                                                     </div>
                                                 </td>
                                             </tr>
@@ -188,8 +183,7 @@
                                 <style>
                                     .w-5 {
                                         display: none;
-
-                                    }
+                                     }
                                 </style>
                                 {{-- model --}}
                                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
@@ -207,7 +201,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <form action="{{route('deleteRequirement',$item['id'])}}" id="deleteForm" method="POST" class="d-inline">  
+                                                <form action="" id="deleteForm" method="POST" class="d-inline">  
                                                     @method('DELETE')
                                                     @csrf
                                                     <button class="btn btn-danger" type="submit">Delete</button>
@@ -224,25 +218,13 @@
                                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
                                 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
                                 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-                                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                                 <script type="text/javascript">
-                                    $('.show_confirm').click(function(event) {
-                                        var form = $(this).closest("form");
-                                        var name = $(this).data("name");
-                                        event.preventDefault();
-                                        swal({
-                                                title: `Are you sure you want to delete this record?`,
-                                                text: "If you delete this, it will be gone forever.",
-                                                icon: "warning",
-                                                buttons: true,
-                                                dangerMode: true,
-                                            })
-                                            .then((willDelete) => {
-                                                if (willDelete) {
-                                                    form.submit();
-                                                }
-                                            });
-                                    });
+                                 $(function(){
+                    $('.deleteBtn').click(function() {
+                        var url = $(this).attr("data-target-id")
+                        $("#deleteForm").attr('action', url);
+                    });
+                });
                                     setTimeout(() => {
                                         $('.updatepassword, .mistake, .messagedelete').remove();
                                     }, 3500);

@@ -89,8 +89,7 @@
                             type: "get",
                             beforeSend: function() {
                                 $('.ajax-load').show();
-                                // alert('hii');
-                            }
+                             }
                         })
                         .done(function(data) {
                             if (data.html == '') {
