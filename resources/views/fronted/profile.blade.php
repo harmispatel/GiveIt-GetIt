@@ -154,9 +154,6 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($required as $item)
-                                                {{-- @php
-                                                dd($item);
-                                                @endphp --}}
                                             <tr>
                                                 <input type="hidden" class="serdelete_val_id"
                                                     value="{{ $item['id'] }}">
@@ -167,7 +164,7 @@
                                                     <div class="d-flex">
                                                         <a class="btn" href="{{ route('edit', $item['id']) }}"><i
                                                                 class="fa-solid fa-pen"></i></a>
-                                                                <i class="fa fa-trash text-danger deleteBtn" data-toggle="modal" style="cursor: pointer;" data-target="#exampleModal" data-target-id="{{route('deleteRequirement',$item['id'])}}" title="Delete"></i>
+                                                        <i class="fa fa-trash text-danger deleteBtn mt-2" data-toggle="modal" style="cursor: pointer;" data-target="#exampleModal" data-target-id="{{route('deleteRequirement',$item['id'])}}" title="Delete"></i>
                                                      
                                                     </div>
                                                 </td>

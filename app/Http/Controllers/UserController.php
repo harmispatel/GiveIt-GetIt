@@ -9,7 +9,7 @@ use App\Http\Requests\{UserRequest,EditUserRequest,loginValidation};
 
 // Models
 use App\Models\User;
-use Exception;
+
 // Facades
 use Illuminate\Support\Facades\Auth;
 
@@ -28,23 +28,8 @@ class UserController extends Controller
     {
         // Open user list
 
-        try{
-
-            $users = User::where('user_type','0')->paginate(10);
-            
-        }catch(Exception $e){
-            return back()->with('mistake','An error occurred while you are trying to add new User.! Please try again.');
-        }
-        return view('userList')->with('users',$users);
-        
-        // $users = User::all();
-        // return view('userList')->with('users',$users);
-       
-
-
         $users = User::all()->where('user_type', '0');
         return view('userList')->with('users', $users);
-
     }
 
     /**
@@ -68,28 +53,18 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         // Insert Create User Data
-        try{
-            
-            $createUser = new User();
-            $createUser->name = $request->name;
-            $createUser->email = $request->email;
-            $createUser->mobile = $request->mobile;
-            $createUser->address = $request->address;
-            $createUser->user_type = $request->user_type;
-            $createUser->password = $request->password;
-            $createUser->status = $request->status;
-            $createUser->save();
-        }catch(Exception $e){
 
-            return back()->with('mistake','An error occurred while you are trying to add new User.! Please try again.');
-
-
-        }
-        return redirect()->route('user.index')->with('message','User added successfully!');
-
+        $createUser = new User();
+        $createUser->name = $request->name;
+        $createUser->email = $request->email;
+        $createUser->mobile = $request->mobile;
+        $createUser->address = $request->address;
+        $createUser->user_type = $request->user_type;
+        $createUser->password = $request->password;
+        $createUser->status = $request->status;
+        $createUser->save();
 
         return redirect()->route('user.index')->with('message', 'User added successfully!');
-
     }
 
     /**
@@ -127,25 +102,6 @@ class UserController extends Controller
     public function update(EditUserRequest $request, $id)
     {
         // Update User
-
-        try{
-
-            $editUser = User::find($id);
-            $editUser->name = $request->name;
-            $editUser->email = $request->email;
-            $editUser->mobile = $request->mobile;
-            $editUser->address = $request->address;
-            $editUser->user_type = $request->user_type;
-            $editUser->status = $request->status;
-            
-            $editUser->save();
-        }catch(Exception $e){
-            
-            return back()->with('mistake','An error occurred while you are trying to update new User.! Please try again.');
-        }
-        return redirect()->route('user.index')->with('message','User updated successfully!');
-        
-
         $editUser = User::find($id);
         $editUser->name = $request->name;
         $editUser->email = $request->email;
@@ -167,53 +123,9 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-
-        // Delete User 
-        try {
-            
-            $delete = User::find($id)->delete();
-        } catch (Exception $e) {
-
-            return back()->with('mistake','An error occurred while you are trying to delete User.! Please try again.');
-        } 
-        return redirect()->route('user.index')->with('msg','User deleted successfully!'); 
-    }
-  
-
-
-
-
-   //frontend side login
-     
-    public function home()
-    { 
-        //open fronted side login page
-
-        return view('fronted.login');
-        
-    }
-
-
-   public function check(loginValidation $request)
-   {
-        
-        // User Authentication 
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials))
-         {             
-            return redirect('welcome')->with('userlogin','login successfully'); 
-        } else {
-            
-            return redirect('userlogin')->with('loginwrong','Please check EmailId and Password');
-        }
-<<<<<<< HEAD
-   }
-=======
-=======
         // Delete User
         $delete = User::find($id)->delete();
         return redirect()->route('user.index')->with('msg', 'User deleted successfully!');
->>>>>>> f5ed05b23c8bbe95da7aad3dc7bbb9135f8bdfc8
     }
 
    /**
@@ -226,7 +138,6 @@ class UserController extends Controller
         // Open fronted side login page
         return view('fronted.login');
     }
->>>>>>> 7e6909c4cbee82c2c37de7f32ce71b8be93595b3
 
     /**
      * Update the specified resource in storage.
@@ -241,14 +152,16 @@ class UserController extends Controller
         $verify = User::Where('email', $request->email)
         ->WhereNotNull('email_verified_at')
         ->first();
-
+        
         if (!empty($verify)) {
-            if (Auth::attempt($credentials)) {
+            if(Auth::attempt($credentials)){
+                return redirect('welcome')->with('userlogin', 'login successfully');
+            } else{
                 return redirect('welcome')->with('userlogin', 'login successfully');
             }
-        } else {
-            return redirect('login')->with('mistake', 'Please Not Verify Email');
-        }
+            }else {
+                return redirect('login')->with('mistake', 'Please Not Verify Email');
+            }
     }
 
     /**
