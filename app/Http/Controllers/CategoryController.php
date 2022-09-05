@@ -53,12 +53,19 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         // Add new Category
+       
         try{
+            $catName = count(Category::where('name',$request->categoryName)->get());
 
-            $categoryObj = new Category();
-            $categoryObj->name = $request->categoryName;
-            $categoryObj->status = 1;
-            $categoryObj->save();
+            if ($catName > 0) {
+                return redirect()->route('category.index')->with('message','This category has already inserted so you can not inserte again.');
+            }else{
+
+                $categoryObj = new Category();
+                $categoryObj->name = $request->categoryName;
+                $categoryObj->status = 1;
+                $categoryObj->save();
+            }
 
         }catch(Exception $e){
 

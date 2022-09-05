@@ -29,12 +29,14 @@ class LoginController extends Controller
         $user = $request->only('email', 'password');
         $user['user_type'] = 1;
         $credentials = $user;
+        
         if (Auth::attempt($credentials)) {
 
             $value = $request->session()->put('admin',Auth::user()->name);
-            $userCount = count(User::where('user_type','0')->get());
-            return view('welcome',compact('userCount'));
+            // $userCount = count(User::where('user_type','0')->get());
+            // return view('welcome',compact('userCount'));
             // return redirect('/admin/dashboard');
+            return view('welcome');
 
         }else{
             return redirect('login');

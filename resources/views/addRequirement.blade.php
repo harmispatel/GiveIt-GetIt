@@ -24,8 +24,10 @@
                           <option value="#">Select Type</option>
                           <option value="1">Giveit</option>
                           <option value="2">Getit</option>
-                              
                         </select>
+                        @if ($errors->has('type'))
+                        <span class="text-danger">{{ $errors->first('type') }}</span>
+                        @endif  
                       </div>
 
                       {{-- Giveit: Subtype --}}
@@ -94,8 +96,9 @@
                       {{-- Media --}}
                       <div class="form-group">
                         <label for="media">Media</label>
-                        <input type="file" name="media" class="form-control" value="{{old('media')}}">
-                          @if ($errors->has('media'))
+                        <input type="file" name="media" class="form-control" onchange="validateTypeAndSize(this)" value="{{old('media')}}">
+                        <p><span id="spnMessage" class="error text-danger" style="display: none;"></span></p>  
+                        @if ($errors->has('media'))
                             <p class="alert alert-danger">{{$errors->first('media')}}</p>                                    
                           @endif
                       </div>  
@@ -168,6 +171,7 @@
             </div>
         </section>
       </div>
+
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
 
@@ -257,7 +261,34 @@
             } 
 
 
+
             // Validation
+
+            function validateTypeAndSize(uploadCtrl) 
+            {
+                var extension = $(uploadCtrl).val().split('.').pop().toLowerCase();
+                var validFileExtensions = ['jpeg', 'jpg', 'png', 'svg','gif'];
+                if ($.inArray(extension, validFileExtensions) == -1) {
+                    $('#spnMessage').text("Sorry!! Upload only jpg, jpeg, png, svg, gif image").show();
+                    $(uploadCtrl).replaceWith($(uploadCtrl).val('').clone(true));
+                    $('#btnSubmit').prop('disabled', true);
+                    $('#imgPreview').prop('src', '');
+                }
+                else {
+                    // Check and restrict the file size to 5 mb.
+                    if ($(uploadCtrl).get(0).files[0].size > (500000)) {
+                        $('#spnMessage').text("Sorry!! Max allowed image size is 5mb").show();
+                        $(uploadCtrl).replaceWith($(uploadCtrl).val('').clone(true));
+                        $('#btnSubmit').prop('disabled', true);
+                    }
+                    else {
+                        $('#spnMessage').text('').hide();
+                        $('#btnSubmit').prop('disabled', false);
+                        previewImage(uploadCtrl);
+                    }
+                }
+            }
+
             $(document).ready(function() {
               $("#formId").validate({
                   ignore: [],
@@ -299,7 +330,7 @@
                   }
 
               });
-        });
+          });
       </script>
     
 @endsection

@@ -105,8 +105,9 @@
                         {{-- Media --}}
                         <div class="form-group">
                           <label for="media">Media</label>
-                          <input type="file" name="media" class="form-control" value="{{$editRequirementData->media_id}}">
+                          <input type="file" name="media" class="form-control" onchange="validateTypeAndSize(this)" value="{{$editRequirementData->media_id}}">
                             <img src="{{ $editRequirementData->media == null ? asset('/img/requirement/Noimage.jpg') : asset($editRequirementData->media['path']) }}" alt="Image" width="100">
+                            <p><span id="spnMessage" class="error text-danger" style="display: none;"></span></p>
                               @if ($errors->has('media'))
                                 <p class="alert alert-danger">{{$errors->first('media')}}</p>                                    
                               @endif
@@ -275,6 +276,78 @@
 
               }
         }
+
+
+
+        // Validation
+        function validateTypeAndSize(uploadCtrl) 
+            {
+                var extension = $(uploadCtrl).val().split('.').pop().toLowerCase();
+                var validFileExtensions = ['jpeg', 'jpg', 'png', 'svg','gif'];
+                if ($.inArray(extension, validFileExtensions) == -1) {
+                    $('#spnMessage').text("Sorry!! Upload only jpg, jpeg, png, svg, gif image").show();
+                    $(uploadCtrl).replaceWith($(uploadCtrl).val('').clone(true));
+                    $('#btnSubmit').prop('disabled', true);
+                    $('#imgPreview').prop('src', '');
+                }
+                else {
+                    // Check and restrict the file size to 5 mb.
+                    if ($(uploadCtrl).get(0).files[0].size > (500000)) {
+                        $('#spnMessage').text("Sorry!! Max allowed image size is 5mb").show();
+                        $(uploadCtrl).replaceWith($(uploadCtrl).val('').clone(true));
+                        $('#btnSubmit').prop('disabled', true);
+                    }
+                    else {
+                        $('#spnMessage').text('').hide();
+                        $('#btnSubmit').prop('disabled', false);
+                        previewImage(uploadCtrl);
+                    }
+                }
+            }
+
+            $(document).ready(function() {
+
+              $("#formId").validate({
+                  ignore: [],
+                  rules: {
+                      requirement: {
+                          required: function() {
+                              CKEDITOR.instances.requirement.updateElement();
+                          }
+                      },
+                      quantity: {
+                          required: true,
+                          min: 1,
+                          number: true
+                      },
+                      type: {
+                          required: true,
+                      },
+                      // media: {
+                      //     // required: true,
+                      //     accept: "jpg|jpeg|png|gif|svg",
+                      //     filesize: 1048576
+                      // }, 
+
+
+                  },
+                  messages: {
+                      requirement: {
+                          required: "reuirement is required"
+                      },
+                      quantity: {
+                          required: "Person is required",
+                          min: "Select at least one person",
+                          number: "Number is not valid"
+                      },
+                      type:{
+                          required: "Select at least one type",
+
+                      }
+                  }
+
+              });
+          });
       </script>
     </body>
   </html>

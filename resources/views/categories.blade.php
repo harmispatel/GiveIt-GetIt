@@ -61,7 +61,6 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="text-center" style="width: 50px">Select</th>
-                                                        <th>id</th>
                                                         <th>Name</th>
                                                         <th>Status</th>
                                                         <th colspan="2" class="text-right">Actions</th>
@@ -74,7 +73,6 @@
                                                             <td class="text-center">
                                                                 <input type="checkbox" name="ids[{{$category->id}}]" class="sub_chk" value="{{$category->id}}">
                                                             </td>
-                                                            <td>{{ $category->id }}</td>
                                                             <td>{{ $category->name }}</td>
                                                             <td>
                                                                 <span

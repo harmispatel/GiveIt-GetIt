@@ -66,16 +66,15 @@ class RequirementController extends Controller
     public function store(Request $request)
     {   
         // Validate Request
-        try{
+        $request->validate([
+            // 'media' => 'required',
+            'category_id' => 'required',
+            'requirement' => 'required',
+            'quantity' => 'required | numeric | min:1',
+            'type' => 'required',
+        ]);
 
-            $request->validate([
-                'media' => 'required',
-                'category_id' => 'required',
-                'requirement' => 'required',
-                'quantity' => 'required | numeric | min:1',
-                'type' => 'required',
-            ]);
-    
+        try{
             // Insert new Requirement 
             $cat_name = $request->Addcategory;
             $user = auth()->User();

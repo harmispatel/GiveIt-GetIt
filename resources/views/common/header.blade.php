@@ -29,7 +29,7 @@
           <div class="dropdown-divider"></div>
           <a href="" class="dropdown-item dropdown-footer">See All Messages</a>
           <li class="nav-item">
-            <form action="{{route('logout')}}" method="POST">
+              <form action="{{route('logout')}}" method="POST">
               @csrf
               Hello, {{session('admin')}} |  
               {{-- <i class="fa fa-user text-danger profileBtn" data-toggle="modal" style="cursor: pointer;" data-target="#exampleModal" data-target-id="#" title="Profile"></i> --}}

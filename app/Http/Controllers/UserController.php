@@ -27,7 +27,7 @@ class UserController extends Controller
     public function index()
     {
         // Open user list
-<<<<<<< HEAD
+
         try{
 
             $users = User::where('user_type','0')->paginate(10);
@@ -40,11 +40,11 @@ class UserController extends Controller
         // $users = User::all();
         // return view('userList')->with('users',$users);
        
-=======
+
 
         $users = User::all()->where('user_type', '0');
         return view('userList')->with('users', $users);
->>>>>>> f5ed05b23c8bbe95da7aad3dc7bbb9135f8bdfc8
+
     }
 
     /**
@@ -83,13 +83,13 @@ class UserController extends Controller
 
             return back()->with('mistake','An error occurred while you are trying to add new User.! Please try again.');
 
-<<<<<<< HEAD
+
         }
         return redirect()->route('user.index')->with('message','User added successfully!');
 
-=======
+
         return redirect()->route('user.index')->with('message', 'User added successfully!');
->>>>>>> f5ed05b23c8bbe95da7aad3dc7bbb9135f8bdfc8
+
     }
 
     /**
@@ -127,7 +127,7 @@ class UserController extends Controller
     public function update(EditUserRequest $request, $id)
     {
         // Update User
-<<<<<<< HEAD
+
         try{
 
             $editUser = User::find($id);
@@ -145,8 +145,7 @@ class UserController extends Controller
         }
         return redirect()->route('user.index')->with('message','User updated successfully!');
         
-        
-=======
+
         $editUser = User::find($id);
         $editUser->name = $request->name;
         $editUser->email = $request->email;
@@ -157,7 +156,6 @@ class UserController extends Controller
 
         $editUser->save();
         return redirect()->route('user.index')->with('message', 'User updated successfully!');
->>>>>>> f5ed05b23c8bbe95da7aad3dc7bbb9135f8bdfc8
     }
 
     /**
@@ -169,7 +167,7 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-<<<<<<< HEAD
+
         // Delete User 
         try {
             
@@ -181,6 +179,9 @@ class UserController extends Controller
         return redirect()->route('user.index')->with('msg','User deleted successfully!'); 
     }
   
+
+
+
 
    //frontend side login
      
@@ -205,26 +206,7 @@ class UserController extends Controller
             
             return redirect('userlogin')->with('loginwrong','Please check EmailId and Password');
         }
-=======
-        // Delete User
-
-        $delete = User::find($id)->delete();
-        return redirect()->route('user.index')->with('msg', 'User deleted successfully!');
->>>>>>> f5ed05b23c8bbe95da7aad3dc7bbb9135f8bdfc8
-    }
-
-    
-
-   /**
-     * Display a listing of frontend side login.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function home()
-    {
-        // Open fronted side login page
-        return view('fronted.login');
-    }
+   }
 
     /**
      * Update the specified resource in storage.
