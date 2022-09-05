@@ -80,11 +80,8 @@ Route::group(['middleware' => ['auth']], function () {
 // Front-end Route
 
 
-<<<<<<< HEAD
-Route::view("/welcome", 'fronted.index');
-=======
+
     Route::view("/welcome", 'fronted.index');
->>>>>>> 1ce9412163701bdc4b65774925c953ddf350a189
     Route::view("/aboutus", 'fronted.about');
     
     // login & Rqgister user
@@ -127,12 +124,4 @@ Route::view("/welcome", 'fronted.index');
     Route::get("/editprofile", [UserProfileController::class,'edit'])->name('editprofile');
     Route::post("/User/update-profile", [UserProfileController::class,'update'])->name('userupdateprofile');
     Route::post("/User/update-password", [UserProfileController::class,'password'])->name('updatepassword');
-<<<<<<< HEAD
 });
-=======
-});
-
-
-
-    
->>>>>>> 1ce9412163701bdc4b65774925c953ddf350a189
