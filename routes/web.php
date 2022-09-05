@@ -2,17 +2,12 @@
 
 
 use Illuminate\Support\Facades\Route;
-//fronted controller
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\RequirementController;
-
-// use App\Http\Controllers\{ForgotPasswordController, GiveitController, GetitController, AddRequirementController, UserProfileController};
-// use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\AddRequirementController;
 use App\Http\Controllers\AdminForgotPasswordController;
 use App\Http\Controllers\AdminProfileController;
@@ -21,11 +16,8 @@ use App\Http\Controllers\GetitController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\FavoriteController;
-// use App\Http\Controllers\{LoginController, RegisterController, UserController, RequirementController, ForgotPasswordController, GiveitController, GetitController, AddRequirementController, UserProfileController};
-// use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-// use Auth;
 
 
 
@@ -47,32 +39,24 @@ use Illuminate\Support\Facades\Auth;
 // Admin Route
 
 Route::group(['middleware' => ['guest']], function () {
-
-    Route::get('/admin/login',[loginController::class,'index'])->name('loginform');
-    Route::post('/admin/login',[loginController::class,'check'])->name('login');
-    Route::get('/admin/registration',[RegistrationController::class,'index'])->name('registrationForm');
-    Route::post('/admin/registration',[RegistrationController::class,'store'])->name('registration');
+    Route::get('/loginform',[loginController::class,'index'])->name('loginform');
+    Route::post('/login', [loginController::class,'check'])->name('login');
+    Route::get('/registration', [RegistrationController::class,'index'])->name('registrationForm');
+    Route::post('/registration', [RegistrationController::class,'store'])->name('registration');
     
-
     //Forgot Password
-
     Route::get('/forgotPassword',[AdminForgotPasswordController::class,'index'])->name('forgotPassword');
     Route::post('/forgotPassword',[AdminForgotPasswordController::class,'submitForm'])->name('submitForm');
     Route::get('/resetPwd/{token}',[AdminForgotPasswordController::class,'resetPasswordForm'])->name('resetpassword');
     Route::post('/postResetPassword',[AdminForgotPasswordController::class,'submitResetPasswordForm'])->name('postResetPassword');
 
-
 });
 
 Route::group(['middleware' => ['auth']], function () {
-
-    Route::view('/admin/dashboard','welcome');
     
     // Logout Route
-    
-    // Route::post("/logout", [loginController::class,'logout'])->name('logout')->middleware('auth');
-    Route::post('/admin/logout', [loginController::class,'logout'])->name('logout');
-    Route::get('/admin/logout', [loginController::class,'log']);
+    Route::post("/logout", [loginController::class,'logout'])->name('logout')->middleware('auth');
+    Route::get('/logout', [loginController::class,'log']);
 
     // Resource Route of User,Category,Requirement
     Route::resource('/user', UserController::class);
@@ -81,8 +65,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/requirement', RequirementController::class);
     
     // Filter Route
-    Route::post('/filter',[RequirementController::class,'changeStatus']);
-
+    Route::post('/filterStatus', [RequirementController::class,'changeStatus']);
+    Route::post('/filterIsActive', [RequirementController::class,'changeIsActive']);
+    Route::post('/search', [RequirementController::class,'searching']);
+    
     // Profile Route
     Route::resource('/adminProfile', AdminProfileController::class);
 });
@@ -91,12 +77,14 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 
-
-
 // Front-end Route
 
 
+<<<<<<< HEAD
 Route::view("/welcome", 'fronted.index');
+=======
+    Route::view("/welcome", 'fronted.index');
+>>>>>>> 1ce9412163701bdc4b65774925c953ddf350a189
     Route::view("/aboutus", 'fronted.about');
     
     // login & Rqgister user
@@ -139,4 +127,12 @@ Route::view("/welcome", 'fronted.index');
     Route::get("/editprofile", [UserProfileController::class,'edit'])->name('editprofile');
     Route::post("/User/update-profile", [UserProfileController::class,'update'])->name('userupdateprofile');
     Route::post("/User/update-password", [UserProfileController::class,'password'])->name('updatepassword');
+<<<<<<< HEAD
 });
+=======
+});
+
+
+
+    
+>>>>>>> 1ce9412163701bdc4b65774925c953ddf350a189
