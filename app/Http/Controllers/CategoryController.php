@@ -29,6 +29,7 @@ class CategoryController extends Controller
             
             return back()->with('mistake','An error occurred while you are trying to show Category.! Please try again.');
         }
+        
         return view('categories')->with('categories',$categoryData);
         
     }

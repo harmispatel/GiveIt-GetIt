@@ -39,7 +39,8 @@ class LoginController extends Controller
             return view('welcome');
 
         }else{
-            return redirect('login');
+            // return redirect('login');
+            return redirect()->route('loginform');
         }
 
     }
