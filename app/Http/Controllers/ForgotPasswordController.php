@@ -49,7 +49,7 @@ class ForgotPasswordController extends Controller
                 ['token' => $token],
     
                 function ($message) use ($request) {
-                    $message->from('harmistest4@gmail.com');
+                    $message->from('harmistest@gmail.com');
                     $message->to($request['email']);
                     $message->subject('Reset Password');
                 }

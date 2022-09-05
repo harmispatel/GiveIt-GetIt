@@ -46,7 +46,6 @@ class AddRequirementController extends Controller
      */
     public function storeRequirement(Insertrequirement $request)
     {
-        // echo"<pre>";print_r($request->toArray()); exit;
         //Insert Requirement Data
         $cat_name = $request->Addcategory;
         $categoryname =Category::where('name',$cat_name)->exists();
@@ -166,7 +165,7 @@ class AddRequirementController extends Controller
     public function update(EditValidation $request, $id)
     {
         //Update Requirement Data
-       try{
+       
         $cat_name = $request->Addcategory;
         $categoryname =Category::where('name',$cat_name)->exists();
         $user = auth()->User();
@@ -208,12 +207,7 @@ class AddRequirementController extends Controller
                 $mediaAdd->save();
                 $updateRequired->media_id = $mediaAdd->id;
             }
-            
-           
-            
         }else{
-            // $updateRequired = Requirement::find($id);
-
             // Update Requirement Catgory 
             $updateRequired->category_id = $request->category;
 
@@ -270,13 +264,11 @@ class AddRequirementController extends Controller
                                           }
                               $updateRequired->status = $request->status;
                               $updateRequired->save();
-                                        }catch(Exception $e){
-                                            return back()->with('mistake','Data has been Update fail!');
-
-                                        }
-            return redirect('editprofile')->with('updatedata','Update RequiredData Successfully');
+                              return redirect('editprofile')->with('updatedata','Update RequiredData Successfully');
+                            }
     
-    }
+    
+
     
 
     /**

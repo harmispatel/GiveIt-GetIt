@@ -2,17 +2,12 @@
 
 
 use Illuminate\Support\Facades\Route;
-//fronted controller
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\RequirementController;
-
-// use App\Http\Controllers\{ForgotPasswordController, GiveitController, GetitController, AddRequirementController, UserProfileController};
-// use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\AddRequirementController;
 use App\Http\Controllers\AdminForgotPasswordController;
 use App\Http\Controllers\AdminProfileController;
@@ -21,11 +16,8 @@ use App\Http\Controllers\GetitController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\FavoriteController;
-// use App\Http\Controllers\{LoginController, RegisterController, UserController, RequirementController, ForgotPasswordController, GiveitController, GetitController, AddRequirementController, UserProfileController};
-// use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-// use Auth;
 
 
 
@@ -47,25 +39,18 @@ use Illuminate\Support\Facades\Auth;
 // Admin Route
 
 Route::group(['middleware' => ['guest']], function () {
-    // Route::get('/loginform',[loginController::class,'index'])->name('loginform');
-    // Route::post('/login', [loginController::class,'check'])->name('login');
+    Route::get('/loginform',[loginController::class,'index'])->name('loginform');
+    Route::post('/login', [loginController::class,'check'])->name('login');
     Route::get('/registration', [RegistrationController::class,'index'])->name('registrationForm');
     Route::post('/registration', [RegistrationController::class,'store'])->name('registration');
     
     //Forgot Password
-<<<<<<< HEAD
-    Route::get('/forgotPassword', [AdminForgotPasswordController::class,'index'])->name('forgotPassword');
-    Route::post('/forgotPassword', [AdminForgotPasswordController::class,'submitForm'])->name('submitForm');
-    Route::get('/resetPassword/{token}', [AdminForgotPasswordController::class,'resetPasswordForm'])->name('getResetPassword');
-    Route::post('/postResetPassword/{token}', [AdminForgotPasswordController::class,'submitResetPasswordForm'])->name('postResetPassword');
-=======
     Route::get('/forgotPassword',[AdminForgotPasswordController::class,'index'])->name('forgotPassword');
     Route::post('/forgotPassword',[AdminForgotPasswordController::class,'submitForm'])->name('submitForm');
     // Route::get('/resetPassword/{token}',[AdminForgotPasswordController::class,'resetPasswordForm'])->name('getResetPassword');
     Route::get('/resetPwd/{token}',[AdminForgotPasswordController::class,'resetPasswordForm'])->name('resetpassword');
     Route::post('/postResetPassword',[AdminForgotPasswordController::class,'submitResetPasswordForm'])->name('postResetPassword');
 
->>>>>>> 11e206b8a8620eac77a192db59faa34cb45c3786
 });
 
 Route::group(['middleware' => ['auth']], function () {
@@ -100,11 +85,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::view("/welcome", 'fronted.index');
     Route::view("/aboutus", 'fronted.about');
     
-    
-    
     // login & Rqgister user
     Route::get("/register",[RegisterController::class, 'show'])->name('register');
-    Route::get("/userlogin", [UserController::class,'home'])->name('userlogin')->middleware('guest');
+    Route::get("/login", [UserController::class,'home'])->name('login')->middleware('guest');
     Route::get('account/verify/{token}', [RegisterController::class, 'verifyAccount'])->name('user.verify');
     Route::post("/Register-insertdata", [RegisterController::class, 'store'])->name('Regitser.insertdata');
     Route::post("/userget", [UserController::class,'usercheck'])->name('useget')->middleware('guest');
@@ -126,7 +109,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['auth']], function () {
         
     // Logout User
-    Route::post("/user/logout", [UserController::class,'userLogout'])->name('userlogout');
+    Route::post("/logout", [UserController::class,'userLogout'])->name('userlogout');
     
     // Requirement 
     Route::get("/insertform", [RequirementController::class,'showinsert'])->name('insertform');

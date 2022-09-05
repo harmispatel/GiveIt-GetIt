@@ -30,9 +30,8 @@ class RegisterController extends Controller
         {
             // Insert Data user Fronted side
             
-        //    try{
+           try{
             $token = Str::random(10);
-            // dd($token);
                 $pass = bcrypt($request->password);
                 $insertdata = new User();
                 $insertdata->user_type = 0;
@@ -45,12 +44,6 @@ class RegisterController extends Controller
                 $insertdata->email_token = $token;
                 
                 
-                // DB::table('UserVerify')->insert([
-                //     'user_id' => $insertdata->email,
-                //     'token' => $token,
-                //     'created_at' => Carbon::now()
-                // ]);
-                
                 Mail::send(
                     'fronted.emailVerificationEmail',
                     ['token' => $token],
@@ -62,11 +55,11 @@ class RegisterController extends Controller
                 );
                 $insertdata->save();
                 
-                return redirect('userlogin')->with('msg','Email successfully');
-                // }catch(Exception  $e)
-                // {
-                    //     return back()->with('mistake','Data has been Insert fail!');
-            // }
+            }catch(Exception  $e)
+            {
+                return back()->with('mistake','Data has been Insert fail!');
+            }
+            return redirect('login')->with('msg','Email successfully');
             
         }
         public function verifyAccount($token)
@@ -87,6 +80,6 @@ class RegisterController extends Controller
         
 
       
-          return redirect()->route('userlogin')->with('msg','Email verifiy successfully');
+          return redirect()->route('login')->with('msg','Email verifiy successfully');
         }
     }
