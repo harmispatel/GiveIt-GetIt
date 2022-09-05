@@ -12,32 +12,25 @@ use App\Http\Requests\RegisterValidation;
 use Exception;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
-use Mail; 
+use Mail;
 use DB;
+
 // use Illuminate\Database\QueryException;
 
 class RegisterController extends Controller
 {
-     
-    // Open Register page User 
-    
+    // Open Register page User
+
     public function show()
     {
-         return view('fronted.Register');
+        return view('fronted.Register');
     }
-   
+
         public function store(Request $request)
         {
             // Insert Data user Fronted side
-<<<<<<< HEAD
-        
-            try{
-=======
-            
-        //    try{
-            $token = Str::random(10);
-            // dd($token);
->>>>>>> f5ed05b23c8bbe95da7aad3dc7bbb9135f8bdfc8
+            try {
+                $token = Str::random(10);
                 $pass = bcrypt($request->password);
                 $insertdata = new User();
                 $insertdata->user_type = 0;
@@ -48,14 +41,8 @@ class RegisterController extends Controller
                 $insertdata->mobile =  $request->number;
                 $insertdata->address =  $request->address;
                 $insertdata->email_token = $token;
-                
-                
-                // DB::table('UserVerify')->insert([
-                //     'user_id' => $insertdata->email,
-                //     'token' => $token,
-                //     'created_at' => Carbon::now()
-                // ]);
-                
+
+
                 Mail::send(
                     'fronted.emailVerificationEmail',
                     ['token' => $token],
@@ -66,32 +53,23 @@ class RegisterController extends Controller
                     }
                 );
                 $insertdata->save();
-                
-                return redirect('userlogin')->with('msg','Email successfully');
-                // }catch(Exception  $e)
-                // {
-                    //     return back()->with('mistake','Data has been Insert fail!');
-            // }
-            
+            } catch(Exception  $e) {
+                return back()->with('mistake', 'Data has been Insert fail!');
+            }
+            return redirect('login')->with('msg', 'Email successfully');
         }
         public function verifyAccount($token)
-        {      
-            
+        {
             $verifyEmail = DB::table('users')
         ->where([
           'email_token' => $token
-          ])->first();  
-          if($verifyEmail->email_token != "") {
-            DB::table('Users')->where('email_token', $token)
-             ->update(['email_verified_at' => Carbon::now(),
-                         'email_token' => NULL
+          ])->first();
+            if ($verifyEmail->email_token != "") {
+                DB::table('Users')->where('email_token', $token)
+                 ->update(['email_verified_at' => Carbon::now(),
+                             'email_token' => null
         ]);
-                    
-            
-          }
-        
-
-      
-          return redirect()->route('userlogin')->with('msg','Email verifiy successfully');
+            }
+            return redirect()->route('login')->with('msg', 'Email verifiy successfully');
         }
-    }
+}

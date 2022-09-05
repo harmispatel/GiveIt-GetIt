@@ -4,26 +4,7 @@
 
 @section('content')
 
-
-
-
-
-    <!DOCTYPE html>
-    <html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>@yield('Login')</title>
-        <link rel="icon" type="image/png" href="{{ asset('img/fronted/favicon.png') }}">
-        @include('fronted.css')
-    </head>
-
-
-
     <body>
-
         @if (session()->has('mistake'))
             <div class="alert alert-warning mistake ">
                 {{ session()->get('mistake') }}
@@ -44,7 +25,6 @@
                 {{ session()->get('message') }}
             </div>
         @endif
-
         <div class="donation-info">
             <div class="container">
                 <div class="row justify-content-center">
@@ -172,14 +152,8 @@
                                     <div class="col-md-12">
                                         <div class="text-center">
                                             <button type="submit" name="submit" class="btn donate-bt">Submit</button>
-                                            {{-- <button></button> --}}
                                         </div>
                                         <hr>
-                                        {{-- <div class="col-md-12 text-center" >
-                                        <p>You Don't Have An Account ? <a href="{{ route('register') }}">Register
-                                                Now</a>
-                                        </p>
-                                    </div> --}}
                                     </div>
                             </form>
                         </div>
@@ -207,7 +181,8 @@
     </html>
 @endsection
 @section('js')
-    <script>
+<script>
+        //  Password show hide 
         const togglePassword = document.querySelector("#togglePassword");
         const password = document.querySelector("#password");
 
@@ -219,6 +194,7 @@
             // toggle the icon
             this.classList.toggle("bi-eye");
         });
+        // Conform Password show hide
         const toggleCPassword = document.querySelector("#toggleCPassword");
         const comform_password = document.querySelector(".comform_password");
 
@@ -241,11 +217,11 @@
             // toggle the icon
             this.classList.toggle("bi-eye");
         });
-
+        // Alert Timeout
         setTimeout(() => {
             $('.logout, .reg, .message, .mistake').remove();
         }, 3500);
-
+        // Jquery Validation Login 
         $(document).ready(function() {
             $("#loginForm").validate({
                 rules: {
@@ -256,23 +232,21 @@
                     password: {
                         required: true,
                         minlength: 6
-
-
                     }
                 },
                 messages: {
                     email: {
-                        required: "Specify email",
+                        required: "Email is Required",
                         email: "Please enter a Specify valid email address"
                     },
                     password: {
-                        required: "Specify password",
+                        required: "Password is Required",
                         minlength: "Password must be 6 length"
                     }
                 }
-
             });
         });
+        // Jquery Validation Register
         $(document).ready(function() {
             $("#regiter").validate({
                 rules: {
@@ -329,11 +303,8 @@
                         minlength: "Password must be 6 length",
                         equalTo: "Password Confirmation does not match with Password"
                     }
-
                 }
             });
-
         });
     </script>
-
 @endsection

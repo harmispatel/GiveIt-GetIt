@@ -4,12 +4,11 @@
 
 @section('content')
 
-<div id="notifDiv"></div>
+    <div id="notifDiv"></div>
     <div class="main">
         @if (session()->has('success'))
             <div class="alert alert-success success">
-                
-                {{-- {{ session()->get('success') }} --}}
+                {{ session()->get('success') }}
             </div>
         @endif
         @if (session()->has('warning'))
@@ -25,17 +24,19 @@
                             <div class="swiper">
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide">
+                                        {{-- Image --}}
                                         <img class="img-fluid"
                                             style="background-image:url('{{ $RequiredData->media == null ? asset('/img/requirement/Noimage.jpg') : asset($RequiredData->media['path']) }}')" />
                                     </div>
-                                  
                                 </div>
                             </div>
                         </div>
+                        {{-- Description --}}
                         <div class="product-des">
                             <h3>Description</h3>
                             <p>{!! html_entity_decode($RequiredData->requirements) !!}</p>
                         </div>
+                        {{-- Related Product --}}
                         <div class="releted_product-main">
                             <h2>Related Product</h2>
                             @foreach ($relatedData as $item)
@@ -50,77 +51,89 @@
                                     </div>
                                 </div>
                             @endforeach
-       
                         </div>
                     </div>
                     <div class="col-md-5">
                         <div class="product-detail-right">
                             <div class="product-price-box">
+                                {{-- Price --}}
                                 <div class="price-box-header">
                                     <h3>₹{{ $RequiredData->price == null ? 00.0 : $RequiredData->price }}</h3>
+                                    {{-- share Button Model --}}
                                     <div class="price-share">
-                                        <button class="btn">  <i class="fa-solid fa-share-nodes" data-bs-toggle="modal" href="#exampleModalToggle" role="button"></i></button>
-                                        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                        <button class="btn"> <i class="fa-solid fa-share-nodes" data-bs-toggle="modal"
+                                                href="#exampleModalToggle" role="button"></i></button>
+                                        <div class="modal fade" id="exampleModalToggle" aria-hidden="true"
+                                            aria-labelledby="exampleModalToggleLabel" tabindex="-1">
                                             <div class="modal-dialog modal-dialog-centered">
-                                              <div class="modal-content">
-                                                <div class="modal-header">
-                                                  <h5 class="modal-title"  id="exampleModalToggleLabel">Share</h5>
-                                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="link-container">
-                                                        <input type="text" class="form-control" id="copy_{{$url}}" value="{{$url}}" />
-                                                        <button value="copy" class="btn copy-btn" onclick="copyToClipboard('copy_{{ $url}}')">Copy</button>
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalToggleLabel">Share</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
                                                     </div>
-
-                                                    <div class="share-social">
-                                                        <a href="https://www.facebook.com/sharer/sharer.php?u={{url()->current()}}" role="button"><i class="fab fa-facebook-f fa-lg"></i></a>
-                                                    
-                                                        <a  href="https://twitter.com/intent/tweet?url={{url()->current()}}" role="button"><i class="fab fa-twitter fa-lg"></i></a></button>
-                                                    
-                                                        <a  href="https://www.instagram.com/?url={{url()->current()}}" role="button"><i class="fab fa-instagram fa-lg"></i></a>
-                                                    
-                                                        <a  href="https://wa.me/?text={{url()->current()}}" role="button"><i class="fab fa-whatsapp"></i></a>
-                                                    
-                                                        <a href="http://linkedin.com/?url={{url()->current()}}" role="button"><i class="fab fa-linkedin-in"></i></a>
+                                                    <div class="modal-body">
+                                                        <div class="link-container">
+                                                            <input type="text" class="form-control"
+                                                                id="copy_{{ $url }}" value="{{ $url }}" />
+                                                            <button value="copy" class="btn copy-btn"
+                                                                onclick="copyToClipboard('copy_{{ $url }}')">Copy</button>
+                                                        </div>
+                                                        {{-- Facebook --}}
+                                                        <div class="share-social">
+                                                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}"
+                                                                role="button"><i class="fab fa-facebook-f fa-lg"></i></a>
+                                                            {{-- Twitter --}}
+                                                            <a href="https://twitter.com/intent/tweet?url={{ url()->current() }}"
+                                                                role="button"><i
+                                                                    class="fab fa-twitter fa-lg"></i></a></button>
+                                                            {{-- Instagram --}}
+                                                            <a href="https://www.instagram.com/?url={{ url()->current() }}"
+                                                                role="button"><i class="fab fa-instagram fa-lg"></i></a>
+                                                            {{-- Whatsapp --}}
+                                                            <a href="https://wa.me/?text={{ url()->current() }}"
+                                                                role="button"><i class="fab fa-whatsapp"></i></a>
+                                                            {{-- Linked in --}}
+                                                            <a href="http://linkedin.com/?url={{ url()->current() }}"
+                                                                role="button"><i class="fab fa-linkedin-in"></i></a>
+                                                        </div>
                                                     </div>
-                                                    
                                                 </div>
-                                              </div>
                                             </div>
-                                          </div>
-                                          {{-- <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Open first modal</a> --}}
+                                        </div>
+                                        {{-- Favorite Button --}}
                                         @auth
-                                          
-                                                @php $countWishlist = 0 @endphp
-                                                @if(Auth::check())
-                                                @php 
-                                                $countWishlist = App\Models\Favorite::where('requirement_id', $RequiredData['id'])->where('user_id', Auth::user()->id)->get();
+                                            @php $countWishlist = 0 @endphp
+                                            @if (Auth::check())
+                                                @php
+                                                    $countWishlist = App\Models\Favorite::where('requirement_id', $RequiredData['id'])
+                                                        ->where('user_id', Auth::user()->id)
+                                                        ->get();
                                                 @endphp
+                                            @endif
+                                            <button class="btn update_wishlist" data-requirementid="{{ $RequiredData->id }}">
+                                                @if (count($countWishlist) > 0)
+                                                    <i class="fas fa-heart" aria-hidden="true"></i>
+                                                @else
+                                                    <i class="far fa-heart" aria-hidden="true"></i>
                                                 @endif
-                                                <button class="btn update_wishlist"  data-requirementid="{{ $RequiredData->id }}">
-                                                  @if (count($countWishlist) > 0)
-                                                  <i class="fas fa-heart" aria-hidden="true"></i>
-                                                  @else
-                                                  <i class="far fa-heart" aria-hidden="true"></i>
-
-                                                  @endif
-                                                    
-                                                </button>
-                                 
+                                            </button>
                                         @endauth
+                                        {{-- login --}}
                                         @guest
-                                            <button class="btn"><a href="{{ route('userlogin')}}"
+                                            <button class="btn"><a href="{{ route('userlogin') }}"
                                                     class="far fa-heart"></a></button>
                                         @endguest
                                     </div>
                                 </div>
+                                {{-- Category Name --}}
                                 <p class="mb-2">Product Name : {{ $RequiredData->categories['name'] }}</p>
                                 <div class="adress-detail">
                                     <p>address</p>
                                     <span>Today</span>
                                 </div>
                             </div>
+                            {{-- User Details --}}
                             <div class="seller-detail">
                                 <h3 class="mb-2">Seller Description</h3>
                                 <a href="#" class="seller-info">
@@ -137,6 +150,7 @@
                                 <a href="tel:{{ $RequiredData->user['mobile'] }}"><button
                                         class="btn cht-seller">Contact</button></a>
                             </div>
+                            {{-- Location --}}
                             <div class="location">
                                 <h3>Location</h3>
                                 <iframe
@@ -150,12 +164,10 @@
             </div>
         </section>
     </div>
-
-
 @endsection
 @section('js')
-
     <script text type=text/javascript>
+        // Alert message
         var user_id = "{{ Auth::id() }}";
         $(document).ready(function() {
             $('.update_wishlist').click(function() {
@@ -165,7 +177,6 @@
                     }
                 });
                 var requirement_id = $(this).data('requirementid');
-                
                 $.ajax({
                     type: 'POST',
                     url: '/add-to-favorite',
@@ -175,27 +186,27 @@
                     },
                     success: function(response) {
                         if (response.action == 'add') {
-                            $('button[data-requirementid='+requirement_id+']').html(`<i class="fas fa-heart" aria-hidden="true"></i>`);
-                            $('#notifDiv').fadeIn().css('background', 'green').text(response.message);
+                            $('button[data-requirementid=' + requirement_id + ']').html(
+                                `<i class="fas fa-heart" aria-hidden="true"></i>`);
+                            $('#notifDiv').fadeIn().css('background', 'green').text(response
+                                .message);
                         } else {
-                            $('button[data-requirementid='+requirement_id+']').html(`<i class="far fa-heart" aria-hidden="true"></i>`);
-                            $('#notifDiv').fadeIn().css('background', 'red').text(response.message);
-                            
+                            $('button[data-requirementid=' + requirement_id + ']').html(
+                                `<i class="far fa-heart" aria-hidden="true"></i>`);
+                            $('#notifDiv').fadeIn().css('background', 'red').text(response
+                                .message);
                         }
-
-                        // setTimeout(() =>{
-                        //     $('#notifDiv').fadeOut();
-                        // }, 3000);
+                        setTimeout(() => {
+                            $('#notifDiv').fadeOut();
+                        }, 3000);
                     }
                 });
             });
         });
-        // setTimeout(() => {
-        //     $('.success, .warning ').remove();
-        // }, 3500);
+        // copy link 
         function copyToClipboard(id) {
-        document.getElementById(id).select();
-        document.execCommand('copy');
-    }
+            document.getElementById(id).select();
+            document.execCommand('copy');
+        }
     </script>
 @endsection

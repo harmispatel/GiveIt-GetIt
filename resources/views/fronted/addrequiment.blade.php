@@ -142,12 +142,13 @@
                                     {{-- Image --}}
                                     <div class="form-group">
                                         <label for="media" class="form-label">Image</label>
-                                        <input type="file" id="media" onchange="validateTypeAndSize(this)" name="media" class="form-control">
+                                        <input type="file" id="media" onchange="validateTypeAndSize(this)"
+                                            name="media" class="form-control">
                                     </div>
-                                    <span id="spnMessage" class="error" style="display: none;"></span></p>
+                                    <p><span id="spnMessage" class="error" style="display: none;"></span></p>
                                     @if ($errors->has('media'))
-                                            <div style="color: red">{{ $errors->first('media') }}</div>
-                                        @endif
+                                        <div style="color: red">{{ $errors->first('media') }}</div>
+                                    @endif
                                     {{-- Requirement --}}
 
                                     <div class="form-group">
@@ -155,9 +156,9 @@
                                         <div class="mb-3">
                                             <textarea name="requirement" id="requirement" class="ckeditor form-control" required="required" rows="3"
                                                 placeholder="Enter requirement">{{ old('requirement') }}</textarea>
-                                            <script>
-                                                CKEDITOR.replace('requirement');
-                                            </script>
+                                                <script>
+                                                    CKEDITOR.replace('requirement');
+                                                </script>
                                             @if ($errors->has('requirement'))
                                                 <span class="text-danger">{{ $errors->first('requirement') }}</span>
                                             @endif
@@ -168,7 +169,8 @@
 
                                 <div class="text-center">
                                     <a href="welcome" class="btn donate-bt">Back</a>
-                                    <button type="submit" name="submit" id="btnSubmit" class="btn donate-bt">Add</button>
+                                    <button type="submit" name="submit" id="btnSubmit"
+                                        class="btn donate-bt">Add</button>
                                 </div>
                         </div>
 
@@ -187,10 +189,12 @@
 @endsection
 
 @section('js')
-    <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
-    <script src="http://code.jquery.com/jquery-1.11.3.js" type="text/javascript"></script>
-    <script type="text/javascript">
-            function OtherData() {
+
+<script src="http://code.jquery.com/jquery-1.11.3.js" type="text/javascript"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
+<script type="text/javascript">
+        function OtherData() {
             var selectVal = $('.category').val();
 
             if (selectVal == 0) {
@@ -259,21 +263,19 @@
 
         function validateTypeAndSize(uploadCtrl) {
             var extension = $(uploadCtrl).val().split('.').pop().toLowerCase();
-            var validFileExtensions = ['jpeg', 'jpg', 'png', 'svg','gif'];
+            var validFileExtensions = ['jpeg', 'jpg', 'png', 'svg', 'gif'];
             if ($.inArray(extension, validFileExtensions) == -1) {
                 $('#spnMessage').text("Sorry!! Upload only jpg, jpeg, png, svg, gif image").show();
                 $(uploadCtrl).replaceWith($(uploadCtrl).val('').clone(true));
                 $('#btnSubmit').prop('disabled', true);
                 $('#imgPreview').prop('src', '');
-            }
-            else {
+            } else {
                 // Check and restrict the file size to 5 mb.
                 if ($(uploadCtrl).get(0).files[0].size > (500000)) {
                     $('#spnMessage').text("Sorry!! Max allowed image size is 5mb").show();
                     $(uploadCtrl).replaceWith($(uploadCtrl).val('').clone(true));
                     $('#btnSubmit').prop('disabled', true);
-                }
-                else {
+                } else {
                     $('#spnMessage').text('').hide();
                     $('#btnSubmit').prop('disabled', false);
                     previewImage(uploadCtrl);
@@ -298,13 +300,6 @@
                     Type: {
                         required: true,
                     },
-                    // media: {
-                    //     // required: true,
-                    //     accept: "jpg|jpeg|png|gif|svg",
-                    //     filesize: 1048576
-                    // }, 
-
-
                 },
                 messages: {
                     requirement: {
@@ -315,7 +310,7 @@
                         min: "Select at least one person",
                         number: "Number is not valid"
                     },
-                    Type:{
+                    Type: {
                         required: "Select at least one type",
 
                     }

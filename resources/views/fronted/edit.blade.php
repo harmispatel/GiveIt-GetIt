@@ -225,9 +225,8 @@
                                         <img src="{{ $RequiredData->media == null ? asset('/img/requirement/Noimage.jpg') : asset($RequiredData->media['path']) }}"
                                             alt="Image" width="150">
                                     </div>
-                                    <span id="spnMessage" class="error" style="display: none;"></span></p>
-
-                                    @if ($errors->has('media'))
+                                   <p><span id="spnMessage" class="error" style="display: none;"></span></p>
+                                        @if ($errors->has('media'))
                                         <span class="text-danger">{{ $errors->first('media') }}</span>
                                     @endif
                                     {{-- Requirement --}}
@@ -329,6 +328,20 @@
                         required: true,
                     }
                 },
+                messages: {
+                    requirement: {
+                        required: "reuirement is required"
+                    },
+                    quantity: {
+                        required: "Person is required",
+                        min: "Select at least one person",
+                        number: "Number is not valid"
+                    },
+                    Type: {
+                        required: "Select at least one type",
+
+                    }
+                }
             });
         });
     </script>

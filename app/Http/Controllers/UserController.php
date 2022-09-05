@@ -206,7 +206,27 @@ class UserController extends Controller
             
             return redirect('userlogin')->with('loginwrong','Please check EmailId and Password');
         }
+<<<<<<< HEAD
    }
+=======
+=======
+        // Delete User
+        $delete = User::find($id)->delete();
+        return redirect()->route('user.index')->with('msg', 'User deleted successfully!');
+>>>>>>> f5ed05b23c8bbe95da7aad3dc7bbb9135f8bdfc8
+    }
+
+   /**
+     * Display a listing of frontend side login.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function home()
+    {
+        // Open fronted side login page
+        return view('fronted.login');
+    }
+>>>>>>> 7e6909c4cbee82c2c37de7f32ce71b8be93595b3
 
     /**
      * Update the specified resource in storage.
@@ -217,34 +237,30 @@ class UserController extends Controller
      */
     public function usercheck(loginValidation $request)
     {
-        
-        
         $credentials = $request->only('email', 'password');
         $verify = User::Where('email', $request->email)
         ->WhereNotNull('email_verified_at')
         ->first();
 
-        if (!empty($verify) || $verify != '') {
-              
-            if(Auth::attempt($credentials)){
-
+        if (!empty($verify)) {
+            if (Auth::attempt($credentials)) {
                 return redirect('welcome')->with('userlogin', 'login successfully');
-            }else{
-                return redirect('userlogin')->with('mistake', 'Please Not Verify Email');
             }
-            
-                // echo"hii";exit;
-            
         } else {
-            // echo "hello";exit;
-            return redirect('userlogin')->with('mistake', 'Please Not Verify Email');
+            return redirect('login')->with('mistake', 'Please Not Verify Email');
         }
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function userLogout(Request $request)
     {
         //logout user fronted side
         auth()->logout();
-        return redirect('userlogin')->with('logout', 'You are logout');
+        return redirect('login')->with('logout', 'You are logout');
     }
 }
