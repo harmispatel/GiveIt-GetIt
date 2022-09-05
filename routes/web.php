@@ -123,4 +123,4 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/editprofile", [UserProfileController::class,'edit'])->name('editprofile');
     Route::post("/User/update-profile", [UserProfileController::class,'update'])->name('userupdateprofile');
     Route::post("/User/update-password", [UserProfileController::class,'password'])->name('updatepassword');
-});
+        });
