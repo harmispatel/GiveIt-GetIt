@@ -16,8 +16,11 @@ class LoginController extends Controller
      */
     public function index()
     {
-       
-        return view('login');       
+       if (Auth::user()) {
+            return redirect()->back();
+       }else{
+           return view('login');       
+       }
     }
 
    public function check(LoginValidationRequest $request){
@@ -29,7 +32,9 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
 
             $value = $request->session()->put('admin',Auth::user()->name);
-            return redirect('home1');
+            $userCount = count(User::where('user_type','0')->get());
+            return view('welcome',compact('userCount'));
+            // return redirect('/admin/dashboard');
 
         }else{
             return redirect('login');
@@ -43,8 +48,7 @@ class LoginController extends Controller
     }
 
     public function log(){
-        return redirect('home');
+        return redirect()->route('loginform');
     }
 
-    
 }

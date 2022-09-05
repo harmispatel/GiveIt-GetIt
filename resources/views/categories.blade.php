@@ -41,8 +41,7 @@
                 {{-- End Success messege --}}
 
                 <div class="text-right mr-3 mb-2">
-                    <a href="{{ route('category.create') }}" class="btn btn-primary"> <i class="fa fa-plus"
-                            aria-hidden="true"></i> Add Category</a>
+                    <a href="{{ route('category.create') }}" class="btn btn-primary"> <i class="fa fa-plus" aria-hidden="true"></i> Add Category</a>
                 </div>
                 <section class="content">
                     <div class="container-fluid">
@@ -77,7 +76,6 @@
                                                             </td>
                                                             <td>{{ $category->id }}</td>
                                                             <td>{{ $category->name }}</td>
-                                                            {{-- <td>{{$category->status}}</td> --}}
                                                             <td>
                                                                 <span
                                                                     class="{{ $category['status'] == 0 ? 'badge badge-danger' : 'badge badge-success' }}">
@@ -87,11 +85,6 @@
                                                             <td class="text-right">
                                                                 <a href="{{ route('category.edit', $category->id) }}"class="mr-2" title="Edit"><i class="fas fa-edit"></i></a>       
                                                                 <i class="fa fa-trash text-danger deleteBtn"  data-toggle="modal" style="cursor: pointer;" data-target="#exampleModal" data-target-id="{{route('category.destroy',$category->id)}}" title="Delete"></i>
-                                                                {{-- <a class="btn btn-danger" role="button"  data-toggle="modal" data-target="#exampleModal">Delete</a> --}}
-    
-                                                                {{-- <a href="{{route('category.destroy',$category->id)}}">
-                                                                    Delete
-                                                                </a> --}}
                                                             </td>
                                                         </tr>
                                                         

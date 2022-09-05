@@ -61,17 +61,6 @@
                                         {{ $user['user_type'] =  'User'}}
                                     </span>
                                 @endif
-                                {{-- @if ( $user['user_type'] == 2 )
-                                    <span class="badge badge-primary">
-                                        {{ $user['user_type'] = 'Donor' }}
-                                    </span>
-                                @endif
-                                @if ( $user['user_type'] == 3 )
-                                    <span class="badge badge-success">
-                                        {{ $user['user_type'] = 'Admin'}}
-                                    </span>
-                                @endif --}}
-
                             </td>
                             <td>
                                 <span class="{{ $user['status'] == 0 ? 'badge badge-danger' : 'badge badge-success' }}">
@@ -86,7 +75,6 @@
                         @endforeach 
                     </tbody>
                     </table>
-                
                     {{-- model --}}
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -113,6 +101,14 @@
                         </div>
                     </div>
                     {{-- model --}}
+            <span class="">
+                {!! $users->links() !!} 
+            </span>
+            {{-- <style>
+                .w-5 {
+                    display:none;
+                }
+            </style> --}}
                 </div>
                 </div>
             </div>

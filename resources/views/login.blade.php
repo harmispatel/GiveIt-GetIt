@@ -52,7 +52,7 @@
                             </form>
                             <hr>                            
                             <div>
-                              <p>You Don't Have An Account ? <a href="registration">Register Now</a></p>
+                              <p>You Don't Have An Account ? <a href="{{route('registrationForm')}}">Register Now</a></p>
                             </div>
                     </div>
                   </div>

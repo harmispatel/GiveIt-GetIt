@@ -39,8 +39,20 @@ use Illuminate\Support\Facades\Auth;
 // Admin Route
 
 Route::group(['middleware' => ['guest']], function () {
+<<<<<<< HEAD
     Route::get('/loginform',[loginController::class,'index'])->name('loginform');
     Route::post('/login', [loginController::class,'check'])->name('login');
+=======
+<<<<<<< HEAD
+
+    Route::get('/admin/login',[loginController::class,'index'])->name('loginform');
+    Route::post('/admin/login',[loginController::class,'check'])->name('login');
+    Route::get('/admin/registration',[RegistrationController::class,'index'])->name('registrationForm');
+    Route::post('/admin/registration',[RegistrationController::class,'store'])->name('registration');
+
+
+    // Route::get('/loginform',[loginController::class,'index'])->name('loginform');
+    // Route::post('/login', [loginController::class,'check'])->name('login');
     Route::get('/registration', [RegistrationController::class,'index'])->name('registrationForm');
     Route::post('/registration', [RegistrationController::class,'store'])->name('registration');
     
@@ -53,6 +65,9 @@ Route::group(['middleware' => ['guest']], function () {
 });
 
 Route::group(['middleware' => ['auth']], function () {
+
+    Route::view('/admin/dashboard','welcome');
+    // Route::view('home1', 'welcome');
     
     // Logout Route
     Route::post("/logout", [loginController::class,'logout'])->name('logout')->middleware('auth');
@@ -65,23 +80,52 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/requirement', RequirementController::class);
     
     // Filter Route
+    Route::post('/filter',[RequirementController::class,'changeStatus']);
+    // Route::post('/filterIsActive',[RequirementController::class,'changeIsActive']);
+    // Route::post('/search',[RequirementController::class,'searching']);
+
+=======
     Route::post('/filterStatus', [RequirementController::class,'changeStatus']);
     Route::post('/filterIsActive', [RequirementController::class,'changeIsActive']);
     Route::post('/search', [RequirementController::class,'searching']);
     
+>>>>>>> f5ed05b23c8bbe95da7aad3dc7bbb9135f8bdfc8
     // Profile Route
     Route::resource('/adminProfile', AdminProfileController::class);
 });
 
 
 
-
-
 // Front-end Route
 
 
+<<<<<<< HEAD
+
+Route::get("/userlogin",[UserController::class,'home'])->name('userlogin')->middleware(['guest']);
+
+Route::post("/userget",[UserController::class,'check'])->name('useget');
+
+Route::get('/forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+Route::post('/forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
+Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+Route::post('/reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+
+Route::get('/giveit',[GiveitController::class,'index'])->name('giveit');
+Route::get('/getit',[GetitController::class,'index'])->name('getit');
+Route::get("/giveviewdetail/{id}",[GiveitController::class,'show'])->name('giveviewdetail');
+Route::get("/getviewdetail/{id}",[GetitController::class,'show'])->name('getitview');
+
+
+Route::group(['middleware' => ['auth']], function () {
+    
+    Route::post("/userlogout",[UserController::class,'userLogout'])->name('userlogout'); 
+    
+    Route::get("/insertform",[RequirementController::class,'showinsert'])->name('insertform');
+    Route::get("/required",[RequirementController::class,'display'])->name('required');
+=======
     Route::view("/welcome", 'fronted.index');
     Route::view("/aboutus", 'fronted.about');
+>>>>>>> f5ed05b23c8bbe95da7aad3dc7bbb9135f8bdfc8
     
     // login & Rqgister user
     Route::get("/register",[RegisterController::class, 'show'])->name('register');
@@ -125,6 +169,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post("/User/update-password", [UserProfileController::class,'password'])->name('updatepassword');
 });
 
+<<<<<<< HEAD
+=======
 
 
     
+>>>>>>> f5ed05b23c8bbe95da7aad3dc7bbb9135f8bdfc8

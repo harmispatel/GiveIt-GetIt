@@ -105,8 +105,14 @@
 	        })
 	        .done(function(data)
 	        {
+<<<<<<< HEAD
+                if(data.html == ""){
+                    $('.ajax-load').html("");
+	                
+=======
                 if(data.html == ''){
                     $('.ajax-load').html();
+>>>>>>> f5ed05b23c8bbe95da7aad3dc7bbb9135f8bdfc8
 	            }
 	            $('.ajax-load').hide();
 	            $("#post-data").append(data.html);
