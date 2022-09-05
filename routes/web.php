@@ -47,14 +47,12 @@ Route::group(['middleware' => ['guest']], function () {
     //Forgot Password
     Route::get('/forgotPassword',[AdminForgotPasswordController::class,'index'])->name('forgotPassword');
     Route::post('/forgotPassword',[AdminForgotPasswordController::class,'submitForm'])->name('submitForm');
-    // Route::get('/resetPassword/{token}',[AdminForgotPasswordController::class,'resetPasswordForm'])->name('getResetPassword');
     Route::get('/resetPwd/{token}',[AdminForgotPasswordController::class,'resetPasswordForm'])->name('resetpassword');
     Route::post('/postResetPassword',[AdminForgotPasswordController::class,'submitResetPasswordForm'])->name('postResetPassword');
 
 });
 
 Route::group(['middleware' => ['auth']], function () {
-    // Route::view('home1', 'welcome');
     
     // Logout Route
     Route::post("/logout", [loginController::class,'logout'])->name('logout')->middleware('auth');
