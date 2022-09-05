@@ -49,7 +49,7 @@ class ForgotPasswordController extends Controller
                 ['token' => $token],
     
                 function ($message) use ($request) {
-                    $message->from('harmistest@gmail.com');
+                    $message->from('harmistest4@gmail.com');
                     $message->to($request['email']);
                     $message->subject('Reset Password');
                 }
@@ -105,6 +105,6 @@ class ForgotPasswordController extends Controller
 
         DB::table('password_resets')->where(['token'=> $request->token])->delete();
 
-        return redirect('userlogin')->with('message', 'Your password has been changed!');
+        return redirect('login')->with('message', 'Your password has been changed!');
     }
 }

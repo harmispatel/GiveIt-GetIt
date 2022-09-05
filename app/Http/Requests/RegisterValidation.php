@@ -25,7 +25,7 @@ class RegisterValidation extends FormRequest
     {
         return [
             //
-            'username' => 'required|max:8',
+            'username' => 'required',
             'email' => 'required|email|unique:users',
             'number'  =>'required|digits:10 ',
             'address' =>'required',
