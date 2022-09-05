@@ -28,7 +28,7 @@ class UserController extends Controller
     {
         // Open user list
 
-        $users = User::all()->where('user_type', '0');
+        $users = User::where('user_type', '0')->paginate(10);
         return view('userList')->with('users', $users);
     }
 

@@ -101,14 +101,14 @@
                         </div>
                     </div>
                     {{-- model --}}
-            <span class="">
+            <span class="mb-3">
                 {!! $users->links() !!} 
             </span>
-            {{-- <style>
+            <style>
                 .w-5 {
                     display:none;
                 }
-            </style> --}}
+            </style>
                 </div>
                 </div>
             </div>
