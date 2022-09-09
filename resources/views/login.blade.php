@@ -28,7 +28,8 @@
                       Login
                     </div>
                     <div class="card-body">
-                        <form action="{{route('login')}}" method="POST" >
+                        <form action="{{route('adminlogin')}}" method="POST">
+                          @csrf
                           <input type="hidden" name="_token" value="{{ csrf_token() }}">
                               <div class="form-group">
                                 <input type="email" name="email" class="form-control"  placeholder="Enter email" value="{{old('email')}}">

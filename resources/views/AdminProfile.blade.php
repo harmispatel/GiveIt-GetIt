@@ -61,9 +61,9 @@
                                     
 
                                     <button type="submit" class="btn btn-primary">Update</button>
-                                    <a class="btn btn-primary changePwd" >Update Password</a>
+                                    <a class="btn btn-primary changePwd text-white" >Update Password</a>
                                     <a class="btn btn-dark" href="{{'home'}}" > Back </a>
-
+                                    
                                 </form>
                                 <hr>
                                 <div class="form-group changePassword" style="display: none">
@@ -85,8 +85,9 @@
                                                         @if ($errors->has('password'))
                                                             <p class="alert alert-danger">{{$errors->first('password')}}</p>                                    
                                                         @endif
-                                                    </div>
-                                                <button class="btn btn-primary mt-3 mb-3" type="submit" value="submit">Change Password</button> 
+                                                </div>
+                                                    
+                                                <button class="btn btn-primary mt-3 mb-4" type="submit" value="submit">Change Password</button> 
                                             </div>
                                         </div>
                                     </form>

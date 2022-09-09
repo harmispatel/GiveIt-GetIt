@@ -34,7 +34,6 @@
               Hello, {{session('admin')}} |  
               {{-- <i class="fa fa-user text-danger profileBtn" data-toggle="modal" style="cursor: pointer;" data-target="#exampleModal" data-target-id="#" title="Profile"></i> --}}
               <a href="{{route('adminProfile.index')}}" ><i class="fa fa-user" id="btn" ></i></a>
-
                 <a href="" class="nav-link">
                   <button class="btn btn-primary" type="submit" name="submit">Logout</button>
                 </a>
