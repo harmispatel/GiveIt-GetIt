@@ -16,8 +16,6 @@
                 </nav>
             </div>
         </section>
-
-
         <section class="about-main">
            
             <div class="container">

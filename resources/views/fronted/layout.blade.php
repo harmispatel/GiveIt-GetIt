@@ -10,7 +10,7 @@
     
     <link rel="icon" type="image/png" href="{{ asset('img/fronted/favicon.png') }}">
 
-    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+    {{-- <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script> --}}
     <script src="//cdn.ckeditor.com/4.5.9/standard/ckeditor.js"></script>
     @include('fronted.css')
 </head>

@@ -100,7 +100,16 @@
                                         @if ($errors->has('password_confirmation'))
                                             <p style="color:red">{{ $errors->first('password_confirmation') }}</p>
                                         @endif
-
+                                    </div>
+                                    <div class="form-group{{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
+                                        <div class="col-md-6">
+                                            {!! RecaptchaV3::field('register') !!}
+                                            @if ($errors->has('g-recaptcha-response'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="text-center">
@@ -181,7 +190,14 @@
     </html>
 @endsection
 @section('js')
-<script>
+{!! RecaptchaV3::initJs() !!}
+<script src="https://www.google.com/recaptcha/api.js?&render=explicit" async defer></script>
+<script type="text/javascript">
+// function onloadCallback() {
+//     $('.g-recaptcha').each(function(index, el) {
+//         widgetId = grecaptcha.render(el, {'sitekey' : 'My-SITE-KEY'});
+//     });
+// }
         //  Password show hide 
         const togglePassword = document.querySelector("#togglePassword");
         const password = document.querySelector("#password");

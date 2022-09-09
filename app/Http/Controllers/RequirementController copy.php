@@ -385,9 +385,6 @@ class RequirementController extends Controller
                         
                     })->orWhere('quantity', 'LIKE',$requirementSearch."%")->get(); 
                 }
-                // echo"<pre>";
-                // print_r($requirement->toArray());
-                // exit;
            
             return response()->json([
                         'requirements' => $requirement

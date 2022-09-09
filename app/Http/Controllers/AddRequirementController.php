@@ -96,7 +96,6 @@ class AddRequirementController extends Controller
          $requirement->price = $request->price;
          $requirement->media_id = $mediaAdd->id;
          $requirement->rent_date = $request->rentdate;
-        //  $requirement->rent_date = 'TEST';
          $requirement->type = $request->Type;
          if($request->Type == 1)
          {
