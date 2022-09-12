@@ -158,7 +158,7 @@
     </div>
 @endsection
 @section('js')
-    <script text type=text/javascript>
+    <script  type=text/javascript>
         var user_id = "{{ Auth::id() }}";
         $(document).ready(function() {
             $('.update_wishlist').click(function() {

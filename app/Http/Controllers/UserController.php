@@ -159,7 +159,6 @@ class UserController extends Controller
                 return redirect('welcome')->with('userlogin', 'login successfully');
             } 
             }else {
-                // echo "hello";exit;
                 return redirect('login')->with('mistake', 'Please Not Verify Email');
             }
     }

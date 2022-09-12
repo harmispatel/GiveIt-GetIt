@@ -29,9 +29,9 @@ class RegisterValidation extends FormRequest
             'email' => 'required|email|unique:users',
             'number'  =>'required|digits:10 ',
             'address' =>'required',
-           
             'password'=>'required|min:6',
-            'password_confirmation' =>'required_with:password|same:password|min:6'
+            'password_confirmation' =>'required_with:password|same:password|min:6',
+            'g-recaptcha-response' => 'required|recaptchav3:register,0.5'
 
         ];
     }

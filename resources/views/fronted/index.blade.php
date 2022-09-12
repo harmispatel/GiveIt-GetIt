@@ -87,7 +87,7 @@
                                         <a href="{{ route('addform') }}" class="give_bt">Give IT</a>
                                     @endauth
                                     @guest
-                                        <a href="{{ route('userlogin') }}" class="give_bt">Give IT</a>
+                                        <a href="{{ route('login') }}" class="give_bt">Give IT</a>
                                     @endguest
                                 </div>
                             </div>
@@ -105,7 +105,7 @@
                                         <a href="{{ route('addform') }}" class="give_bt">Get IT</a>
                                     @endauth
                                     @guest
-                                        <a href="{{ route('userlogin') }}" class="give_bt">Get IT</a>
+                                        <a href="{{ route('login') }}" class="give_bt">Get IT</a>
                                     @endguest
                                 </div>
                             </div>

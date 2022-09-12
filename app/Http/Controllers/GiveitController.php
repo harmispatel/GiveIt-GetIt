@@ -74,8 +74,6 @@ class GiveitController extends Controller
         $cat_id = $RequiredData->category_id;
         $Rre_id = $RequiredData->id;
         $favoriteData =Favorite::where('requirement_id',$Rre_id)->first();
-        // dd($favoriteData);
-
         $relatedData = Requirement::with(['categories','media'])->where('category_id',$cat_id)->limit(3)->get();
         return view('fronted.giveitview',compact('RequiredData','categoryId','mediaData','relatedData','favoriteData','url'));
     }

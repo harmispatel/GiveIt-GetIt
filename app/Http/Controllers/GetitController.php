@@ -69,10 +69,7 @@ class GetitController extends Controller
         $mediaData = Media::get();
         $RequiredData = Requirement::find($id);
         $cat_id = $RequiredData->category_id;
-        // $RequirementData = Requirement::all();
         $relatedData = Requirement::with(['categories','media'])->where('category_id',$cat_id)->limit(3)->get();
-        // echo "<pre>"; print_r($relatedData->toArray());exit;
-        // dd($relatedData);
         return view('fronted.getitview',compact('RequiredData','categoryId','mediaData','relatedData','url'));
     }
 
