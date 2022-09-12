@@ -58,16 +58,16 @@ Route::group(['middleware' => ['guest']], function () {
 
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::view('/admin/dashboard','welcome');
+    // Route::view('/admin/dashboard','welcome');
     
     Route::view('/admin/dashboard','welcome')->name('admin/dashboard');
 
     // Logout Route
-<<<<<<< HEAD
+
     
     // Route::post("/logout", [loginController::class,'logout'])->name('logout')->middleware('auth');
-=======
->>>>>>> 8e55be179316f45480ba04c929c483383118f328
+
+
     Route::post('/admin/logout', [loginController::class,'logout'])->name('logout');
     Route::get('/admin/logout', [loginController::class,'log']);
 
@@ -79,11 +79,10 @@ Route::group(['middleware' => ['auth']], function () {
     
     // Filter Route
     Route::post('/filter',[RequirementController::class,'changeStatus']);
-<<<<<<< HEAD
 
-=======
+
     
->>>>>>> 8e55be179316f45480ba04c929c483383118f328
+
     // Profile Route
     Route::resource('/adminProfile', AdminProfileController::class);
 });
