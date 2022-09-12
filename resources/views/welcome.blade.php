@@ -89,7 +89,5 @@
     </section>
   </div>
   <!-- End Content -->
-        {{-- <button type="button" class="btn btn-danger">Logout</button> --}}
-   
 
 @endsection

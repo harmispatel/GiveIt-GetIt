@@ -37,11 +37,8 @@ class Requirement extends Model
         return $this->hasOne(Category::class, 'id', 'category_id');    
     }
 
-
     public function medias(){
         return $this->hasOne(Media::class, 'id','media_id');
     }
 
-
-    
    }

@@ -56,20 +56,13 @@
                                         @endif
                                 </div>
 
-                                {{-- <div class="form-group">
-                                    <input type="text" name="address" class="form-control"  placeholder="Enter address">
-                                        @if ($errors->has('address'))
-                                            <p class="alert alert-danger">{{$errors->first('address')}}</p>                                    
-                                        @endif
-                                </div> --}}
-
                                 <div class="form-group">
                                 <label for="user_type">user_type</label>
                                     <select class="form-control form-control-md" name="user_type" value="{{old('user_type')}}">
                                         <option value="#">Select User</option>
                                         <option value="1">Admin</option>
                                         <option value="0">User</option>   
-                                        {{-- <option value="3">Admin</option>    --}}
+                                        
                                     </select>
                                     @if ($errors->has('user_type'))
                                         <p class="alert alert-danger">{{$errors->first('user_type')}}</p>                                    
@@ -103,10 +96,7 @@
 
                                 </form>
                                 <hr>                            
-                                {{-- <div>
-                                <p>You Don't Have An Account ? <a href="registration">Register Now</a></p>
-                                </div>
-                        </div> --}}
+                                
                     </div>
                 </div>
             </div>

@@ -63,7 +63,7 @@
                                                 <th>Person</th>
                                                 <th>Type</th>
                                                 <th>Status</th>
-                                                {{-- <th>Is Active?</th> --}}
+                                                
                                                 <th colspan="2" class="text-right">Actions</th>
                                             </tr>
                                         </thead>
@@ -76,7 +76,6 @@
                                                         <img src="{{ $requirement->media == null ? asset('/img/requirement/Noimage.jpg') : asset($requirement->media['path']) }}" alt="Image" width="100">
                                                     </td>
                                                     <td>{{$requirement->category->name}}</td>
-                                                    {{-- <td>{!!html_entity_decode($requirement->requirements)!!}</td> --}}
                                                     <td>{{ $requirement['quantity'] }}</td>
                                                     <td>
                                                         <span class="{{ $requirement['type'] == 2 ? 'badge badge-danger' : 'badge badge-success' }}">
@@ -89,11 +88,7 @@
                                                                     {{ $requirement['status'] == 1 ? 'Pending' : 'Completed' }}
                                                         </span>
                                                     </td>
-                                                    {{-- <td>
-                                                        <span class="{{ $requirement['is_active'] == 1 ? 'badge badge-success' : 'badge badge-danger' }}">       
-                                                                    {{ $requirement['is_active'] == 1 ? 'Active' : 'In Active' }}
-                                                        </span>
-                                                    </td> --}}
+                                                   
                                                     <td class="text-right">
                                                         <a href="{{ route('requirement.edit', $requirement->id) }}" class="mr-2" title="Edit"><i class="fas fa-edit"></i></a>
                                                         <i class="fa fa-trash text-danger deleteBtn" data-toggle="modal" style="cursor: pointer;" data-target="#exampleModal" data-target-id="{{route('requirement.destroy',$requirement->id)}}" title="Delete"></i>
@@ -234,13 +229,3 @@
     </html>        
 @endsection
         
-
-
-  
-
-
-
-
-
-
-

@@ -16,6 +16,13 @@
 
       <div class="content-wrapper">
         <section class="content">
+          {{-- Alert message --}}
+          @if (session()->has('mistake'))
+            <div class="alert alert-success">
+                {{ session()->get('mistake') }}
+            </div>
+          @endif
+          {{--  --}}
           <div class="container-fluid">
             <div class="row">
               <div class="col">
@@ -61,14 +68,6 @@
 
                         {{-- Giveit: Subtype  --}}
 
-                        {{-- Add Donation --}}
-                        {{-- <div id="Adddonation" style="display: none">
-                          <input type="text" class="form-control" name="Adddonation" placeholder="Add Donation" value="{{$editRequirementData->subtype}}">                  
-                            @if ($errors->has('Adddonation'))
-                              <span class="text-danger">{{ $errors->first('Adddonation') }}</span>
-                            @endif
-                        </div> --}}
-
                         {{-- Add Sell Price --}}
                         <div id="addSellPrice" style="display: none">
                           <input type="text" class="form-control" name="addSellPrice" placeholder="Enter Sell Price" value="{{$editRequirementData->price}}">                  
@@ -104,7 +103,7 @@
 
                         {{-- Media --}}
                         <div class="form-group">
-                          <label for="media">Media</label>
+                          <label for="media">Image</label>
                           <input type="file" name="media" class="form-control" onchange="validateTypeAndSize(this)" value="{{$editRequirementData->media_id}}">
                             <img src="{{ $editRequirementData->media == null ? asset('/img/requirement/Noimage.jpg') : asset($editRequirementData->media['path']) }}" alt="Image" width="100">
                             <p><span id="spnMessage" class="error text-danger" style="display: none;"></span></p>
@@ -138,6 +137,9 @@
                           <textarea class="ckeditor form-control" name="requirement" id="exampleFormControlTextarea4" rows="3" placeholder="Enter Requirement" value="{{old('requirement')}}">
                             {{$editRequirementData->requirements}}
                           </textarea>
+                          @if ($errors->has('requirement'))
+                              <p class="alert alert-danger">{{$errors->first('requirement')}}</p>                                    
+                          @endif
                         </div>
                         
                         {{-- Person --}}
@@ -162,13 +164,13 @@
                         </div><br><br>
 
                         {{-- Is Active? --}}
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                           <label for="is_active">Is Active</label>
                             <select name="is_active" id="is_active" class="form-control">
                               <option value="2" {{ $editRequirementData->is_active == 2 ? 'selected' : '' }}>Active</option>
                               <option value="1" {{ $editRequirementData->is_active == 1 ? 'selected' : '' }}>In Active</option>
                             </select>
-                        </div>
+                        </div> --}}
       
                         <button type="submit" name="submit" class="btn btn-primary">  Update </button>
                         <a class="btn btn-dark" href="{{route('requirement.index')}}"> Back </a>
@@ -238,14 +240,6 @@
         function GiveItType(){
               var selectVal = $('#giveItType').val();
               
-
-              // Donation show and hide
-              // if (selectVal == 1) {
-              //   $('#Adddonation').show().css('margin-bottom',10);
-              // }else{
-              //   $('#Adddonation').hide();
-              // }
-
               // sell Price show and hide
               if (selectVal == 2) {
                 $('#addSellPrice').show().css('margin-bottom',10);
@@ -276,8 +270,6 @@
 
               }
         }
-
-
 
         // Validation
         function validateTypeAndSize(uploadCtrl) 
@@ -323,12 +315,6 @@
                       type: {
                           required: true,
                       },
-                      // media: {
-                      //     // required: true,
-                      //     accept: "jpg|jpeg|png|gif|svg",
-                      //     filesize: 1048576
-                      // }, 
-
 
                   },
                   messages: {

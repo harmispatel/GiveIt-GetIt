@@ -131,14 +131,8 @@
         </div>
     </section>
 </div>
-    {{-- <script src="https://unpkg.com/bootstrap-show-password@1.2.1/dist/bootstrap-show-password.min.js"></script>
-    <script type="text/javascript">
-      $("#password").password('toggle');
-    </script> --}}
-
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    {{-- <script async src="https://docs.opencv.org/master/opencv.js" type="text/javascript"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
      <script>
         $(document).readty(function(){

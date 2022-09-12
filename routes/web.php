@@ -55,7 +55,7 @@ Route::group(['middleware' => ['guest']], function () {
 
 Route::group(['middleware' => ['auth']], function () {
     
-    Route::view('/admin/dashboard','welcome');
+    Route::view('/admin/dashboard','welcome')->name('admin/dashboard');
 
     // Logout Route
     Route::post('/admin/logout', [loginController::class,'logout'])->name('logout');

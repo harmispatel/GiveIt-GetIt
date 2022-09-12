@@ -82,7 +82,6 @@ class AdminProfileController extends Controller
                 
                 $changePassword = User::Find($id);
                 $changePassword->password = Hash::make($request->password);
-                // dd($changePassword->password);
                 $changePassword->save();
     
                 return view('welcome')->with('message','Change Password successfully!');
@@ -91,8 +90,6 @@ class AdminProfileController extends Controller
             }
         }else{
             
-            // if ($request->has('username')) {
-                
                 $userModel = User::find($id);
                 $userModel->name = $request->username;
                 $userModel->email = $request->email;
@@ -101,7 +98,7 @@ class AdminProfileController extends Controller
                 $userModel->save();
         
                 return redirect()->route('adminProfile.index')->with('message','Profile Updated successfully!');
-            // }
+           
         }
 
         

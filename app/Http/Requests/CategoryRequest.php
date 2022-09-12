@@ -25,7 +25,6 @@ class CategoryRequest extends FormRequest
     {
         return [
             'categoryName' => 'required',
-            // 'name' => 'required',
             'status' => 'required'
         ];
     }

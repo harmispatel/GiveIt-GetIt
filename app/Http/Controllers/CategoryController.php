@@ -54,7 +54,6 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         // Add new Category
-       
         try{
             $catName = count(Category::where('name',$request->categoryName)->get());
 
@@ -161,15 +160,6 @@ class CategoryController extends Controller
         }
 
         return redirect()->route('category.index')->with('message','Category deleted successfully!');
-        
-        
-        // $query = Category::query()->find($id);
-        // $category = $query->with('requirement',function($q){
-        //     $q->where('category_id','id');
-        // })->get();
-        
-        // $delete = Category::find($id)->delete();
-        // return redirect()->route('category.index')->with('message','Category deleted successfully!');
 
     }
     
@@ -194,7 +184,6 @@ class CategoryController extends Controller
 
             return back()->with('mistake','An error occurred while you are trying to delete Category.! Please try again.');
         }
-
         return redirect()->route('category.index')->with('message','Category deleted successfully!');
         
     }

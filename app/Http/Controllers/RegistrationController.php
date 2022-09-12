@@ -36,6 +36,6 @@ class RegistrationController extends Controller
             $insertData->status = $request->status;
             
             $insertData->save();
-            return redirect('/login');     
+            return redirect()->route('adminlogin');     
     }
 }
