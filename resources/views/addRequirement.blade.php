@@ -43,14 +43,6 @@
 
                       {{-- Giveit: Subtype  --}}
 
-                      {{-- Add Donation --}}
-                      {{-- <div id="Adddonation" style="display: none">
-                        <input type="text" class="form-control" name="Adddonation" placeholder="Add Donation">                  
-                          @if ($errors->has('Adddonation'))
-                            <span class="text-danger">{{ $errors->first('Adddonation') }}</span>
-                          @endif
-                      </div> --}}
-
                       {{-- Add Sell Price --}}
                       <div id="addSellPrice" style="display: none">
                         <input type="text" class="form-control" name="addSellPrice" placeholder="Enter Sell Price">                  
@@ -95,7 +87,7 @@
 
                       {{-- Media --}}
                       <div class="form-group">
-                        <label for="media">Media</label>
+                        <label for="media">Image</label>
                         <input type="file" name="media" class="form-control" onchange="validateTypeAndSize(this)" value="{{old('media')}}">
                         <p><span id="spnMessage" class="error text-danger" style="display: none;"></span></p>  
                         @if ($errors->has('media'))
@@ -140,27 +132,6 @@
                             @endif
                       </div>  
 
-                      {{-- Status --}}
-                        {{-- <div class="form-group"><b> Status : </b>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="status" id="inlineRadio1" value="2">
-                              <label class="form-check-label" for="inlineRadio1">Completed</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="status" id="inlineRadio2" value="1">
-                              <label class="form-check-label" for="inlineRadio2">Pending</label>
-                          </div>
-                        </div> --}}
-
-                      {{-- Is Active? --}}
-                      {{-- <div class="form-group">
-                        <label for="is_active">Is Active</label>
-                          <select name="is_active" id="status" class="form-control">
-                            <option value="2">Active</option>
-                            <option value="1">Inactive</option>
-                          </select>
-                      </div> --}}
-                              
                       <button type="submit" class="btn btn-primary">  Add </button>
                       <a class="btn btn-dark" href="{{route('requirement.index')}}"> Back </a>
                     </form>
@@ -185,7 +156,6 @@
             // Open Other Category Input Field
             function OtherData() {
                 var selectVal = $('#category').val();
-                // alert(selectVal);
                 if (selectVal == 0) {
                   $("#Addcatgory").show().css('margin-bottom',10);
                 } else {
@@ -196,12 +166,10 @@
             // User Type
             function UserType(){
               var selectVal = $('#type').val();
-              // alert(selectVal);
               if (selectVal == 1) {
                 $("#giveType").show().css('margin-bottom',10);     
               }else{
                 $("#giveType").hide(); 
-                // $('#Adddonation').hide();  
                 $('#addSellPrice').hide();
                 $('#addRentPrice').hide();
                 $('#addRentDate').hide(); 
@@ -220,7 +188,6 @@
             // Giveit Sub Type
             function GiveItType(){
               var selectVal = $('#giveItType').val();
-              // alert(selectVal);
 
               // Donation show and hide
               if (selectVal == 1) {
@@ -249,7 +216,6 @@
             // Getit Sub Type
             function GetItType(){
               var selectVal = $('#getItType').val();
-              // alert(selectVal);
 
               // Buy show and hide
               if (selectVal == 5) {
@@ -306,12 +272,6 @@
                       type: {
                           required: true,
                       },
-                      // media: {
-                      //     // required: true,
-                      //     accept: "jpg|jpeg|png|gif|svg",
-                      //     filesize: 1048576
-                      // }, 
-
 
                   },
                   messages: {

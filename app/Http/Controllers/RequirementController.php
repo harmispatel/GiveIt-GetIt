@@ -25,7 +25,6 @@ class RequirementController extends Controller
     {
         // Show Requirement List
         try{
-
             $requirementsData = Requirement::all();
             $categoryName = Category::with(['category']);
 
@@ -72,25 +71,28 @@ class RequirementController extends Controller
             'requirement' => 'required',
             'quantity' => 'required | numeric | min:1',
             'type' => 'required',
+            
         ]);
-
+        
         try{
             // Insert new Requirement 
             $cat_name = $request->Addcategory;
+
             $user = auth()->User();
             $user_id = $user['id'];
             $user_type = $user['user_type'];
             $userData = User::get();
+            
     
             // Insert Image
             $mediaObj = new Media();
             if ($request->has('media')) {
-                
                 $file = $request->media;
                 $originalName = $file->getClientOriginalName();
                 $image_mimetype = $file->getClientMimeType();
                 $image_name = time().'_'.$originalName;
                 $image_path = public_path(). Requirement::FILE_PATH;
+                
                 $request->media->move($image_path,$image_name);
                 
                 $mediaObj->name = $image_name;
@@ -99,11 +101,12 @@ class RequirementController extends Controller
                 $mediaObj->mime_type = $image_mimetype;
                 
                 $mediaObj->save();
-                    
+                
             } 
-           
+            
+            
             $requirementObj = new Requirement();
-    
+            
             // Add new Category and Stored in Categories table
             if ($request->category_id == 0) {
     
@@ -124,40 +127,51 @@ class RequirementController extends Controller
                 // Add category_id if already exist category
                 $requirementObj->category_id = $request->category_id;
             }
-    
-    
+            
+            
             $requirementObj->requirements = $request->requirement;
             $requirementObj->quantity = $request->quantity;
             $requirementObj->user_id = $user_id;
             $requirementObj->media_id = $mediaObj->id;
             $requirementObj->status = 1;
-            // $requirementObj->is_active = $request->is_active;
-    
+            
             // type: Giveit, Getit
             $requirementObj->type = $request->type;
-          
-            // subtype: giveItType, getItType
-            if ($request->type = 1) {
-    
+            
+            
+            if($request->type == 1) {
+
+                // subtype: giveItType
                 $requirementObj->subtype = $request->giveItType;
+
+                // giveItType: price & rent_date
+                if ($request->giveItType == 1) {
+                    $requirementObj->price =  NULL;
+                    $requirementObj->rent_date =  NULL;
+                }elseif($request->giveItType == 2) { 
+                    $requirementObj->price = isset($request->addSellPrice) ? $request->addSellPrice : NULL;
+                    $requirementObj->rent_date =  NULL;
+                }elseif ($request->giveItType == 3){
+                    $requirementObj->price = isset($request->addRentPrice) ? $request->addRentPrice : NULL;
+                    $requirementObj->rent_date = $request->addRentDate;
+                }
+
             }else{
-                
+
+                // subtype: getItType
                 $requirementObj->subtype = $request->getItType;
-            }
-    
-            // price:  
-            if ($request->giveItType == 2) {
-                $requirementObj->price = isset($request->addSellPrice) ? $request->addSellPrice : NULL;
-                $requirementObj->rent_date =  NULL;
-            }elseif ($request->giveItType == 3){
-                $requirementObj->price = isset($request->addRentPrice) ? $request->addRentPrice : NULL;
-                $requirementObj->rent_date = $request->addRentDate;
-            }else{
-                $requirementObj->price = isset($request->price) ? $request->price : NULL;
-            }
-    
-            if ($request->getItType == 5) {
-                $requirementObj->subtype = isset($request->getItType) ? $request->getItType : NULL;
+
+                // getItType: price & rent_date
+                if($request->getItType == 4){
+                    
+                    $requirementObj->price = NULL;
+                    $requirementObj->rent_date = NULL;
+                }else{
+
+                    $requirementObj->price = isset($request->price) ? $request->getItType : NULL;
+                    $requirementObj->rent_date =  NULL;
+                }
+
             }
     
             $requirementObj->save();
@@ -211,27 +225,24 @@ class RequirementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(EditRequirementRequest $request, $id)
-    {
-           
-        try{
 
-            $cat_name = $request->Addcategory;
-            $categoryname =Category::where('name',$cat_name)->exists();
-            $requirementObj = new Requirement();
-            
-            // Save Update Requirement
-            $user = auth()->User();
-            $user_id = $user['id'];
-            $user_type = $user['user_type'];
-            $category = $request->requirementCategory;  
-            
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'media' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'requirementCategory' => 'required',
+            'requirement' => 'required',
+            'quantity' => 'required | numeric | min:1',
+            'type' => 'required',
+            'status' => 'required',
+        ]);
+
+        try{
             $editRequirement = Requirement::find($id);
-            
-            // Update Image
-            $mediaObj = new Media();        
+            $media = Requirement::find($id)->medias;
+            $mediaObj = new Media();
+        
             if ($request->has('media')) {
-                
                 // Save Image If exist 
                 $file = $request->media;
                 $originalName = $file->getClientOriginalName();
@@ -240,6 +251,7 @@ class RequirementController extends Controller
                 $image_path = public_path(). Requirement::FILE_PATH;
                 $request->media->move($image_path,$image_name);
                 
+
                 $mediaObj->name = $image_name;
                 $mediaObj->path = Requirement::FILE_PATH . $image_name;
                 $mediaObj->original_name = $originalName;
@@ -248,8 +260,8 @@ class RequirementController extends Controller
                 $mediaObj->save();
                 $editRequirement->media_id = $mediaObj->id;
             } else {
-                 // Update Image
-                $mediaObj = new Media();        
+                // Update Image
+                
                 if ($request->has('media')) {
                     
                     // Save Image If exist 
@@ -270,61 +282,69 @@ class RequirementController extends Controller
                 }
             }
 
-            // Update new Category and Stored in Categories table
-            if ($request->requirementCategory == 0) 
+            $categoryAdd = new Category();
+
+            // New Category
+            if($request->requirementCategory == 0) 
             {
-                
-                $request->validate([
-                    'Addcategory' => 'required|unique:categories,name'
-                ]);
-    
-                $categoryAdd = new Category();
-                $categoryAdd->name = isset($cat_name) ?  $cat_name : '';
-                $categoryAdd->status = 1;
-                $categoryAdd->save();
-                
-                // Add category_id if new category
-                $requirementObj->category_id  = $categoryAdd->id;  
+                $cat_name = $request->Addcategory;
+                $categoryname = Category::where('name',$cat_name)->get()->count();
 
-            }else {
-                // Add category_id if already exist category
-                $requirementObj->category_id = $request->category_id;
+                if ($categoryname > 0) {
+                    //If Category is already exist
+                    return redirect()->route('requirement.index')->with('message','This Category has been created before so you could not add again');
+                }else{
+                    // Add Category
+                    $categoryAdd = new Category();
+                    $categoryAdd->name = $cat_name;
+                    $categoryAdd->status = 1;
+                    $categoryAdd->save();
+                }
+            }else{
+
+                // Update Category
+                $editRequirement->category_id = $request->requirementCategory;
             }
-
+            
+            // Save Update Requirement
+            $user = auth()->User();
+            $user_id = $user['id'];
+            $user_type = $user['user_type'];
+            $category = $request->requirementCategory;  
+            
             $editRequirement->requirements = $request->requirement;
             $editRequirement->quantity = $request->quantity;
             $editRequirement->status = $request->status;
             
             // type: Giveit, Getit
             $editRequirement->type = $request->type;
-
-            // subtype: giveItType, getItType
-            if ($request->type = 1) {
-                
+        
+             // subtype: giveItType, getItType
+            if ($request->type == 1) {
+                // price && rent
                 $editRequirement->subtype = $request->giveItType;
+                if($request->giveItType == 1){
+                    $editRequirement->price =  NULL;
+                    $editRequirement->rent_date =  NULL;
+                }
+                elseif($request->giveItType == 2) {
+                    $editRequirement->price = isset($request->addSellPrice) ? $request->addSellPrice : NULL;
+                    $editRequirement->rent_date =  NULL;
+                }elseif($request->giveItType == 3){
+                    $editRequirement->price = isset($request->addRentPrice) ? $request->addRentPrice : NULL;
+                    $editRequirement->rent_date = $request->addRentDate;
+                }
             }else{
-                
                 $editRequirement->subtype = $request->getItType;
-            }
 
-            // price:
-            if($request->giveItType == 1){
-                $editRequirement->price =  NULL;
-                $editRequirement->rent_date =  NULL;
+                if($request->getItType == 4){
+                    $editRequirement->price =  NULL;
+                    $editRequirement->rent_date =  NULL;
+                }else{
+                    $editRequirement->price = isset($request->price) ? $request->price : NULL;
+                    $editRequirement->rent_date =  NULL;
+                }
             }
-            elseif($request->giveItType == 2) {
-                $editRequirement->price = isset($request->addSellPrice) ? $request->addSellPrice : NULL;
-                $editRequirement->rent_date =  NULL;
-            }elseif ($request->giveItType == 3){
-                $editRequirement->price = isset($request->addRentPrice) ? $request->addRentPrice : NULL;
-                $editRequirement->rent_date = $request->addRentDate;
-            }elseif($request->getItType == 5){
-                $editRequirement->subtype = isset($request->getItType) ? $request->getItType : NULL;
-            }else{
-                $editRequirement->price = isset($request->price) ? $request->price : NULL;
-            }
-
-
             $editRequirement->save();
 
         }catch(Exception $e){
@@ -332,9 +352,8 @@ class RequirementController extends Controller
             return back()->with('mistake','An error occurred while you are trying to update Requirements.! Please try again.');
         }
 
-            return redirect()->route('requirement.index')->with('message','Requirement updated successfully!');
+        return redirect()->route('requirement.index')->with('message','Requirement updated successfully!');
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -366,6 +385,7 @@ class RequirementController extends Controller
         // Ajax request for filter
         $requirementStatus = $request->filterStatus;
         $requirementSearch = $request->filterSearch;
+        
 
         // Get Requirement Table
         $requirement = Requirement::query();
@@ -377,7 +397,7 @@ class RequirementController extends Controller
         $requirement = $requirement->when(!empty($requirementStatus), function() use($requirement,$requirementStatus) {
             $requirement->where('status',$requirementStatus);
         });
-
+        
         // Filter Search
         $requirement = $requirement->when(!empty($requirementSearch), function() use($requirement,$requirementSearch) {
 
@@ -387,7 +407,7 @@ class RequirementController extends Controller
             })->orWhere('quantity', 'LIKE',"%".$requirementSearch."%");
                                                                                     
         })->get();
-         
+        
         // JSON Response
         return response()->json([
                     'requirements' => $requirement

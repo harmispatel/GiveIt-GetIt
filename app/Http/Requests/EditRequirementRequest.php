@@ -30,7 +30,7 @@ class EditRequirementRequest extends FormRequest
             'quantity' => 'required | numeric | min:1',
             'type' => 'required',
             'status' => 'required',
-            'is_active' => 'required',
+            // 'is_active' => 'required',
         ];
     }
 }

@@ -28,7 +28,7 @@ class ProfileValidation extends FormRequest
             'username' => 'required',
             'number'  =>'required|digits:10 ',
             'address' =>'required',
-            // 'password' => 'required|min:6',
+            'password' => 'required|min:6',
         ];
     }
 }

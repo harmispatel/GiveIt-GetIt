@@ -28,9 +28,7 @@
                                     <div class="form-group">
                                     <label for="username">name</label>
                                         <input type="text" name="username" class="form-control"  placeholder="Enter name" value="{{ auth()->user()->name }}">
-                                        {{-- @if(auth()->user()->name)
-                                            {{ auth()->user()->name }}
-                                        @endif  --}}
+                                       
                                             @if ($errors->has('username'))
                                                 <p class="alert alert-danger">{{$errors->first('username')}}</p>                                    
                                             @endif
@@ -57,8 +55,6 @@
                                         <textarea class="form-control" name="address" id="exampleFormControlTextarea4" rows="3" placeholder="Enter Address" >{{ auth()->user()->address }}</textarea>
                                     </div>
                                     <hr>
-
-                                    
 
                                     <button type="submit" class="btn btn-primary">Update</button>
                                     <a class="btn btn-primary changePwd text-white" >Update Password</a>
@@ -110,7 +106,3 @@
             });
         });
     </script>
-
-
-
-  {{-- <a class="btn btn-primary changePwd" href="{{route('adminProfile.create')}}">Change Password</a>  --}}

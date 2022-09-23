@@ -33,14 +33,11 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
 
             $value = $request->session()->put('admin',Auth::user()->name);
-            // $userCount = count(User::where('user_type','0')->get());
-            // return view('welcome',compact('userCount'));
-            // return redirect('/admin/dashboard');
             return view('welcome');
 
         }else{
             // return redirect('login');
-            return redirect()->route('loginform');
+            return redirect()->route('loginform')->with('message','Please enter valid Username and Password');
         }
 
     }

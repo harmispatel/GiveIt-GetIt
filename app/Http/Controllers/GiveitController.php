@@ -123,12 +123,6 @@ class GiveitController extends Controller
         $requirement = $requirement->where('type', 1)->with(['media','user']);
         $requirement = $requirement->orderBy('created_at', $filterSortby);
         // $total += $requirement->orderBy('created_at', $filterSortby)->count();
-        $requirement = $requirement->when(!empty($filterSearch), function ($query) use ($requirement, $filterSearch, $total) {
-            $query->where('requirements', 'LIKE', "%".$filterSearch."%");
-    });
-     $total +=  $requirement->when(!empty($filterSearch), function ($query) use ($requirement, $filterSearch, $total) {
-            $query->where('requirements', 'LIKE', "%".$filterSearch."%");
-    })->count();
         $requirement = $requirement->limit($request['limit'])
         ->offset($request['start'])
         ->get();

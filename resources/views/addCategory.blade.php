@@ -19,7 +19,7 @@
                             @csrf
                             
                               <div class="form-group">
-                                <label for="categoryName">CategoryName</label>
+                                <label for="categoryName">Category Name</label>
                                 <input type="text" name="categoryName" class="form-control"  placeholder="Add category name" value="{{old('categoryName')}}">
                                   @if ($errors->has('categoryName'))
                                     <p class="alert alert-danger">{{$errors->first('categoryName')}}</p>                                    
@@ -37,21 +37,11 @@
                                 </div> 
                               </div>
 
-                              {{-- <div class="form-group">
-                                <input type="text" name="categoryStatus" class="form-control" placeholder=" Add status" value="{{old('categoryStatus')}}">
-                                @if ($errors->has('status'))
-                                  <p class="alert alert-danger">{{$errors->first('status')}}</p>                                    
-                                @endif
-                              </div> --}}
-                            
                               <button type="submit" name="submit" class="btn btn-primary">  Add </button>
                               <a class="btn btn-dark" href="{{route('category.index')}}"> Back </a>
                             </form>
                             <hr>                            
-                            {{-- <div>
-                              <p>You Don't Have An Account ? <a href="registration">Register Now</a></p>
-                            </div>
-                    </div> --}}
+                           
                   </div>
             </div>
         </div>

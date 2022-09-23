@@ -48,35 +48,16 @@
                               @if ($errors->has('address'))
                                   <p class="alert alert-danger">{{$errors->first('address')}}</p>                                    
                               @endif
-                      </div>
-                        {{-- <div class="form-group">
-                            <input type="text" name="address" class="form-control" id="exampleInputAddress" placeholder="Enter address" value="{{$edituser->address}}">
-                        </div> --}}
-
-                        {{-- <div class="form-group">
-                            <input type="text" name="user_type" class="form-control" id="exampleInputUser_type" placeholder="Enter user_type" value="{{$edituser->user_type == 1 ? 'Trust' : 'Donor'}}">
-                                @if ($errors->has('user_type'))
-                                    <p class="alert alert-danger">{{$errors->first('user_type')}}</p>                                    
-                                @endif
-                        </div> --}}
-
-
-                          {{-- <div class="form-group">
-                            <input type="text" name="status" class="form-control" id="exampleInputStatus" placeholder="Status" value="{{$edituser->status == 1 ? 'Active' : 'In Active'}}">
-                                @if ($errors->has('status'))
-                                    <p class="alert alert-danger">{{$errors->first('status')}}</p>                                    
-                                @endif
-                          </div> --}}
+                        </div>
           
-                          <div class="form-group">
-                          <label for="user_type ">user_type</label>
+                        <div class="form-group">
+                          <label for="user_type ">user type</label>
                             <select class="form-control form-control-md" name="user_type" >
                               <option value="#">Select Role</option>
                               <option value="1" {{ $edituser->user_type == 1 ? 'selected' : '' }}>Admin</option>
                               <option value="0" {{ $edituser->user_type == 0 ? 'selected' : '' }}>User</option>
-                              {{-- <option value="3" {{ $edituser->user_type == 3 ? 'selected' : '' }}>Admin</option> --}}
                             </select>
-                          </div>
+                        </div>
 
                           <div class="form-check form-check-inline"><b> Status: </b>
                             <input class="form-check-input" type="radio" name="status" id="inlineRadio1" value="1" {{ $edituser->status == '1' ? 'checked' : ''}}>

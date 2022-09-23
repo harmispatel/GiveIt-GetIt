@@ -25,7 +25,6 @@ class AdminForgotPasswordController extends Controller
     }
 
    public function submitForm(Request $request){
-        // dd('hello');
         $request->validate([
             'email' => 'required|email|exists:users',
         ]);

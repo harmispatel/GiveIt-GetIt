@@ -52,7 +52,7 @@
                                         <h3 class="card-title">Categories</h3>
                                         
                                     </div>
-                                    <!-- /.card-header -->
+                                    <!-- card-header -->
                                     <div class="card-body">
                                         <form action="{{url('multipleCategoryDelete')}}" method="POST">
                                             @csrf
@@ -144,7 +144,6 @@
                     $('.deleteBtn').click(function() {
                         var url = $(this).attr("data-target-id")
                         $("#deleteForm").attr('action', url);
-                        // alert(url);
                     });
                 });
             </script>
