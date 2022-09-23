@@ -19,6 +19,20 @@ use DB;
 
 class RegisterController extends Controller
 {
+
+
+  
+    public function index()
+    {
+
+        return view('fronted.favorite');
+    }
+    public function about()
+    {
+
+        return view('fronted.about');
+    }
+
     // Open Register page User
 
     public function show()
@@ -61,8 +75,7 @@ class RegisterController extends Controller
         public function verifyAccount($token)
         {
             $verifyEmail = DB::table('users')
-        ->where([
-          'email_token' => $token
+        ->where([ 'email_token' => $token
           ])->first();
             if ($verifyEmail->email_token != "") {
                 DB::table('Users')->where('email_token', $token)
@@ -70,9 +83,6 @@ class RegisterController extends Controller
                              'email_token' => null
         ]);
             }
-
-
-
             return redirect()->route('login')->with('msg', 'Email verifiy successfully');
         }
 }

@@ -3,23 +3,16 @@
 @section('title', 'Give It & Get It - Login Form')
 
 @section('content')
+    {!! RecaptchaV3::initJs() !!}
 
     <body>
-        @if (session()->has('mistake'))
-            <div class="alert alert-warning mistake ">
-                {{ session()->get('mistake') }}
-            </div>
-        @endif
+
         @if (session()->has('msg'))
             <div class="alert alert-success msg reg">
                 {{ session()->get('msg') }}
             </div>
         @endif
-        @if (session()->has('logout'))
-            <div class="alert alert-warning logout">
-                {{ session()->get('logout') }}
-            </div>
-        @endif
+
         @if (session()->has('message'))
             <div class="alert alert-success message">
                 {{ session()->get('message') }}
@@ -101,9 +94,10 @@
                                             <p style="color:red">{{ $errors->first('password_confirmation') }}</p>
                                         @endif
                                     </div>
+
                                     <div class="form-group{{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
                                         <div class="col-md-6">
-                                            {!! RecaptchaV3::field('register') !!}
+                                            {!! RecaptchaV3::field('login') !!}
                                             @if ($errors->has('g-recaptcha-response'))
                                                 <span class="help-block">
                                                     <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
@@ -127,6 +121,16 @@
                     </div>
                     <div class="col-md-6">
                         <div class="donate-form">
+                            @if (session()->has('mistake'))
+                                <div class="alert alert-warning mistake ">
+                                    {{ session()->get('mistake') }}
+                                </div>
+                            @endif
+                            @if (session()->has('logout'))
+                                <div class="alert alert-warning logout">
+                                    {{ session()->get('logout') }}
+                                </div>
+                            @endif
                             <div class="form-title text-center">
                                 <h3>Login</h3>
                             </div>
@@ -169,7 +173,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
         <div id="loader" style="display: block; background: rgb(255, 254, 254);">
             <div id="square">
@@ -190,14 +193,7 @@
     </html>
 @endsection
 @section('js')
-{!! RecaptchaV3::initJs() !!}
-<script src="https://www.google.com/recaptcha/api.js?&render=explicit" async defer></script>
-<script type="text/javascript">
-// function onloadCallback() {
-//     $('.g-recaptcha').each(function(index, el) {
-//         widgetId = grecaptcha.render(el, {'sitekey' : 'My-SITE-KEY'});
-//     });
-// }
+    <script type="text/javascript">
         //  Password show hide 
         const togglePassword = document.querySelector("#togglePassword");
         const password = document.querySelector("#password");

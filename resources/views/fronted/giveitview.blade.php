@@ -94,7 +94,7 @@
                                                             <a href="https://wa.me/?text={{ url()->current() }}"
                                                                 role="button"><i class="fab fa-whatsapp"></i></a>
                                                             {{-- Linked in --}}
-                                                            <a href="http://linkedin.com/?url={{ url()->current() }}"
+                                                            <a href="https://linkedin.com/?url={{ url()->current() }}"
                                                                 role="button"><i class="fab fa-linkedin-in"></i></a>
                                                         </div>
                                                     </div>
@@ -120,53 +120,164 @@
                                             </button>
                                         @endauth
                                         {{-- login --}}
+
                                         @guest
-                                            <button class="btn"><a href="{{ route('userlogin') }}"
-                                                    class="far fa-heart"></a></button>
-                                        @endguest
-                                    </div>
-                                </div>
-                                {{-- Category Name --}}
-                                <p class="mb-2">Product Name : {{ $RequiredData->categories['name'] }}</p>
-                                <div class="adress-detail">
-                                    <p>address</p>
-                                    <span>Today</span>
-                                </div>
-                            </div>
-                            {{-- User Details --}}
-                            <div class="seller-detail">
-                                <h3 class="mb-2">Seller Description</h3>
-                                <a href="#" class="seller-info">
-                                    <img
-                                        src="{{ $RequiredData->media == null ? asset('/img/requirement/Noimage.jpg') : asset($RequiredData->media['path']) }}">
-                                    <div class="seller-detail-inr">
-                                        <div class="seller-name">
-                                            <h3>{{ $RequiredData->user['name'] }}</h3>
-                                            <p>{{ $RequiredData->user['created_at']->format('d/m/Y') }}</p>
+                                        <button class="btn"><a href="#" class="far fa-heart" data-bs-toggle="modal"
+                                                data-bs-target="#myModal"></a></button>
+
+                                        <div class="modal" id="myModal">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content ">
+                                                    <div class="donation-info">
+                                                        <div class="container">
+                                                            <div class="donate-form">
+                                                                @if (session()->has('mistake'))
+                                                                    <div class="alert alert-warning mistake ">
+                                                                        {{ session()->get('mistake') }}
+                                                                    </div>
+                                                                @endif
+                                                                <!-- Modal Header -->
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">Login</h4>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"></button>
+                                                                </div>
+
+                                                                <!-- Modal body -->
+                                                                <div class="modal-body">
+                                                                    <form action="{{ route('modellogin') }}" id="loginForm"
+                                                                        method="POST">
+                                                                        <input type="hidden" name="_token"
+                                                                            value="{{ csrf_token() }}">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <div class="mb-3">
+                                                                                    <label for="email"
+                                                                                        class="form-label">Your
+                                                                                        Email Address</label>
+                                                                                    <input type="email"
+                                                                                        class="form-control"
+                                                                                        id="email"
+                                                                                        value="{{ old('email') }}"
+                                                                                        name="email">
+                                                                                    @if ($errors->has('email'))
+                                                                                        <p class="alert text-danger">
+                                                                                            {{ $errors->first('email') }}
+                                                                                        </p>
+                                                                                    @endif
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12">
+                                                                                <div class="mb-3  position-relative">
+                                                                                    <label for="password"
+                                                                                        class="form-label">Your
+                                                                                        Password</label>
+                                                                                    <input type="password"
+                                                                                        class="form-control loginpassword"
+                                                                                        id="loginpassword"
+                                                                                        value="{{ old('password') }}"
+                                                                                        name="password">
+                                                                                    <i class="bi bi-eye-slash eye_ic"
+                                                                                        id="toggleloginPassword"></i>
+                                                                                    @if ($errors->has('password'))
+                                                                                        <p class="alert text-danger">
+                                                                                            {{ $errors->first('password') }}
+                                                                                        </p>
+                                                                                    @endif
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12 text-end mb-3">
+                                                                                <a
+                                                                                    href="{{ route('forget.password.get') }}">Forgot
+                                                                                    your password?</a>
+                                                                            </div>
+                                                                            <div class="col-md-12">
+                                                                                <div class="text-center">
+                                                                                    <button type="submit" name="submit"
+                                                                                        class="btn donate-bt">Submit</button>
+                                                                                </div>
+                                                                                <hr>
+                                                                            </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Modal footer -->
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                </div>
+
+                                            </div>
                                         </div>
-                                        <p><i class="fa-solid fa-angle-right"></i></p>
                                     </div>
-                                </a>
-                                <a href="tel:{{ $RequiredData->user['mobile'] }}"><button
-                                        class="btn cht-seller">Contact</button></a>
+                                @endguest
+                                </div>
                             </div>
-                            {{-- Location --}}
-                            <div class="location">
-                                <h3>Location</h3>
-                                <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.978134973966!2d72.50479681423971!3d23.024575022032625!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e9b39f04f512b%3A0x248cc33c16c3c63b!2sIskcon%20Cross%20Rd%2C%20Ramdev%20Nagar%2C%20Ahmedabad%2C%20Gujarat%20380015!5e0!3m2!1sen!2sin!4v1659350252958!5m2!1sen!2sin"
-                                    class="p-location" allowfullscreen="" loading="lazy"
-                                    referrerpolicy="no-referrer-when-downgrade"></iframe>
-                            </div>
+                            {{-- Category Name --}}
+                            <p class="mb-2">Category : {{ $RequiredData->categories['name'] }}</p>
+                        </div>
+                        {{-- User Details --}}
+                        <div class="seller-detail">
+                            <h3 class="mb-2">Seller Description</h3>
+                            <a href="#" class="seller-info">
+                                <img
+                                    src="{{ $RequiredData->media == null ? asset('/img/requirement/Noimage.jpg') : asset($RequiredData->media['path']) }}">
+                                <div class="seller-detail-inr">
+                                    <div class="seller-name">
+                                        <h3>{{ $RequiredData->user['name'] }}</h3>
+                                        <p>{{ $RequiredData->user['created_at']->format('d/m/Y') }}</p>
+                                    </div>
+                                    <p><i class="fa-solid fa-angle-right"></i></p>
+                                </div>
+                            </a>
+                            <a href="tel:{{ $RequiredData->user['mobile'] }}"><button
+                                    class="btn cht-seller">Contact</button></a>
+                        </div>
+                        {{-- Location --}}
+                        <div class="location">
+                            <h3>Location</h3>
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.978134973966!2d72.50479681423971!3d23.024575022032625!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e9b39f04f512b%3A0x248cc33c16c3c63b!2sIskcon%20Cross%20Rd%2C%20Ramdev%20Nagar%2C%20Ahmedabad%2C%20Gujarat%20380015!5e0!3m2!1sen!2sin!4v1659350252958!5m2!1sen!2sin"
+                                class="p-location" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+    </div>
+    </section>
     </div>
 @endsection
 @section('js')
     <script text type=text/javascript>
+        $(document).ready(function() {
+            $("#loginForm").validate({
+                rules: {
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: 6
+                    }
+                },
+                messages: {
+                    email: {
+                        required: "Email is Required",
+                        email: "Please enter a Specify valid email address"
+                    },
+                    password: {
+                        required: "Password is Required",
+                        minlength: "Password must be 6 length"
+                    }
+                }
+            });
+        });
         // Alert message
         var user_id = "{{ Auth::id() }}";
         $(document).ready(function() {
@@ -190,21 +301,32 @@
                                 `<i class="fas fa-heart" aria-hidden="true"></i>`);
                             $('#notifDiv').fadeIn().css('background', 'green').text(response
                                 .message);
-                        } else {
+                            } else {
                             $('button[data-requirementid=' + requirement_id + ']').html(
                                 `<i class="far fa-heart" aria-hidden="true"></i>`);
-                            $('#notifDiv').fadeIn().css('background', 'red').text(response
+                                $('#notifDiv').fadeIn().css('background', 'red').text(response
                                 .message);
+                            }
+                            setTimeout(() => {
+                                $('#notifDiv').fadeOut();
+                            }, 3000);
                         }
-                        setTimeout(() => {
-                            $('#notifDiv').fadeOut();
-                        }, 3000);
-                    }
+                    });
                 });
             });
-        });
-        // copy link 
-        function copyToClipboard(id) {
+            // copy link 
+            //  Password show hide 
+            const toggleloginPassword = document.querySelector("#toggleloginPassword");
+            const loginpassword = document.querySelector(".loginpassword");
+    
+            toggleloginPassword.addEventListener("click", function() {
+                // toggle the type attribute
+                const type = loginpassword.getAttribute("type") === "password" ? "text" : "password";
+                loginpassword.setAttribute("type", type);
+                // toggle the icon
+                this.classList.toggle("bi-eye");
+            });
+            function copyToClipboard(id) {
             document.getElementById(id).select();
             document.execCommand('copy');
         }

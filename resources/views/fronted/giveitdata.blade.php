@@ -1,9 +1,6 @@
 
 @foreach ($data as $datas)
-
-
     <div class="col-md-4">
-
         <div class="get_detalis_inr">
             <div class="get_detalis_img text-center">
                 <div class="get_img"> 

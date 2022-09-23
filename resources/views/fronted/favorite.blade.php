@@ -44,10 +44,11 @@
                                 </div>
                             </div>
                             <div class="get_detalis_info">
-                                <label>{{ $item->user['name'] }}</label>
-                                <p>Requirement: {{ $item->requirement->categories['name'] }}</p>
-                                <p>MO : {{ $item->user['mobile'] }}</p>
-                                <p>Email : <a href="mailto:{{ $item->user['email'] }}">{{ $item->user['email'] }}</a></p>
+                                {{-- <label>{{ $item->user['name'] }}</label> --}}
+                                    {{-- <p>Category: {{ $item->requirement->categories['name'] }}</p> --}}
+                                    <p>{!!html_entity_decode($item->requirement['requirements'])!!}</p>
+                                {{-- <p>MO : {{ $item->user['mobile'] }}</p>
+                                <p>Email : <a href="mailto:{{ $item->user['email'] }}">{{ $item->user['email'] }}</a></p> --}}
 
                                 <div class="d-flex">
                                     <form method="POST" action="{{ route('delete', $item['id']) }}">

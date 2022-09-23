@@ -46,7 +46,7 @@
                                     {{-- Select Type --}}
                                     <div class="form-group">
                                         <label for="RequirementType" class="form-label">Requirement Type</label>
-                                        <select class="form-control form-select type" id="Type" name="Type"
+                                        <select class="form-control form-select type" id="Type" name="Type" value="{{ old('Type') }}"
                                             onchange="OtherType()">
                                             <option value="">Select Type</option>
                                             <option value="1">Giveit</option>
@@ -61,7 +61,7 @@
                                     <div class="form-group">
                                         <div class="GiveType" style="display: none">
                                             <label for="GiveType" class="form-label">SubType</label>
-                                            <select class="form-control form-select givetype" name="givetype"
+                                            <select class="form-control form-select givetype" name="givetype" value="{{ old('givetype') }}"
                                                 onchange="OtherGivetype()">
                                                 <option value="1">Donation</option>
                                                 <option value="2">Sell</option>
@@ -73,7 +73,7 @@
                                         <div class="form-group">
                                             <div class="GetType" style="display: none">
                                                 <label for="GetType" class="form-label">SubType</label>
-                                                <select class="form-control form-select gettype" name="gettype"
+                                                <select class="form-control form-select gettype" name="gettype" value="{{ old('gettype') }}"
                                                     onchange="OtherGettype()">
                                                     <option value="4">Need</option>
                                                     <option value="5">Buy</option>
@@ -83,29 +83,40 @@
                                             {{-- Sell Price --}}
                                             <div class="price" style="display: none">
                                                 <label for="price" class="form-label">Add Price</label>
-                                                <input type="text" class="form-control" name="sellprice"
+                                                <input type="number" class="form-control" name="sellprice" value="{{ old('sellprice') }}"
                                                     placeholder="Enter Price">
                                             </div>
                                             {{-- Rent Price --}}
                                             <div class="addprice" style="display: none">
                                                 <label for="addprice" class="form-label">Add Price</label>
-                                                <input type="text" class="form-control" name="rentprice"
+                                                <input type="number" class="form-control" name="rentprice" value="{{ old('rentprice') }}"
                                                     placeholder="Enter Price">
                                             </div>
                                             {{-- Month Year --}}
+                                            @php
+                                              use Carbon\Carbon;
+                                              $today= Carbon::now()->format('Y:m');
+                                              
+                                            @endphp
                                             <div class="date" style="display: none">
-                                                <label for="addprice" class="form-label">Month/Year</label>
-                                                <input type="month" class="form-control" name="rentdate"
+                                                <label for="month" class="form-label">Month/Year</label>
+                                                <input type="month" class="form-control" name="rentdate" id="rentdate"
                                                     placeholder="Enter Month/Year" />
                                             </div>
+                                            @if ($errors->has('rentdate'))
+                                            <span class="text-danger">{{ $errors->first('rentdate') }}</span>
+                                        @endif
                                         </div>
 
 
                                         {{-- Buy Price --}}
                                         <div class="getaddprice" style="display: none">
                                             <label for="addprice" class="form-label">Add Price</label>
-                                            <input type="text" class="form-control" name="price"
+                                            <input type="number" class="form-control" name="price"
                                                 placeholder="Enter Price">
+                                                @if ($errors->has('price'))
+                                                <div style="color: red">{{ $errors->first('price') }}</div>
+                                            @endif
                                         </div>
                                     </div>
                                     {{-- Category --}}
@@ -130,6 +141,15 @@
                                             @endif
                                         </div>
                                     </div>
+                                    {{-- product_name --}}
+                                    <div class="form-group">
+                                        <label for="Person" class="form-label">Requirement Name</label>
+                                        <input type="text" name="name" id="name" class="form-control"
+                                            placeholder="Enter Requirement Name" value="{{ old('name') }}">
+                                        @if ($errors->has('name'))
+                                            <div style="color: red">{{ $errors->first('name') }}</div>
+                                        @endif
+                                    </div>
                                     {{-- Person --}}
                                     <div class="form-group">
                                         <label for="Person" class="form-label">Person</label>
@@ -145,6 +165,7 @@
                                         <input type="file" id="media" onchange="validateTypeAndSize(this)"
                                             name="media" class="form-control">
                                     </div>
+                                    
                                     <p><span id="spnMessage" class="error" style="display: none;"></span></p>
                                     @if ($errors->has('media'))
                                         <div style="color: red">{{ $errors->first('media') }}</div>
@@ -152,7 +173,7 @@
                                     {{-- Requirement --}}
 
                                     <div class="form-group">
-                                        <label for="Requirement" class="form-label">Requirement</label>
+                                        <label for="Requirement" class="form-label">Description</label>
                                         <div class="mb-3">
                                             <textarea name="requirement" id="requirement" class="ckeditor form-control" required="required" rows="3"
                                                 placeholder="Enter requirement">{{ old('requirement') }}</textarea>
@@ -190,8 +211,8 @@
 
 @section('js')
 
-<script src="http://code.jquery.com/jquery-1.11.3.js" type="text/javascript"></script>
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.3.js" type="text/javascript"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
 <script type="text/javascript">
         function OtherData() {
@@ -271,17 +292,13 @@
                 $('#imgPreview').prop('src', '');
             } else {
                 // Check and restrict the file size to 5 mb.
-                if ($(uploadCtrl).get(0).files[0].size > (500000)) {
-                    $('#spnMessage').text("Sorry!! Max allowed image size is 5mb").show();
-                    $(uploadCtrl).replaceWith($(uploadCtrl).val('').clone(true));
-                    $('#btnSubmit').prop('disabled', true);
-                } else {
+                
                     $('#spnMessage').text('').hide();
                     $('#btnSubmit').prop('disabled', false);
                     previewImage(uploadCtrl);
                 }
             }
-        }
+        
 
         $(document).ready(function() {
             $("#insertdata").validate({
@@ -292,29 +309,37 @@
                             CKEDITOR.instances.requirement.updateElement();
                         }
                     },
+                    Type: {
+                            required: true,
+                    },
                     quantity: {
                         required: true,
                         min: 1,
+                        max: 5000,
                         number: true
                     },
-                    Type: {
-                        required: true,
-                    },
+                        name: {
+                            required: true,
+                        }
+
                 },
                 messages: {
                     requirement: {
                         required: "reuirement is required"
                     },
+                    Type: {
+                            required: "Select Type is required"
+                    },
+                    name: {
+                        required: "reuirement Name is required"
+                    },
                     quantity: {
                         required: "Person is required",
                         min: "Select at least one person",
+                        max: "select at least 5000 person",
                         number: "Number is not valid"
                     },
-                    Type: {
-                        required: "Select at least one type",
-
-                    }
-                }
+                   
 
             });
         });

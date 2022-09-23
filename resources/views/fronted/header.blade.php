@@ -10,9 +10,9 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">  
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::is('welcome*') ? 'active' : '' }}" href="welcome">Home</a>
+                        <a class="nav-link {{ Request::is('welcome*') ? 'active' : '' }}" href="{{url('welcome')}}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('giveit*') ? 'active' : '' }}" href="{{route('giveit')}}">Give It</a>
@@ -21,7 +21,7 @@
                         <a class="nav-link {{ Request::is('getit*') ? 'active' : '' }}" href="{{route('getit')}}">Get It</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::is('aboutus*') ? 'active' : '' }}" href="aboutus">About</a>
+                        <a class="nav-link {{ Request::is('aboutus*') ? 'active' : '' }}" href="{{url('aboutus')}}">About</a>
                     </li>
 
                     @guest

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 // Mail
 use Mail;
+use Illuminate\Support\Facades\URL;
 
 // Admin Side
 class UserController extends Controller
@@ -133,7 +134,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function home()
+    public function home() 
     {
         // Open fronted side login page
         return view('fronted.login');
@@ -152,16 +153,40 @@ class UserController extends Controller
         $verify = User::Where('email', $request->email)
         ->WhereNotNull('email_verified_at')
         ->first();
-        
         if (!empty($verify)) {
-            if (Auth::attempt($credentials)){
+            if (Auth::attempt($credentials)) {
                 return redirect('welcome')->with('userlogin', 'login successfully');
-            } 
-            }else {
-                return redirect('login')->with('mistake', 'Please Not Verify Email');
+            } else {
+                return redirect('login')->with('mistake', 'Please check Email and Password');
             }
+        } else {
+            return redirect('login')->with('mistake', 'Please Not Verify Email');
+        }
     }
 
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\loginValidation  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function login(loginValidation $request)
+    {
+        $credentials = $request->only('email', 'password');
+        $verify = User::Where('email', $request->email)
+        ->WhereNotNull('email_verified_at')
+        ->first();
+        if (!empty($verify)) {
+            if (Auth::attempt($credentials)) {
+                return redirect()->back()->with('userlogin', 'login successfully');
+            } else {
+                return redirect()->back()->with('mistake', 'Please check Email and Password');
+            }
+        } else {
+            return redirect()->back()->with('mistake', 'Please Not Verify Email');
+        }
+    }
     /**
      * Remove the specified resource from storage.
      *

@@ -12,5 +12,5 @@
 
  <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 
-                              
+ <script src="https://www.google.com/recaptcha/api.js" async defer></script>
    @yield('js')

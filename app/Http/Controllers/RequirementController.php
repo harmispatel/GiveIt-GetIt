@@ -385,7 +385,7 @@ class RequirementController extends Controller
                 $query->where('name', 'LIKE',"%".$requirementSearch."%");
                 
             })->orWhere('quantity', 'LIKE',"%".$requirementSearch."%");
-            
+                                                                                    
         })->get();
          
         // JSON Response

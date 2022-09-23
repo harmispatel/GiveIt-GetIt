@@ -19,7 +19,7 @@ class CreateRequirementsTable extends Migration
 
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
-
+            $table->string('name')->nullable()->after('category_id');
             $table->string('requirements');
             $table->integer('quantity');
             $table->decimal('price')->nullable();

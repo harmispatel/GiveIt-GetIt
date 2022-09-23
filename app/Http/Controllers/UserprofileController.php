@@ -61,7 +61,7 @@ class UserprofileController extends Controller
 
         }
         
-        return redirect('editprofile');
+        return redirect('editprofile')->with('updatepassword','Update Profile Successfully');;
     }
 
     //  public function show(){

@@ -25,7 +25,8 @@ class EditValidation extends FormRequest
     {
         return [
             'category' => 'required',
-            'quantity' => 'required|integer|min:1',
+            'name' => 'required',
+            'quantity'  => 'required|numeric|min:1|max:5000',
             'media'  => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'requirement' => 'required'
 

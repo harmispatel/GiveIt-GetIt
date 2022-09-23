@@ -108,7 +108,7 @@
                                 <h3>Edit Requirement</h3>
                             </div>
                             <hr>
-                            <form action="{{ route('update', $RequiredData['id']) }}" id="quickForm" method="POST"
+                        <form action="{{ route('update', $RequiredData['id']) }}" id="quickForm" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="card-body">
@@ -208,6 +208,15 @@
                                             @endif
                                         </div>
                                     </div>
+                                     {{-- product_name --}}
+                                     <div class="form-group">
+                                        <label for="Person" class="form-label">Requirement Name</label>
+                                        <input type="text" name="name" id="name" class="form-control"
+                                            placeholder="Enter Requirement Name" value="{{ $RequiredData->name }}">
+                                        @if ($errors->has('name'))
+                                            <div style="color: red">{{ $errors->first('name') }}</div>
+                                        @endif
+                                    </div>
                                     {{-- Person --}}
                                     <div class="form-group">
                                         <label for="Person" class="form-label">Person</label>
@@ -232,7 +241,7 @@
                                     {{-- Requirement --}}
 
                                     <div class="form-group">
-                                        <label for="Requirement" class="form-label">Requirement</label>
+                                        <label for="Requirement" class="form-label">Description</label>
                                         <div class="mb-3">
                                             <textarea name="requirement" id="requirement" class="ckeditor form-control" required="required" rows="3"
                                                 placeholder="Enter requirement">{{ $RequiredData->requirements }}</textarea>
@@ -265,7 +274,7 @@
                                     <button type="submit" name="submit" class="btn donate-bt">Update</button>
                                 </div>
                         </div>
-                        </form>
+                        </form> 
                     </div>
                 </div>
             </div>
@@ -293,20 +302,14 @@
                 $('#btnSubmit').prop('disabled', true);
                 $('#imgPreview').prop('src', '');
             }
-            else {
                 // Check and restrict the file size to 5 mb.
-                if ($(uploadCtrl).get(0).files[0].size > (500000)) {
-                    $('#spnMessage').text("Sorry!! Max allowed image size is 5 mb").show();
-                    $(uploadCtrl).replaceWith($(uploadCtrl).val('').clone(true));
-                    $('#btnSubmit').prop('disabled', true);
-                }
+                
                 else {
                     $('#spnMessage').text('').hide();
                     $('#btnSubmit').prop('disabled', false);
                     previewImage(uploadCtrl);
                 }
-            }
-        }
+            }   
         setTimeout(() => {
             $('.mistake').remove();
         }, 3500);

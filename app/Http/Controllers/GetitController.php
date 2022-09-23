@@ -11,7 +11,6 @@ use App\Http\Requests\{StoreRequirement, Insertrequirement, EditValidation};
 use App\Models\{Requirement, User, Category, Media};
 use Illuminate\Support\Facades\URL;
 
-
 class GetitController extends Controller
 {
     /**
@@ -22,17 +21,18 @@ class GetitController extends Controller
     public function index(Request $request)
     {
         //Show Gitite Requirement Data
-        $data = Requirement:: with(['user','categories'])->where('type', 2 )->paginate(3);
-           
+        $totalRecords = Requirement::count();
+        $data = Requirement::with(['user','categories'])->where('type', 2)->paginate(12);
         if ($request->ajax()) {
-    		$view = view('fronted.getitdata',compact('data'))->render();
+            $data = Requirement::with(['user','categories'])->where('type', 2)->paginate(12);
+
+            $view = view('fronted.getitdata', compact('data'))->render();
             return response()->json(['html'=>$view]);
         }
-
-
-    	return view('fronted.getit',compact('data'));
+        $ajaxId= isset($request->ajaxId) ? $request->ajaxId : 0;
+        return view('fronted.getit', compact('data', 'totalRecords'));
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -69,8 +69,8 @@ class GetitController extends Controller
         $mediaData = Media::get();
         $RequiredData = Requirement::find($id);
         $cat_id = $RequiredData->category_id;
-        $relatedData = Requirement::with(['categories','media'])->where('category_id',$cat_id)->limit(3)->get();
-        return view('fronted.getitview',compact('RequiredData','categoryId','mediaData','relatedData','url'));
+        $relatedData = Requirement::with(['categories','media'])->where('category_id', $cat_id)->limit(3)->get();
+        return view('fronted.getitview', compact('RequiredData', 'categoryId', 'mediaData', 'relatedData', 'url'));
     }
 
     /**
@@ -96,6 +96,7 @@ class GetitController extends Controller
         //
     }
 
+
     /**
      * Remove the specified resource from storage.
      *
@@ -105,5 +106,68 @@ class GetitController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function search(Request $request)
+    {
+        $page = $request->page;
+        $filterSortby = $request->filterSortby == 1 ? 'asc' : 'desc';
+        $filterSearch = $request->filterSearch;
+        $total = 0;
+
+        $requirement = Requirement::query();
+        $requirement = $requirement->where('type', 2)->with(['media','user']);
+        $requirement = $requirement->orderBy('created_at', $filterSortby);
+        $requirement = $requirement->when(!empty($filterSearch), function ($query) use ($requirement, $filterSearch, $total) {
+                $query->where('requirements', 'LIKE', "%".$filterSearch."%");
+        });
+         $total +=  $requirement->when(!empty($filterSearch), function ($query) use ($requirement, $filterSearch, $total) {
+                $query->where('requirements', 'LIKE', "%".$filterSearch."%");
+        })->count();
+        $requirement = $requirement->limit($request['limit'])
+        ->offset($request['start'])
+        ->get();
+        $html = "";
+        if (isset($requirement)) {
+            foreach ($requirement as $key => $data) {
+                $url =asset(isset($data->media["path"]) ? $data->media["path"] : '/img/requirement/Noimage.jpg');
+                $no_image=asset('/img/requirement/Noimage.jpg');
+                $route = route('getitview', $data['id']);
+                $html .='<div class="col-md-4 data">';
+                $html .='<div class="get_detalis_inr">';
+                $html .='<div class="get_detalis_img">';
+                $html .='<div class="get_img">';
+                $html .='<a href='.$route.'>';
+                if (isset($url)) {
+                    $html .='<img src='.$url.'>';
+                } else {
+                    $html .='<img src='.$no_image.'>';
+                }
+                $html .= '</a>';
+                $html .='</div>';
+                $html .='<div class="get_detalis_info">';
+                $html .=' <div style="height: 90px;
+                overflow: hidden;">';
+                $html .='<p>'. $data->requirements .'</p>';
+                $html .='</div>';
+                $html .='<div class="text-end">';
+                $html .='<a href='.$route.'>Read more...</a>';
+                $html .='</div>';
+                $html .='</div>';
+                $html .='</div>';
+                $html .='</div>';
+                $html .='</div>';
+            }
+            if ($request->ajax()) {
+                return response()->json([
+                    'html' => $html,
+                    'records' => count($requirement),
+                    'total' => $total
+
+                ]);
+            } else {
+                // TODO: Return View Here.
+                // return view()
+            }
+        }
     }
 }

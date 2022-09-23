@@ -1,5 +1,5 @@
 @foreach ($data as $items)
-    <div class="col-md-4">
+    <div class="col-md-4 data" onscroll="requirements()" id="scroll">
         <div class="get_detalis_inr">
             <div class="get_detalis_img text-center">
                 <div class="get_img">

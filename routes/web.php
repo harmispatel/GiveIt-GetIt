@@ -63,11 +63,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::view('/admin/dashboard','welcome');
 
     // Logout Route
-<<<<<<< HEAD
     
     // Route::post("/logout", [loginController::class,'logout'])->name('logout')->middleware('auth');
-=======
->>>>>>> 8e55be179316f45480ba04c929c483383118f328
     Route::post('/admin/logout', [loginController::class,'logout'])->name('logout');
     Route::get('/admin/logout', [loginController::class,'log']);
 
@@ -79,11 +76,8 @@ Route::group(['middleware' => ['auth']], function () {
     
     // Filter Route
     Route::post('/filter',[RequirementController::class,'changeStatus']);
-<<<<<<< HEAD
 
-=======
     
->>>>>>> 8e55be179316f45480ba04c929c483383118f328
     // Profile Route
     Route::resource('/adminProfile', AdminProfileController::class);
 });
@@ -102,7 +96,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('account/verify/{token}', [RegisterController::class, 'verifyAccount'])->name('user.verify');
     Route::post("/Register-insertdata", [RegisterController::class, 'store'])->name('Regitser.insertdata');
     Route::post("/userget", [UserController::class,'usercheck'])->name('useget')->middleware('guest');
-    
+    Route::post("/Model-login", [UserController::class,'login'])->name('modellogin')->middleware('guest');
+    Route::post("/Giveit-search",[GiveitController::class,'search'])->name('giveit-search');
+    Route::post("/Getit-search",[GetitController::class,'search'])->name('getit-search');
     
     // Forgot password
     Route::get('/forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
