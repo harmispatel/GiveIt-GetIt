@@ -6,11 +6,11 @@
 
 
     <div class="main">
-        @if (session()->has('userlogin'))
+        {{-- @if (session()->has('userlogin'))
             <div class="alert text-success userlogin">
                 {{ session()->get('userlogin') }}
             </div>
-        @endif
+        @endif --}}
         <section class="home-slide">
             <div class="swiper">
                 <div class="swiper-wrapper">
@@ -225,8 +225,16 @@
 @endsection
 @section('js')
     <script type="text/javascript">
-        setTimeout(() => {
-            $('.userlogin').remove();
-        }, 3500);
+        // setTimeout(() => {
+        //     $('.userlogin').remove();
+        // }, 3500);
+        @if(Session::has('userlogin'))
+  toastr.options =
+  {
+  	"closeButton" : true,
+  	"progressBar" : true
+  }
+  		toastr.success("{{ session('userlogin') }}");
+  @endif
     </script>
 @endsection

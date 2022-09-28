@@ -98,19 +98,29 @@
                                     </div>
                                     </a>
                                 </div>
-                                <div class="get_detalis_info">
-                                    {{-- <label> {{ $items->user['name'] }}</label> --}}
-                                    {{-- <p>Category: {{ $datas->categories['name'] }}</p> --}}
+                                {{-- <div class="get_detalis_info">
+
                                     <div style="height: 90px;
                                     overflow: hidden;">
-                                    <p>{!!html_entity_decode($items->requirements)!!}</p>
-                                </div>
-                                <div class="text-end">
-                                    <a href="{{ route('getitview', $items['id']) }}">Read more...</a>
-                                </div>
-                                    {{-- <p>MO : {{ $items->user['mobile'] }} </p> --}}
-                                    {{-- <p>Email : <a href="mailto:{{ $items->user['email'] }}">
-                                            {{ $items->user['email'] }}</a></p> --}}
+                                        <p>{!! html_entity_decode($items->requirements) !!}</p>
+                                    </div>
+                                    <div class="text-end">
+                                        <a href="{{ route('getitview', $items['id']) }}">Read more...</a>
+                                    </div>
+
+                                </div> --}}
+                                <div class="get_detalis_info" style="height:80px">
+
+                                    @if (strlen($items->requirements) > 79)
+                                        <p>{!! substr(html_entity_decode($items->requirements), 0, 79) !!}</p>
+                                        <div class="text-end">
+                                            <a href="{{ route('giveviewdetail', $items['id']) }}">Read More..</a>
+                                        </div>
+                                    @else
+                                        <p>{!! html_entity_decode($items->requirements) !!}</p>
+                                    @endif
+
+
                                 </div>
                             </div>
                         </div>

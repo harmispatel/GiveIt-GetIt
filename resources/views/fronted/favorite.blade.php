@@ -16,11 +16,11 @@
                 <span>Loading...</span>
             </div>
         </div>
-        @if (session()->has('messagedelete'))
+        {{-- @if (session()->has('messagedelete'))
             <div class="alert alert-danger messagedelete">
                 {{ session()->get('messagedelete') }}
             </div>
-        @endif
+        @endif --}}
 
 
 
@@ -31,42 +31,74 @@
         <div class="container">
             <div class="row">
                 @if (!$data->isEmpty())
-                @foreach ($data as $item)
-                    <div class="col-md-4">
-                        <input type="hidden" class="serdelete_val_id" value="{{ $item['id'] }}">
-                        <div class="get_detalis_inr">
-                            <div class="get_detalis_img text-center">
-                                <div class="get_img">
-                                    <img
-                                        src="{{ $item->requirement->media == null
-                                            ? asset('/img/requirement/Noimage.jpg')
-                                            : asset($item->requirement->media['path']) }}">
-                                </div>
-                            </div>
-                            <div class="get_detalis_info">
-                                {{-- <label>{{ $item->user['name'] }}</label> --}}
-                                    {{-- <p>Category: {{ $item->requirement->categories['name'] }}</p> --}}
-                                    <p>{!!html_entity_decode($item->requirement['requirements'])!!}</p>
-                                {{-- <p>MO : {{ $item->user['mobile'] }}</p>
-                                <p>Email : <a href="mailto:{{ $item->user['email'] }}">{{ $item->user['email'] }}</a></p> --}}
+                    @foreach ($data as $item)
+                        <div class="col-md-4">
+                            <input type="hidden" class="serdelete_val_id" value="{{ $item['id'] }}">
+                            <div class="get_detalis_inr">
+                                <div class="get_detalis_img text-center">
+                                    <div class="get_img">
+                                        @if ($item->requirement->type == 1)
+                                            <a href="{{ route('giveviewdetail', $item->requirement['id']) }}">
+                                                <img
+                                                    src="{{ $item->requirement->media == null
+                                                        ? asset('/img/requirement/Noimage.jpg')
+                                                        : asset($item->requirement->media['path']) }}">
+                                            </a>
+                                        @else
+                                            <a href="{{ route('getitview', $item->requirement['id']) }}">
 
-                                <div class="d-flex">
-                                    <form method="POST" action="{{ route('delete', $item['id']) }}">
-                                        @csrf
-                                        <input name="_method" type="hidden" value="DELETE">
-                                        <button type="submit" class="btn  show_confirm ml-2" data-toggle="tooltip"
-                                            title='Delete'style=" color: #ff0000 "><i
-                                                class="fa-solid fa-trash-can"></i></button>
-                                    </form>
+                                                <img
+                                                    src="{{ $item->requirement->media == null
+                                                        ? asset('/img/requirement/Noimage.jpg')
+                                                        : asset($item->requirement->media['path']) }}">
+
+                                            </a>
+                                        @endif
+                                    </div>
                                 </div>
+                                <div class="get_detalis_info" style="height:80px">
+                                    @if (strlen($item->requirement['requirements']) > 79)
+                                        <p>{!! substr(html_entity_decode($item->requirement['requirements']), 0, 79) !!}</p>
+                                        <div class="text-end">
+                                            @if ($item->requirement->type == 1)
+                                            <a href="{{ route('giveviewdetail', $item->requirement['id']) }}">Read More..</a>
+                                            @else
+                                            <a href="{{ route('getitview', $item->requirement['id']) }}">Read more...</a>                                        
+                                            @endif
+                                        </div>
+                                    @else
+                                        <p>{!! html_entity_decode($item->requirement['requirements']) !!}</p>
+                                    @endif
+                                </div>
+                                {{-- <div class="get_detalis_info">
+                                    <div style="height: 90px;
+                                    overflow: hidden;">
+                                        <p>{!! html_entity_decode($item->requirement['requirements']) !!}</p>
+                                    </div>
+                                    <div class="text-end">
+                                        @if ($item->requirement->type == 1)
+                                            <a href="{{ route('giveviewdetail', $item->requirement['id']) }}">Read
+                                                more...</a>
+                                        @else
+                                            <a href="{{ route('getitview', $item->requirement['id']) }}">Read more...</a>
+                                        @endif
+                                    </div>
+                                    {{-- <p>MO : {{ $item->user['mobile'] }}</p>
+                                <p>Email : <a href="mailto:{{ $item->user['email'] }}">{{ $item->user['email'] }}</a></p> --}}
+                                {{-- </div> --}} 
+                                <form method="POST" action="{{ route('delete', $item['id']) }}">
+                                    @csrf
+                                    <input name="_method" type="hidden" value="DELETE">
+                                    <button type="submit" class="btn delet-wish-bt show_confirm text-danger"
+                                        data-toggle="tooltip" title='Delete'><i class="fa-solid fa-trash-can"></i></button>
+                                </form>
                             </div>
                         </div>
-                    </div>
                     @endforeach
-                    @else
+                @else
                     <p style="text-align: center;FONT-SIZE: large">No Data Whishlist Recode</p>
-                    @endif
-              
+                @endif
+
             </div>
         </div>
     </section>
@@ -108,9 +140,19 @@
                     }
                 });
         });
-        setTimeout(() => {
-            $('.messagedelete').remove();
-        }, 3500);
     </script>
     </section>
+@endsection
+@section('js')
+<script type="text/javascript">
+@if(Session::has('messagedelete'))
+  toastr.options =
+  {
+  	"closeButton" : true,
+  	"progressBar" : true
+  }
+  		toastr.error("{{ session('messagedelete') }}");
+  @endif
+
+</script>
 @endsection

@@ -7,17 +7,17 @@
 
     <body>
 
-        @if (session()->has('msg'))
+        {{-- @if (session()->has('msg'))
             <div class="alert alert-success msg reg">
                 {{ session()->get('msg') }}
             </div>
-        @endif
+        @endif --}}
 
-        @if (session()->has('message'))
+        {{-- @if (session()->has('message'))
             <div class="alert alert-success message">
                 {{ session()->get('message') }}
             </div>
-        @endif
+        @endif --}}
         <div class="donation-info">
             <div class="container">
                 <div class="row justify-content-center">
@@ -111,26 +111,12 @@
                                             <hr>
                                         </div>
                                     </div>
-                                    {{-- <div class="col-md-12 text-center">
-                                    <p>Have an account? <a href="{{ route('userlogin') }}">Log In</a>
-                                    </p>
-                                </div> --}}
                                 </div>
                             </form>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="donate-form">
-                            @if (session()->has('mistake'))
-                                <div class="alert alert-warning mistake ">
-                                    {{ session()->get('mistake') }}
-                                </div>
-                            @endif
-                            @if (session()->has('logout'))
-                                <div class="alert alert-warning logout">
-                                    {{ session()->get('logout') }}
-                                </div>
-                            @endif
                             <div class="form-title text-center">
                                 <h3>Login</h3>
                             </div>
@@ -230,9 +216,42 @@
             this.classList.toggle("bi-eye");
         });
         // Alert Timeout
-        setTimeout(() => {
-            $('.logout, .reg, .message, .mistake').remove();
-        }, 3500);
+        // setTimeout(() => {
+        //     $('.logout, .reg, .message, .mistake').remove();
+        // }, 3500);
+        @if(Session::has('msg'))
+  toastr.options =
+  {
+  	"closeButton" : true,
+  	"progressBar" : true
+  }
+  		toastr.success("{{ session('msg') }}");
+  @endif
+  @if(Session::has('message'))
+  toastr.options =
+  {
+  	"closeButton" : true,
+  	"progressBar" : true
+  }
+  		toastr.success("{{ session('message') }}");
+  @endif
+        @if(Session::has('logout'))
+  toastr.options =
+  {
+  	"closeButton" : true,
+  	"progressBar" : true
+  }
+  		toastr.error("{{ session('logout') }}");
+  @endif
+  @if(Session::has('mistake'))
+  toastr.options =
+  {
+  	"closeButton" : true,
+  	"progressBar" : true
+  }
+  		toastr.warning("{{ session('mistake') }}");
+  @endif
+
         // Jquery Validation Login 
         $(document).ready(function() {
             $("#loginForm").validate({

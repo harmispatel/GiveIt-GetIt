@@ -14,6 +14,7 @@ class FavoriteController extends Controller
     //
     public function store(Request $request)
     {
+      
         if ($request->ajax()) {
             $data = $request->all();
 

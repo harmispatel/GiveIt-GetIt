@@ -16,23 +16,23 @@
                 <span>Loading...</span>
             </div>
         </div>
-        @if (session()->has('updatepassword'))
+        {{-- @if (session()->has('updatepassword'))
             <div class="alert alert-success updatepassword">
                 {{ session()->get('updatepassword') }}
             </div>
-        @endif
-        @if (session()->has('mistake'))
+        @endif --}}
+        {{-- @if (session()->has('mistake'))
         <div class="alert alert-warning mistake ">
             {{ session()->get('mistake') }}
         </div>
-    @endif
+    @endif --}}
     
     
-    @if (session()->has('messagedelete'))
+    {{-- @if (session()->has('messagedelete'))
     <div class="alert alert-warning messagedelete ">
         {{ session()->get('messagedelete') }}
     </div>
-@endif
+@endif --}}
         <div class="donation-info">
             <div class="container">
                 <div class="row justify-content-center">
@@ -337,5 +337,29 @@
                 },
             });
         });
+        @if(Session::has('updatepassword'))
+  toastr.options =
+  {
+  	"closeButton" : true,
+  	"progressBar" : true
+  }
+  		toastr.success("{{ session('updatepassword') }}");
+  @endif
+  @if(Session::has('mistake'))
+  toastr.options =
+  {
+  	"closeButton" : true,
+  	"progressBar" : true
+  }
+  		toastr.error("{{ session('mistake') }}");
+  @endif
+  @if(Session::has('messagedelete'))
+  toastr.options =
+  {
+  	"closeButton" : true,
+  	"progressBar" : true
+  }
+  		toastr.error("{{ session('messagedelete') }}");
+  @endif
     </script>
 @endsection

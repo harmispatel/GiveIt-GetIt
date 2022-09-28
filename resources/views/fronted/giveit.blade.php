@@ -54,7 +54,7 @@
                 </div>
             </div>
         </section>
-        
+
         <section class="get_details">
             <div class="container">
                 <div class="form-group">
@@ -65,8 +65,8 @@
                         </div>
                         <div class="col md-4">
                             <select class="form-select sortby" id="sortby" name="sortby" onchange="requirements()">
-                                <option value="1">ascending</option>
-                                <option value="2">descending</option>
+                                <option value="1">ASCENDING</option>
+                                <option value="2">DESCENDING</option>
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -74,14 +74,14 @@
                                 <div class="col text-end">
                                     <a href="{{ route('addform') }}" class="give_bt">Add Requirement</a>
                                 </div>
-                                    @endauth
-                                    @guest
+                            @endauth
+                            @guest
                                 <div class="col text-end">
                                     <a href="{{ route('login') }}" class="give_bt">Add Requirement</a>
                                 </div>
                             @endguest
                         </div>
-        
+
                     </div>
                 </div>
                 {{-- <div id="data"> --}}
@@ -99,21 +99,15 @@
                                     </div>
                                     </a>
                                 </div>
-                                <div class="get_detalis_info">
-                                    {{-- <label> {{ $datas->user['name'] }}</label> --}}
-                                    {{-- <p>Category: {{ $datas->categories['name'] }}</p> --}}
-                                    <div style="height: 90px;
-                                    overflow: hidden;">
-                                    <p>{!!html_entity_decode($datas->requirements)!!}</p>
-                                </div>
-                                <div class="text-end">
-                                    <a href="{{ route('giveviewdetail', $datas['id']) }}">Read more...</a>
-                                    
-                                </div>
-                                    {{-- <a href="" class="btn btn-primary readmore-btn">Read More</a> --}}
-                                    {{-- <p>MO : {{ $datas->user['mobile'] }}</p>
-                                    <p>Email : <a href="mailto:{{ $datas->user['email'] }}">
-                                            {{ $datas->user['email'] }}</a></p> --}}
+                                <div class="get_detalis_info" style="height:80px">
+                                    @if (strlen($datas->requirements) > 79)
+                                        <p>{!! substr(html_entity_decode($datas->requirements), 0, 79) !!}</p>
+                                        <div class="text-end">
+                                            <a href="{{ route('giveviewdetail', $datas['id']) }}">Read More..</a>
+                                        </div>
+                                    @else
+                                        <p>{!! html_entity_decode($datas->requirements) !!}</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -123,7 +117,6 @@
                         </div>
                     @endforelse
                 </div>
-
             </div>
             <div id="loader" style="display:block ; background: rgb(255, 255, 255);">
                 <div id="square">
@@ -146,82 +139,80 @@
             </div>
         </section>
     </div>
-
 @endsection
 @section('js')
 
-<script type="text/javascript">
+    <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'csrftoken': '{{ csrf_token() }}'
+            }
+        });
+        var limit = 12;
+        var start = 0;
+        var page = 1;
+        var total = {{ $totalRecords }};
+        var recent = 0;
+        var url = '{{ route('giveit-search') }}';
+        $('.filter-message').hide();
 
+        $(window).scroll(function() {
+            if ($(window).scrollTop() + $(window).height() >= $(document).height() && total != recent) {
+                page++;
+                limit += 12;
+                requirements("scroll");
+            }
+        });
 
-    $.ajaxSetup({
-        headers: {
-            'csrftoken': '{{ csrf_token() }}'
-        }
-    });
-    var limit = 12;
-    var start = 0;
-    var page = 1;
-    var total = {{ $totalRecords }};
-    var recent = 0;
-    $('.filter-message').hide();
+        function requirements(type = '') {
+            if (type != "scroll") {
+                page = 1;
+                limit = 12;
+                $('.post-grid').animate({
+                    scrollTop: '0px'
+                }, 1000);
+            }
+            $('.ajax-load').removeClass('d-none')
+            var filterSortby = $('.sortby').val();
+            var filterSearch = $('.search').val();
+            var ajaxId = 1;
+            document.getElementById('search').value = filterSearch;
+            $.ajax({
+                    type: "POST",
+                    url: url,
+                    dataType: 'json',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "ajaxId": ajaxId,
+                        "page": page,
+                        "limit": limit,
+                        "start": start,
+                        "filterSearch": filterSearch,
+                        "filterSortby": filterSortby,
+                    },
+                    dataType: 'json',
 
-    $(window).scroll(function() {
-        if ($(window).scrollTop() + $(window).height() >= $(document).height() && total != recent) {
-            page++;
-            limit += 12;
-            requirements("scroll");
-        }
-    });
-
-    function requirements(type = '') {
-        if (type != "scroll") {
-            page = 1;
-            limit = 12;
-            $('.post-grid').animate({
-                scrollTop: '0px'
-            }, 1000);
-        }
-        $('.ajax-load').removeClass('d-none')
-        var filterSortby = $('.sortby').val();
-        var filterSearch = $('.search').val();
-        var ajaxId = 1;
-        document.getElementById('search').value = filterSearch;
-        $.ajax({
-                type: "POST",
-                url: "/Giveit-search",
-                dataType: 'json',
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "ajaxId": ajaxId,
-                    "page": page,
-                    "limit": limit,
-                    "start": start,
-                    "filterSearch": filterSearch,
-                    "filterSortby": filterSortby,
-                },
-                dataType: 'json',
-
-                success: function(res) {
-                    if (res == "") {
-                        $('.ajax-load').removeClass('d-none')
-                    } else {
-                        recent = res.records;
-                        total = res.total;
-                        $('.ajax-load').addClass('d-none')
-                        $('.post-grid').html('');
-                        $('.post-grid').append(res.html);
-                        if (recent == 0) {
-                            $('.filter-message').show();
+                    success: function(res) {
+                        if (res == "") {
+                            $('.ajax-load').removeClass('d-none')
                         } else {
-                            $('.filter-message').hide();
-                        }
+                            recent = res.records;
+                            total = res.total;
+                            $('.ajax-load').addClass('d-none')
+                            $('.post-grid').html('');
+                            $('.post-grid').append(res.html);
+                            if (recent == 0) {
+                                $('.filter-message').show();
+                            } else {
+                                $('.filter-message').hide();
+                            }
 
-                        jQuery(".post-grid").html(res.html);
+                            jQuery(".post-grid").html(res.html);
+                        }
                     }
                 }
-            }
 
-        );
-    }
-</script>
+            );
+        }
+    </script>
 @endsection

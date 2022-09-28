@@ -117,11 +117,15 @@ class GetitController extends Controller
         $requirement = Requirement::query();
         $requirement = $requirement->where('type', 2)->with(['media','user']);
         $requirement = $requirement->orderBy('created_at', $filterSortby);
-        $requirement = $requirement->when(!empty($filterSearch), function ($query) use ($requirement, $filterSearch, $total) {
-                $query->where('requirements', 'LIKE', "%".$filterSearch."%");
+        $requirement = $requirement->when(!empty($filterSearch), function () use ($requirement, $filterSearch, $total) {
+            $requirement->whereHas('category', function ($query) use ($filterSearch) {
+                $query->where('name', 'LIKE', "%".$filterSearch."%");
+            })->orWhere('requirements', 'LIKE', "%".$filterSearch."%");
         });
-         $total +=  $requirement->when(!empty($filterSearch), function ($query) use ($requirement, $filterSearch, $total) {
-                $query->where('requirements', 'LIKE', "%".$filterSearch."%");
+        $total +=  $requirement->when(!empty($filterSearch), function () use ($requirement, $filterSearch, $total) {
+            $requirement->whereHas('category', function ($query) use ($filterSearch) {
+                $query->where('name', 'LIKE', "%".$filterSearch."%");
+            })->orWhere('requirements', 'LIKE', "%".$filterSearch."%");
         })->count();
         $requirement = $requirement->limit($request['limit'])
         ->offset($request['start'])
@@ -144,13 +148,14 @@ class GetitController extends Controller
                 }
                 $html .= '</a>';
                 $html .='</div>';
-                $html .='<div class="get_detalis_info">';
-                $html .=' <div style="height: 90px;
-                overflow: hidden;">';
-                $html .='<p>'. $data->requirements .'</p>';
-                $html .='</div>';
-                $html .='<div class="text-end">';
-                $html .='<a href='.$route.'>Read more...</a>';
+                $html .='<div class="get_detalis_info" style="height:80px">';
+                if(strlen($data->requirements) > 79){
+                   $html .='<p>'.substr(html_entity_decode($data->requirements), 0, 79).'</p>';
+                   $html .=' <div class="text-end">';
+                    $html .='<a href='.$route.'>Read More...</a></div>';
+                }else{
+                    $html .='<p>'.html_entity_decode($data->requirements).'</P>';
+                }
                 $html .='</div>';
                 $html .='</div>';
                 $html .='</div>';
