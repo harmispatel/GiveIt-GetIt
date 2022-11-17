@@ -131,12 +131,7 @@
                                                         <div class="donation-info">
                                                             <div class="container">
                                                                 <div class="donate-form">
-                                                                    {{-- @if (session()->has('mistake'))
-                                                                        <div class="alert alert-warning mistake ">
-                                                                            {{ session()->get('mistake') }}
-                                                                        </div>
-                                                                    @endif --}}
-                                                                    <!-- Modal Header -->
+                                                                
                                                                     <div class="modal-header">
                                                                         <h4 class="modal-title">Login</h4>
                                                                         <button type="button" class="btn-close"
@@ -167,6 +162,8 @@
                                                                                         @endif
                                                                                     </div>
                                                                                 </div>
+
+
                                                                                 <div class="col-md-12">
                                                                                     <div class="mb-3  position-relative">
                                                                                         <label for="password"
@@ -309,12 +306,20 @@
                             if (response.action == 'add') {
                                 $('button[data-requirementid=' + requirement_id + ']').html(
                                     `<i class="fas fa-heart" aria-hidden="true"></i>`);
-                                $('#notifDiv').fadeIn().css('background', 'green').text(response
+                                    toastr.options = {
+                                    "closeButton": true,
+                                    "progressBar": true
+                                }
+                                toastr.success(response
                                     .message);
                                 } else {
                                 $('button[data-requirementid=' + requirement_id + ']').html(
                                     `<i class="far fa-heart" aria-hidden="true"></i>`);
-                                    $('#notifDiv').fadeIn().css('background', 'red').text(response
+                                    toastr.options = {
+                                    "closeButton": true,
+                                    "progressBar": true
+                                }
+                                toastr.error(response
                                     .message);
                                 }
                                 setTimeout(() => {

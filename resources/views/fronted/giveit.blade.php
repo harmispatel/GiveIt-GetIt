@@ -71,9 +71,15 @@
                         </div>
                         <div class="col-md-3">
                             @auth
-                                <div class="col text-end">
-                                    <a href="{{ route('addform') }}" class="give_bt">Add Requirement</a>
-                                </div>
+                            @if ($user->email == null || $user->mobile == null)
+                            <div class="text-end">
+                                <a href="{{ route('editprofile') }}" class="give_bt">Add Requirement</a>
+                            </div>
+                            @else
+                            <div class="text-end">
+                          <a href="{{ route('addform') }}" class="give_bt">Add Requirement</a>
+                      </div>
+                            @endif  
                             @endauth
                             @guest
                                 <div class="col text-end">

@@ -10,5 +10,5 @@ class Media extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table ='medias';
-    protected $guarded = [];
+    protected $guarded = [];    
 }

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 // Request Class
 use App\Http\Requests\{ProfileValidation, ChangepasswordValidation};
 use Exception;
+use Carbon\Carbon;
 
 
 class UserprofileController extends Controller
@@ -40,6 +41,7 @@ class UserprofileController extends Controller
     public function update(ProfileValidation $request)
     {
         // Update the Authenticated User details
+        
         $user = Auth::user();
         $request->validate([
             'email' =>  'unique:users,email,'.$user->id,
@@ -49,11 +51,11 @@ class UserprofileController extends Controller
         
         try{
 
-            
             $user->name = $request->username;
             $user->email = $request->email;
             $user->mobile = $request->number;
             $user->address = $request->address;
+             $user->email_verified_at =  Carbon::now();
             
             $user->save();
         }catch(Exception $e){

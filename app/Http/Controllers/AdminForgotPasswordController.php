@@ -40,7 +40,7 @@ class AdminForgotPasswordController extends Controller
           Mail::send('AdminSendEmail', ['token' => $token],function($message) use($request)
           {
             $message->from('harmistest4@gmail.com');
-              $message->to($request['email']);
+              $message->to($request['email']);  
               $message->subject('Reset Password');
           });
 

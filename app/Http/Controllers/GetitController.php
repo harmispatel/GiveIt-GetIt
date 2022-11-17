@@ -10,6 +10,8 @@ use App\Http\Requests\{StoreRequirement, Insertrequirement, EditValidation};
 //Models
 use App\Models\{Requirement, User, Category, Media};
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Auth;
+
 
 class GetitController extends Controller
 {
@@ -21,6 +23,7 @@ class GetitController extends Controller
     public function index(Request $request)
     {
         //Show Gitite Requirement Data
+        $user = Auth::user();
         $totalRecords = Requirement::count();
         $data = Requirement::with(['user','categories'])->where('type', 2)->paginate(12);
         if ($request->ajax()) {
@@ -30,7 +33,7 @@ class GetitController extends Controller
             return response()->json(['html'=>$view]);
         }
         $ajaxId= isset($request->ajaxId) ? $request->ajaxId : 0;
-        return view('fronted.getit', compact('data', 'totalRecords'));
+        return view('fronted.getit', compact('data', 'totalRecords', 'user'));
     }
 
 
@@ -69,8 +72,9 @@ class GetitController extends Controller
         $mediaData = Media::get();
         $RequiredData = Requirement::find($id);
         $cat_id = $RequiredData->category_id;
+       
         $relatedData = Requirement::with(['categories','media'])->where('category_id', $cat_id)->limit(3)->get();
-        return view('fronted.getitview', compact('RequiredData', 'categoryId', 'mediaData', 'relatedData', 'url'));
+        return view('fronted.getitview', compact('RequiredData', 'categoryId', 'mediaData', 'relatedData', 'url',));
     }
 
     /**

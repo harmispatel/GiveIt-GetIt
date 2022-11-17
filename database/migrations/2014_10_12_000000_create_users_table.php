@@ -20,12 +20,14 @@ class CreateUsersTable extends Migration
             $table->string('mobile');
             $table->string('address')->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('google_id')->after('email_verified_at')->nullable();
+            $table->string('facebook_id')->after('google_id')->nullable();
             $table->tinyInteger('user_type');
             $table->string('password');
             $table->boolean('status');
             $table->string('token')->after('status')->nullable(); 
             $table->string('email_token')->after('token')->nullable()->change();
-            // $table->timestamps();
+            $table->timestamps();
             $table->softDeletes();
         });
     }

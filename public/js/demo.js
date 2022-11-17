@@ -14,11 +14,7 @@
   //   if (window.___browserSync___ === undefined && Number(localStorage.getItem('AdminLTE:Demo:MessageShowed')) < Date.now()) {
   //     localStorage.setItem('AdminLTE:Demo:MessageShowed', (Date.now()) + (15 * 60 * 1000))
   //     // eslint-disable-next-line no-alert
-<<<<<<< HEAD
   //     // alert('You load AdminLTE\'s "demo.js", \nthis file is only created for testing purposes!')
-=======
-  //     alert('You load AdminLTE\'s "demo.js", \n this file is only created for testing purposes!')
->>>>>>> 6a6c8abf7915e043d91ebca88e99fcd41939f2c1
   //   }
   // }, 1000)
 

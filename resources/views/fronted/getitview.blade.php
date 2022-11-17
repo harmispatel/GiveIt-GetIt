@@ -226,12 +226,11 @@
                                             </div>
                                         </div>
                                     @endguest
+                                    {{-- <p class="mb-2">Requirement Name: {{ $RequiredData->name }}</p> --}}
                                 </div>
-                                {{-- <p class="mb-2">Requirement Name: {{ $RequiredData->name }}</p> --}}
                             </div>
                             <p class="mb-2">Category : {{ $RequiredData->categories['name'] }}</p>
-                            <p class="mb-2">Requirement : {{ $RequiredData->name }}</p>
-                            {{-- <div class="adress-detail">
+                                {{-- <div class="adress-detail">
                                     <p>address</p>
                                     <span>Today</span>
                                 </div> --}}

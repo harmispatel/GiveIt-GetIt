@@ -26,7 +26,7 @@ class RegisterValidation extends FormRequest
         return [
             //
             'username' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:users,email',
             'number'  =>'required|digits:10 ',
             'address' =>'required',
             'password'=>'required|min:6',

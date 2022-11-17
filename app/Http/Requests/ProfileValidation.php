@@ -26,9 +26,8 @@ class ProfileValidation extends FormRequest
         return [
             
             'username' => 'required',
-            'number'  =>'required|digits:10 ',
+            'number'  =>'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'address' =>'required',
-            'password' => 'required|min:6',
         ];
     }
 }

@@ -9,7 +9,7 @@
 
     
         <!-- Content -->
-  <div class="content-wrapper">
+  {{-- <div class="content-wrapper"> --}}
     <div class="content-header">
       <div class="container-fluid">
 
@@ -87,7 +87,7 @@
         </div>
       </div>
     </section>
-  </div>
+  {{-- </div> --}}
   <!-- End Content -->
 
 @endsection

@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+// Socialite
+use Laravel\Socialite\Facades\Socialite;
+
+// Exception;
+use Exception;
+
 // Request Class
 use App\Http\Requests\{UserRequest,EditUserRequest,loginValidation};
 
@@ -15,7 +21,15 @@ use Illuminate\Support\Facades\Auth;
 
 // Mail
 use Mail;
+
+// URL
 use Illuminate\Support\Facades\URL;
+
+// Validator
+use Validator;
+
+// Carbon
+use Carbon\Carbon;
 
 // Admin Side
 class UserController extends Controller
@@ -25,13 +39,74 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function main()
+    {
+        $user = Auth::user();
+        return view('fronted.index', compact('user'));
+    }
+
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        // Open user list
-
-        $users = User::where('user_type', '0')->paginate(10);
-        return view('userList')->with('users', $users);
+        return view('userList');
     }
+
+
+    //handle fetch all user ajax request
+    public function fetchAll()
+    {
+        $emps = User::where('user_type', '0')->get();
+        $output = '';
+        if ($emps->count() > 0) {
+            $output .='<table class="table table-striped table-sm text-center align-middle">
+            <thead>
+            <tr>
+            <th>name</th>
+            <th>E-mail</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>User_type</th>
+            <th>status</th>
+            <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>';
+            foreach ($emps as $emp) {
+                $output .='<tr>
+                <td>'.$emp->name.'</td>
+                <td>'.$emp->email.'</td>
+                <td>'.$emp->mobile.'</td>
+                <td>'.$emp->address.'</td>
+                <td>'.(($emp->user_type == 0) ? 'User' : 'admin').'</td>
+                
+                <td>'.(($emp->status == 0) ? '<span class="badge bg-danger">InActive</span>' : '<span class="badge bg-success">Active</span>').'</td>
+            
+                <td>
+                <a href="#" id="'.$emp->id.'" class="text-success mx-1 editIcon"
+                data-bs-toggle="modal" data-bs-target="#editEmployeeModal"><i
+                class="bi-pencil-square h4"></i></a>
+
+                                        <a href="#" id="'.$emp->id.'" class="text-danger mx-1 deleteIcon">
+                                        <i class="bi-trash h4"></i></a>
+
+                                    </td>
+                                    </tr>';
+            }
+
+            $output .='</tbody></table>';
+            echo $output;
+        } else {
+            echo '<h1 class="text-center text-secondary my-5">No record present in the database!</h1>';
+        }
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -51,21 +126,32 @@ class UserController extends Controller
      * @param  \Illuminate\Http\UserRequest  $request
      * @return \Illuminate\Http\Response
      */
+    // handle insert user ajax  request
     public function store(UserRequest $request)
     {
-        // Insert Create User Data
+            $input = $request->all();
+            $input['email_verified_at'] = Carbon::now();
+            $input['password'] = bcrypt($request->password);
 
-        $createUser = new User();
-        $createUser->name = $request->name;
-        $createUser->email = $request->email;
-        $createUser->mobile = $request->mobile;
-        $createUser->address = $request->address;
-        $createUser->user_type = $request->user_type;
-        $createUser->password = $request->password;
-        $createUser->status = $request->status;
-        $createUser->save();
+           $user =  User::create($input);
 
-        return redirect()->route('user.index')->with('message', 'User added successfully!');
+           // Set the Response
+           if (!empty($user)) {
+
+            return response()->json([
+                'status'  => 1,
+                'message' => 'User created successfully.',
+                'data'    => []
+            ]);
+           }else{
+
+            return response()->json([
+                'status'  => 0,
+                'message' => 'Failed to craete the user.',
+                'data'    => []
+            ]);
+
+           }
     }
 
     /**
@@ -85,12 +171,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    // handle edit user ajax request
+    public function edit(Request $request)
     {
-        // Open User Edit Form
-
-        $editUser = User::find($id);
-        return view('edit')->with('edituser', $editUser);
+        $id = $request->id;
+        $emp = User::find($id);
+        return response()->json($emp);
     }
 
     /**
@@ -100,21 +186,29 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(EditUserRequest $request, $id)
+    // Handle Update User ajax request
+    public function update(EditUserRequest $request)
     {
-        // Update User
+        // Update the User
+        $input = $request->except(['_token', 'emp_id']);
+        $emp = User::where('id', $request->emp_id)->update($input);
         
-        $editUser = User::find($id);
-        $editUser->name = $request->name;
-        $editUser->email = $request->email;
-        $editUser->mobile = $request->mobile;
-        $editUser->address = $request->address;
-        $editUser->user_type = $request->user_type;
-        $editUser->status = $request->status;
-
-        $editUser->save();
-        return redirect()->route('user.index')->with('message', 'User updated successfully!');
+        // Set the Response
+        if ($emp) {
+            return response()->json([
+                'status'  => 1,
+                'message' => 'User updated successfully.',
+                'data'    => []
+            ]);
+        } else {
+            return response()->json([
+                'status'  => 0,
+                'message' => 'Failed to update the user.',
+                'data'    => []
+            ]);
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -123,11 +217,24 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function destroy($id)
+    public function delete(Request $request)
     {
-        // Delete User
-        $delete = User::find($id)->delete();
-        return redirect()->route('user.index')->with('msg', 'User deleted successfully!');
+        $id = $request->id;
+        $emp = User::find($id)->delete($id);
+
+        if($emp){
+            return response()->json([
+                'status' => 1,
+                'message' => 'User deleted successfully',
+                'data' => []
+            ]);
+        }else{
+            return response()->json([
+                'status' => 0,
+                'message' => 'User deleted successfully',
+                'data' => []
+            ]);
+        }
     }
 
    /**
@@ -135,7 +242,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function home() 
+    public function home()
     {
         // Open fronted side login page
         return view('fronted.login');
@@ -200,4 +307,133 @@ class UserController extends Controller
         auth()->logout();
         return redirect('login')->with('logout', 'You are logout');
     }
+        /**
+         * Create a new controller instance.
+         *
+         * @return void
+         */
+        public function redirectToGoogle()
+        {
+            return Socialite::driver('google')->redirect();
+        }
+
+        /**
+         * Create a new controller instance.
+         *
+         * @return void
+         */
+        public function handleGoogleCallback()
+        {
+            try {
+                $user = Socialite::driver('google')->user();
+                
+                $finduser = User::where('google_id', $user->id)->first();
+        
+                if($finduser){
+        
+                    Auth::login($finduser);
+        
+                    return redirect()->intended('welcome')->with('userlogin', 'login successfully');
+        
+                }else{
+                    $newUser = User::create([
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'google_id'=> $user->id,
+                        'user_type' => 0,
+                        'status' => 1,
+                    ]);
+        
+                    Auth::login($newUser);
+        
+                    return redirect()->intended('welcome')->with('userlogin', 'login successfully');
+                }
+        
+            } catch (Exception $e) {
+                dd($e->getMessage());
+            }
+    }
+
+      /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function redirectToFacebook()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+      /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function handleFacebookCallback()
+    {
+        try {
+        
+            $user = Socialite::driver('facebook')->user();
+         
+            $finduser = User::where('facebook_id', $user->id)->first();
+        
+            if($finduser){
+         
+                Auth::login($finduser);
+        
+                return redirect()->intended('welcome')->with('userlogin', 'login successfully');
+         
+            }else{
+                $newUser = User::create([
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'facebook_id'=> $user->id,
+                    'user_type' => 0,
+                    'status' => 1,
+                ]);
+        
+                Auth::login($newUser);
+        
+                return redirect()->intended('welcome')->with('userlogin', 'login successfully');
+            }
+        
+        } catch (Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    public function firebase(Request $request)
+    {
+        $credentials = $request->all();
+        $finduser = User::where('mobile', $request->number)->first();
+        // dd($finduser > 1);
+        
+       
+        if($finduser){
+            Auth::login($finduser);
+            return response()->json([
+                'status'  => 1,
+                'message' => 'User login successfully.',
+                'data'    => [$finduser]
+            ]);
+        }else{
+            $newUser = User::create([
+                    'mobile' => $request->number,
+                    'user_type' => 0,
+                    'status' => 1,
+            ]);
+            Auth::login($newUser);    
+       
+            return response()->json([
+                'status'  => 1,
+                'message' => 'User regiter successfully.',
+                'data'    => [$newUser]
+            ]);
+        }  
+        
+    }
+   
+
+
+
 }

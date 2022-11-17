@@ -64,16 +64,35 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Logout Route
     
-    // Route::post("/logout", [loginController::class,'logout'])->name('logout')->middleware('auth');
     Route::post('/admin/logout', [loginController::class,'logout'])->name('logout');
     Route::get('/admin/logout', [loginController::class,'log']);
-
-    // Resource Route of User,Category,Requirement
-    Route::resource('/user', UserController::class);
-    Route::resource('/category', CategoryController::class);
-    Route::delete('multipleCategoryDelete', [CategoryController::class,'multipleDelete']);
-    Route::resource('/requirement', RequirementController::class);
     
+    // user Route
+    Route::get('/admin/user', [UserController::class,'index'])->name('user.index');
+    Route::post('/admin/user/store',[UserController::class,'store'])->name('user.store');
+    Route::get('/admin/user/fetch-all',[UserController::class,'fetchAll'])->name('user.fetchAll');
+    Route::get('/admin/user/edit',[UserController::class,'edit'])->name('user.edit');
+    Route::post('/admin/user/update',[UserController::class,'update'])->name('user.update');
+    Route::post('/admin/user/delete',[UserController::class,'delete'])->name('user.delete');  
+
+    // Category Route
+    Route::get('/admin/category', [CategoryController::class,'index'])->name('category.index');
+    Route::post('/admin/category/store',[CategoryController::class,'store'])->name('category.store');
+    Route::get('/admin/category/fetch-all',[CategoryController::class,'fetchAll'])->name('category.fetchAll');
+    Route::get('/admin/category/edit',[CategoryController::class,'edit'])->name('category.edit');
+    Route::post('/admin/category/update',[CategoryController::class,'update'])->name('category.update');
+    Route::post('/admin/category/delete',[CategoryController::class,'delete'])->name('category.delete');
+
+    // Requirement Route
+    Route::get('/admin/requirement', [RequirementController::class,'index'])->name('requirement.index');
+    Route::post('/admin/requirement/store', [RequirementController::class,'store'])->name('requirement.store');
+    Route::get('/admin/requirement/fetch-all',[RequirementController::class,'fetchAll'])->name('requirement.fetchAll');
+    Route::get('/admin/requirement/edit',[RequirementController::class,'edit'])->name('requirement.edit');
+    Route::post('/admin/requirement/update',[RequirementController::class,'update'])->name('requirement.update');
+    Route::post('/admin/requirement/delete',[RequirementController::class,'delete'])->name('requirement.delete');
+
+    
+    Route::delete('multipleCategoryDelete', [CategoryController::class,'multipleDelete']);
     // Filter Route
     Route::post('/filter',[RequirementController::class,'changeStatus']);
 
@@ -87,10 +106,18 @@ Route::group(['middleware' => ['auth']], function () {
 
 // Front-end Route
 
-    Route::view("/welcome", 'fronted.index');
+
+    // Route::view("/welcome", 'fronted.index');
+    Route::get('/', function () {
+        // Update the user's profile...
+    
+        return redirect('/welcome');
+    });
+    Route::get("/welcome", [UserController::class,'main'])->name('welcome');
+
     Route::view("/aboutus", 'fronted.about');
     
-    // login & Rqgister user
+    // login & Ragister user
     Route::get("/register",[RegisterController::class, 'show'])->name('register');
     Route::get("/login", [UserController::class,'home'])->name('login')->middleware('guest');
     Route::get('account/verify/{token}', [RegisterController::class, 'verifyAccount'])->name('user.verify');
@@ -100,6 +127,19 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post("/Giveit-search",[GiveitController::class,'search'])->name('giveit-search');
     Route::post("/Getit-search",[GetitController::class,'search'])->name('getit-search');
     
+    // login with google
+    Route::get('auth/google', [UserController::class, 'redirectToGoogle'])->name('google');
+    Route::get('auth/google/callback', [UserController::class, 'handleGoogleCallback'])->name('google.callback');
+   
+    // login with facebook
+    Route::get('auth/facebook', [UserController::class, 'redirectToFacebook'])->name('facebook');
+    Route::get('auth/facebook/callback', [UserController::class, 'handleFacebookCallback'])->name('facebook.callback');
+
+    // firebase witl login
+    Route::post('auth/phone-otp/login', [UserController::class, 'firebase'])->name('login.otp');
+   
+
+
     // Forgot password
     Route::get('/forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
     Route::post('/forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');

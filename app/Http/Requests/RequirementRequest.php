@@ -24,13 +24,14 @@ class RequirementRequest extends FormRequest
     public function rules()
     {
         return [
-            'media' => 'required',
-            'category_id' => 'required',
-            'requirement' => 'required',
-            'quantity' => 'required | numeric | min:1',
             'type' => 'required',
-            // 'status' => 'required',
-            'is_active' => 'required'
+            'addsellPrice' => 'numeric|nullable',
+            'addRentPrice' => 'numeric|nullable',
+            'price' => 'numeric|nullable',
+            'quantity'  => 'required|numeric|min:1|max:5000',
+            'category' => 'required',
+            'media'  => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'requirement' => 'required'
         ];
     }
 }

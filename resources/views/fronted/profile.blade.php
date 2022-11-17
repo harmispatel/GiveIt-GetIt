@@ -26,9 +26,9 @@
             {{ session()->get('mistake') }}
         </div>
     @endif --}}
-    
-    
-    {{-- @if (session()->has('messagedelete'))
+
+
+        {{-- @if (session()->has('messagedelete'))
     <div class="alert alert-warning messagedelete ">
         {{ session()->get('messagedelete') }}
     </div>
@@ -49,28 +49,29 @@
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Your Username</label>
                                             <input type="text" name="username" id="username" class="form-control"
-                                            id="name" value="{{ $user->name }}">
+                                                id="name" value="{{ $user->name }}">
                                         </div>
                                         @if ($errors->has('username'))
-                                        <p style="color:red">{{ $errors->first('username') }}</p>
+                                            <p style="color:red">{{ $errors->first('username') }}</p>
                                         @endif
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="email" class="form-label">Your Email Address</label>
                                             <input type="email" class="form-control" id="email" name="email"
-                                            value="{{ $user->email }}">
+                                                value="{{ $user->email }}">
                                         </div>
                                         @if ($errors->has('email'))
                                             <p style="color:red">{{ $errors->first('email') }}</p>
-                                            @endif
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="phone-number" class="form-label">Your Phone Number</label>
-                                                <input type="number" class="form-control" id="number" name="number"
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="phone-number" class="form-label">Your Phone Number</label>
+                                            <input type="tel" class="form-control" id="number" name="number"
                                                 value="{{ $user->mobile }}">
                                         </div>
+
                                         @if ($errors->has('number'))
                                             <p style="color:red">{{ $errors->first('number') }}</p>
                                         @endif
@@ -137,9 +138,16 @@
                                 <div class="col">
                                     <h3>My Requiement</h3>
                                 </div>
-                                <div class="col text-end">
-                                    <a href="{{ route('addform') }}" class="give_bt">Add Requirement</a>
-                                </div>
+                                @if ($user->email == null)
+                                    <div class="col text-end">
+                                        <a href="{{ route('editprofile') }}" class="give_bt">Add Requirement</a>
+                                    </div>
+                                @else
+                                    <div class="col text-end">
+                                        <a href="{{ route('addform') }}" class="give_bt">Add Requirement</a>
+                                    </div>
+                                @endif
+
                                 <br>
                             </div>
                             <hr>
@@ -165,8 +173,12 @@
                                                     <div class="d-flex">
                                                         <a class="btn" href="{{ route('edit', $item['id']) }}"><i
                                                                 class="fa-solid fa-pen"></i></a>
-                                                        <i class="fa fa-trash text-danger deleteBtn mt-2" data-toggle="modal" style="cursor: pointer;" data-target="#exampleModal" data-target-id="{{route('deleteRequirement',$item['id'])}}" title="Delete"></i>
-                                                     
+                                                        <i class="fa fa-trash text-danger deleteBtn mt-2"
+                                                            data-toggle="modal" style="cursor: pointer;"
+                                                            data-target="#exampleModal"
+                                                            data-target-id="{{ route('deleteRequirement', $item['id']) }}"
+                                                            title="Delete"></i>
+
                                                     </div>
                                                 </td>
                                             </tr>
@@ -181,16 +193,18 @@
                                 <style>
                                     .w-5 {
                                         display: none;
-                                     }
+                                    }
                                 </style>
                                 {{-- model --}}
-                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
 
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLabel">Delete Requirement</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">  
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
@@ -198,31 +212,32 @@
                                                 Are you sure to delete this requirement?
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <form action="" id="deleteForm" method="POST" class="d-inline">  
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <form action="" id="deleteForm" method="POST" class="d-inline">
                                                     @method('DELETE')
                                                     @csrf
                                                     <button class="btn btn-danger" type="submit">Delete</button>
-                                                        
+
                                                 </form>
                                             </div>
 
                                         </div>
                                     </div>
                                 </div>
-                                {{--End model --}}
+                                {{-- End model --}}
 
                                 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
                                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
                                 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
                                 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
                                 <script type="text/javascript">
-                                 $(function(){
-                    $('.deleteBtn').click(function() {
-                        var url = $(this).attr("data-target-id")
-                        $("#deleteForm").attr('action', url);
-                    });
-                });
+                                    $(function() {
+                                        $('.deleteBtn').click(function() {
+                                            var url = $(this).attr("data-target-id")
+                                            $("#deleteForm").attr('action', url);
+                                        });
+                                    });
                                     setTimeout(() => {
                                         $('.updatepassword, .mistake, .messagedelete').remove();
                                     }, 3500);
@@ -307,12 +322,12 @@
                         required: true,
                         email: true
                     },
-                    number: {
-                        required: true,
-                        minlength: 10,
-                        maxlength: 10,
-                        number: true
-                    },
+                    // number: {
+                    //     required: true,
+                    //     minlength: 10,
+                    //     maxlength: 10,
+                    //     number: true
+                    // },
                     address: {
                         required: true,
                     },
@@ -325,41 +340,38 @@
                         required: "Email is required",
                         email: "Please enter a valid email address",
                     },
-                    number: {
-                        required: "Mobile No. is required",
-                        minlength: "Mobile No. must be 10 digits",
-                        maxlength: "Mobile No. must be 10 digits",
-                        number: "Mobile No. is not valid"
-                    },
+                    // number: {
+                    //     required: "Mobile No. is required",
+                    //     minlength: "Mobile No. must be 10 digits",
+                    //     maxlength: "Mobile No. must be 10 digits",
+                    //     number: "Mobile No. is not valid"
+                    // },
                     address: {
                         required: "Address is required"
                     },
                 },
             });
         });
-        @if(Session::has('updatepassword'))
-  toastr.options =
-  {
-  	"closeButton" : true,
-  	"progressBar" : true
-  }
-  		toastr.success("{{ session('updatepassword') }}");
-  @endif
-  @if(Session::has('mistake'))
-  toastr.options =
-  {
-  	"closeButton" : true,
-  	"progressBar" : true
-  }
-  		toastr.error("{{ session('mistake') }}");
-  @endif
-  @if(Session::has('messagedelete'))
-  toastr.options =
-  {
-  	"closeButton" : true,
-  	"progressBar" : true
-  }
-  		toastr.error("{{ session('messagedelete') }}");
-  @endif
+        @if (Session::has('updatepassword'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.success("{{ session('updatepassword') }}");
+        @endif
+        @if (Session::has('mistake'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.error("{{ session('mistake') }}");
+        @endif
+        @if (Session::has('messagedelete'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.error("{{ session('messagedelete') }}");
+        @endif
     </script>
 @endsection

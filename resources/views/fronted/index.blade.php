@@ -84,7 +84,11 @@
                                     <p>If you want to donate, you should look in the Get it category to see what people
                                         needs.</p>
                                     @auth
-                                        <a href="{{ route('addform') }}" class="give_bt">Give IT</a>
+                                @if ($user->email == null || $user->mobile == null)
+                                <a href="{{ route('editprofile') }}" class="give_bt">Give IT</a>
+                                @else
+                                <a href="{{ route('addform') }}" class="give_bt">Give IT</a>
+                                @endif
                                     @endauth
                                     @guest
                                         <a href="{{ route('login') }}" class="give_bt">Give IT</a>
@@ -102,7 +106,11 @@
                                     <p>If you are in need of any item, go to the Give it category and enter whatever
                                         item you need there.</p>
                                     @auth
-                                        <a href="{{ route('addform') }}" class="give_bt">Get IT</a>
+                                    @if ($user->email == null || $user->mobile == null)
+                                    <a href="{{ route('editprofile') }}" class="give_bt">Get IT</a>
+                                    @else
+                                    <a href="{{ route('addform') }}" class="give_bt">Get IT</a>
+                                    @endif
                                     @endauth
                                     @guest
                                         <a href="{{ route('login') }}" class="give_bt">Get IT</a>

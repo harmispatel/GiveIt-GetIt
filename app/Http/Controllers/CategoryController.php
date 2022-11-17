@@ -20,60 +20,76 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
-        // Show Category List
-        try{
-
-            $categoryData = Category::paginate(10);
-        }catch(Exception $e){
-            
-            return back()->with('mistake','An error occurred while you are trying to show Category.! Please try again.');
-        }
-        
-        return view('categories')->with('categories',$categoryData);
-        
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
     {
-        // Open new Category Form
-        return view('addCategory');
+        // Show Category List
+        return view('categories');
     }
 
+    // handle fetch all employees ajax request
+    public function fetchAll()
+    {
+        $datas = Category::all();
+        $output = '';
+        if ($datas->count() > 0) {
+            $output .='<table id="dtable" class="table table-striped table-sm text-center align-middle">
+            <thead>
+            <tr>
+            <th>name</th>
+            <th>status</th>
+            <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>';
+            foreach ($datas as $data) {
+                $output .='<tr>
+                <td>'.$data->name.'</td>
+                
+                <td>'.(($data->status == 0) ? '<span class="badge bg-danger">InActive</span>' : '<span class="badge bg-success">Active</span>').'</td>
+            
+                <td>
+                <a href="#" id="'.$data->id.'" class="text-success mx-1 editIcon"
+                data-bs-toggle="modal" data-bs-target="#editCategoryModal"><i
+                class="bi-pencil-square h4"></i></a>
+
+                                        <a href="#" id="'.$data->id.'" class="text-danger mx-1 deleteIcon">
+                                        <i class="bi-trash h4"></i></a>
+
+                                    </td>
+                                    </tr>';
+            }
+
+            $output .='</tbody></table>';
+            echo $output;
+        } else {
+            echo '<h1 class="text-center text-secondary my-5">No record present in the database!</h1>';
+        }
+    }
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\CategoryRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(CategoryRequest $request)
     {
         // Add new Category
-        try{
-            $catName = count(Category::where('name',$request->categoryName)->get());
+        $input = $request->all();
 
-            if ($catName > 0) {
-                return redirect()->route('category.index')->with('message','This category has already inserted so you can not inserte again.');
-            }else{
-
-                $categoryObj = new Category();
-                $categoryObj->name = $request->categoryName;
-                $categoryObj->status = 1;
-                $categoryObj->save();
-            }
-
-        }catch(Exception $e){
-
-            return back()->with('mistake','An error occurred while you are trying to Add new Category.! Please try again.');
+        $category = Category::create($input);
+        // Set the Response
+        if (!empty($category)) {
+            return response()->json([
+                'status'  => 1,
+                'message' => 'Category created successfully.',
+                'data'    => []
+            ]);
+        } else {
+            return response()->json([
+                'status'  => 0,
+                'message' => 'Failed to craete the Categroy.',
+                'data'    => []
+            ]);
         }
-        
-        return redirect()->route('category.index')->with('message','Category added successfully!');
-
     }
 
     /**
@@ -93,19 +109,12 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {   
+    public function edit(Request $request)
+    {
         // Open Edit Category Form
-        try{
-
-            $editCategoryData = Category::find($id);
-            $category = Category::all();
-
-        }catch(Exception $e){
-            return back()->with('mistake','An error occurred while you are trying to open edit Category.! Please try again.');
-        }
-        return view('editCategory',compact('editCategoryData','category'));
-
+        $id = $request->id;
+        $data = Category::find($id);
+        return response()->json($data);
     }
 
     /**
@@ -115,21 +124,26 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryRequest $request, $id)
-    {   
+    public function update(CategoryRequest $request)
+    {
         // Update Category
-        try{
+        $input = $request->except(['_token', 'Cid']);
+        $data = Category::where('id', $request->Cid)->update($input);
+        $datas = Category::where('id', $request->Cid)->first();
+        if ($datas) {
+            return response()->json([
+                'status' => 1,
+                'message' => 'Category updated successfully.',
+              'data' => $datas
 
-            $editCategory = Category::find($id);
-            $editCategory->name = $request->categoryName;
-            $editCategory->status = $request->status;
-            $editCategory->save();
-
-        }catch(Exception $e){
-            return back()->with('mistake','An error occurred while you are trying to update Category.! Please try again.');
+            ]);
+        } else {
+            return response()->json([
+                'status' => 0,
+                'message' => 'Failed to update the Category.',
+                'data' => []
+            ]);
         }
-        return redirect()->route('category.index')->with('message','Category updated successfully!');
-
     }
 
     /**
@@ -138,53 +152,45 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete(Request $request)
     {
         // Delete Category
-        try{
-
-            $RequirementData = Requirement::all();
-            $data = count(Requirement::where('category_id',$id)->get());
-
-            if($data > 0)
+        $id =   $request->id;
+        $RequirementData = Requirement::all();
+        $data = count(Requirement::where('category_id',$id)->get());
+        if($data > 0)
             {
-                return redirect()->back()->with('msg','This id has exist in Requirement table so, You can not delete this Record!');
-                
+                return response()->json([
+                    'status' => 0,
+                    'message' => 'Failed to delete the Category.',
+                    'data' =>  []
+                ]);
+
+                    
             }else{
-    
-                $delete = Category::find($id)->delete();
+                $data = Category::find($id)->delete($id);
+                return response()->json([
+                    'status' => 1,
+                    'message' => 'Category deleted successfully',
+                    'data' => []
+                ]);
             }
-            
-        }catch(Exception $e){
-            return back()->with('mistake','An error occurred while you are trying to delete Category.! Please try again.');
-        }
-
-        return redirect()->route('category.index')->with('message','Category deleted successfully!');
-
     }
-    
-    public function multipleDelete(Request $request){
-        
-        try{
 
+    public function multipleDelete(Request $request)
+    {
+        try {
             $ids = $request->ids;
             $RequirementData = Requirement::all();
-            $data = count(Requirement::where('category_id',$ids)->get());
-            if($data > 0)
-            {
-                return redirect()->back()->with('msg','This id has exist in Requirement table so, You can not delete this Record!');
-                
-            }else{
-    
-                Category::whereIn('id',$ids)->delete();
-                
+            $data = count(Requirement::where('category_id', $ids)->get());
+            if ($data > 0) {
+                return redirect()->back()->with('msg', 'This id has exist in Requirement table so, You can not delete this Record!');
+            } else {
+                Category::whereIn('id', $ids)->delete();
             }
-            
-        }catch(Exception $e){
-
-            return back()->with('mistake','An error occurred while you are trying to delete Category.! Please try again.');
+        } catch(Exception $e) {
+            return back()->with('mistake', 'An error occurred while you are trying to delete Category.! Please try again.');
         }
-        return redirect()->route('category.index')->with('message','Category deleted successfully!');
-        
+        return redirect()->route('category.index')->with('message', 'Category deleted successfully!');
     }
 }

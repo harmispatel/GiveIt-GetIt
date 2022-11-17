@@ -25,12 +25,11 @@ class EditRequirementRequest extends FormRequest
     {
         return [
             'media' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'requirementCategory' => 'required',
+            'category' => 'required',
             'requirement' => 'required',
             'quantity' => 'required | numeric | min:1',
             'type' => 'required',
             'status' => 'required',
-            // 'is_active' => 'required',
         ];
     }
 }

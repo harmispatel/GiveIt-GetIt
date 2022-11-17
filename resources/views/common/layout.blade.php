@@ -13,7 +13,7 @@
   
 
   <div class="wrapper">
-    <div class="content-header">
+    <div class="content-wrapper">
       @yield('content')
     </div>
   </div>

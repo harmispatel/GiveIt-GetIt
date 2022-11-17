@@ -929,6 +929,11 @@ right:10%;
   padding: 3px 20px !important;
 }
 
+  #hiddenotp .form-control {
+    margin: 0 10px;
+    text-align: center;
+  }
+
 
 @media (max-width: 991px){
 

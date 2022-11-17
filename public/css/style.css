@@ -1,0 +1,16 @@
+body{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.user-section .card-header{
+    background-color:#1f2d3d !important;
+}
+.user-section .card-header::after{
+    display:none;
+ } 
+ .error {
+        color: red;
+    }
+ 

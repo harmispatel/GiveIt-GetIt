@@ -12,6 +12,8 @@ use App\Models\{Requirement, User, Category, Media, Favorite };
 
 use Illuminate\Support\Facades\URL;
 use DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class GiveitController extends Controller
 {
@@ -23,6 +25,7 @@ class GiveitController extends Controller
     public function index(Request $request)
     {
         // Show Giveit Requirement Data
+        $user = Auth::user();
         $totalRecords = Requirement::count();
         $data = Requirement::with(['user','categories'])->where('type', 1)->paginate(12);
         
@@ -32,7 +35,7 @@ class GiveitController extends Controller
             return response()->json(['html'=>$view]);
         }
         $ajaxId= isset($request->ajaxId) ? $request->ajaxId : 0;
-        return view('fronted.giveit', compact('data', 'totalRecords'));
+        return view('fronted.giveit', compact('data', 'totalRecords', 'user'));
     }
 
     /**

@@ -237,7 +237,7 @@ class AddRequirementController extends Controller
             $updateRequired->requirements = $request->requirement;
             $updateRequired->name = $request->name;
             $updateRequired->quantity = $request->quantity; 
-            $updateRequired->type = $request->Type;
+            $updateRequired->type = $request->Type; 
 
            // Update Type 
             if($request->Type == 1)
