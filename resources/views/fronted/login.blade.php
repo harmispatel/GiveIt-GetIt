@@ -176,26 +176,21 @@
                                 <div class="row" id="hiddenotp" style="display:none">
                                     <label class="form-label">OTP</label>
                                     <div class="d-flex justify-content-center" id="otp">
-                                        <input type="text" class="form-control in" id="first" name="digit-1"
-                                            data-next="digit-2" maxlength="1" required="" />
+                                        <input type="text" class="form-control in" id="first"
+                                            name="digit-1" data-next="digit-2" maxlength="1"  required=""/>
                                         <input type="text" class="form-control in" style="" id="second"
-                                            name="digit-2" data-next="digit-3" data-previous="digit-1" maxlength="1"
-                                            required="" />
+                                            name="digit-2" data-next="digit-3" data-previous="digit-1" maxlength="1"  required=""/>
                                         <input type="text" class="form-control in" style="" id="third"
-                                            name="digit-3" data-next="digit-4" data-previous="digit-2" maxlength="1"
-                                            required="" />
+                                            name="digit-3" data-next="digit-4" data-previous="digit-2" maxlength="1"  required=""/>
                                         <input type="text" class="form-control in"style="" id="fourth"
-                                            name="digit-4" data-next="digit-5" data-previous="digit-3" maxlength="1"
-                                            required="" />
+                                            name="digit-4" data-next="digit-5" data-previous="digit-3" maxlength="1"   required=""/>
                                         <input type="text" class="form-control in"style="" id="fifth"
-                                            name="digit-5" data-next="digit-6 " data-previous="digit-4" maxlength="1"
-                                            required="" />
+                                            name="digit-5" data-next="digit-6 " data-previous="digit-4" maxlength="1"  required=""/>
                                         <input type="text" class="form-control in"style="" id="sixth"
-                                            name="digit-6" data-next="digit-7" data-previous="digit-5" maxlength="1"
-                                            required="" />
+                                            name="digit-6" data-next="digit-7" data-previous="digit-5" maxlength="1"  required=""/>
                                     </div>
-                                    <input type="hidden" id="verificationCode" class="form-control out"
-                                        placeholder="OTP" required="">
+                                    <input type="hidden" id="verificationCode" class="form-control out" placeholder="OTP"
+                                        required="">
                                     <div class="text-center">
                                         <button type="button" class="btn donate-bt mt-2" id="verifyOTP"
                                             value={OTP}>Verify
@@ -343,6 +338,7 @@
                 success: function(res) {
                     console.log(res);
                     if (res.status == 1) {
+
                         location.href = "{{route('welcome')}}";
                         
                         // window.location.href ="/editprofile";
@@ -350,13 +346,13 @@
 
             }
         });
+  
         toastr.options = {
-                            "closeButton": true,
-                            "progressBar": true
-                         }
-                           toastr.success(res.message);
-//   $("#successRegsiter").text("you are register Successfully.");
-//   $("#successRegsiter").show();
+                                    "closeButton": true,
+                                    "progressBar": true
+                                }
+                                toastr.success(response
+                                    .message);
 
 }).catch((error) => {
   // User couldn't sign in (bad verification code?)
@@ -367,19 +363,19 @@
     
 </script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            $('.in').on('input', function() {
-                var allvals = $('.in').map(function() {
-                    console.log("aa>>>>>>>>>>>", allvals);
-                    return this.value;
+    $(document).ready(function() {
+  $('.in').on('input',function() {
+    var allvals = $('.in').map(function() { 
+        console.log("aa>>>>>>>>>>>",allvals);
+        return this.value; 
+        
+        
+    }).get().join('');
+    $('.out').val( allvals );
+    // console.log("aa>>>>>>>>>>>",allvals);
 
-
-                }).get().join('');
-                $('.out').val(allvals);
-                // console.log("aa>>>>>>>>>>>",allvals);
-
-            });
-        });
+  });
+});
         $(document).ready(function() {
             $(".sendOTP").click(function() {
                 $("#hiddennumber").hide();
@@ -387,41 +383,41 @@
             });
         });
         document.addEventListener("DOMContentLoaded", function(event) {
+   
+   function OTPInput() {
+       const editor = document.getElementById('first');
+       editor.onpaste = pasteOTP;
 
-            function OTPInput() {
-                const editor = document.getElementById('first');
-                editor.onpaste = pasteOTP;
+       const inputs = document.querySelectorAll('#otp > *[id]');
+       for (let i = 0; i < inputs.length; i++) { 
+           inputs[i].addEventListener('input', function(event) { 
+               if(!event.target.value || event.target.value == '' ){
+                   if(event.target.previousSibling.previousSibling){
+                       event.target.previousSibling.previousSibling.focus();    
+                   }
+               
+               }else{ 
+                   if(event.target.nextSibling.nextSibling){
+                       event.target.nextSibling.nextSibling.focus();
+                   }
+               }               
+           });             
+       } 
+   } 
+   OTPInput(); 
+});
 
-                const inputs = document.querySelectorAll('#otp > *[id]');
-                for (let i = 0; i < inputs.length; i++) {
-                    inputs[i].addEventListener('input', function(event) {
-                        if (!event.target.value || event.target.value == '') {
-                            if (event.target.previousSibling.previousSibling) {
-                                event.target.previousSibling.previousSibling.focus();
-                            }
-
-                        } else {
-                            if (event.target.nextSibling.nextSibling) {
-                                event.target.nextSibling.nextSibling.focus();
-                            }
-                        }
-                    });
-                }
-            }
-            OTPInput();
-        });
-
-        function pasteOTP(event) {
-            event.preventDefault();
-            let elm = event.target;
-            let pasteVal = event.clipboardData.getData('text').split("");
-            if (pasteVal.length > 0) {
-                while (elm) {
-                    elm.value = pasteVal.shift();
-                    elm = elm.nextSibling.nextSibling;
-                }
-            }
-        }
+function pasteOTP(event){
+   event.preventDefault();
+   let elm = event.target;
+   let pasteVal = event.clipboardData.getData('text').split("");
+   if(pasteVal.length > 0){
+       while(elm){
+           elm.value = pasteVal.shift();
+           elm = elm.nextSibling.nextSibling;
+       }
+   }
+}
         // function codeverify() {
 
         //     var code = $("#verificationCode").val();
